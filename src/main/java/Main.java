@@ -54,10 +54,7 @@ public class Main {
 
                 if (clientRequest.equals("PING")) {
                     out.write("+PONG\r\n".getBytes());
-                } else {
-                    out.write("-ERR unknown command\r\n".getBytes());
                 }
-                out.flush();
             }
         } catch (IOException e) {
             System.out.println("IOException: " + e.getMessage());
