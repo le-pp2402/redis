@@ -4,6 +4,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
   public static void main(String[] args){
@@ -12,7 +16,6 @@ public class Main {
 
     //  Uncomment this block to pass the first stage
         ServerSocket serverSocket = null;
-        Socket clientSocket = null;
         int port = 6379;
         try {
           serverSocket = new ServerSocket(port);
@@ -20,35 +23,44 @@ public class Main {
           // ensures that we don't run into 'Address already in use' errors
           serverSocket.setReuseAddress(true);
           // Wait for connection from client.
-          clientSocket = serverSocket.accept();
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            String clientRequest;
-            while ((clientRequest = in.readLine()) != null) {
-                System.out.println("\nClient says: " + clientRequest);
-                int counter = 0;
-                for (int i = 0; i + 3 < clientRequest.length(); i++) {
-                    if (clientRequest.substring(i, i + 4).equals("PING")) {
-                        counter++;
-                    }
-                }
+            ExecutorService threadPool = new ThreadPoolExecutor(
+                    4,                // corePoolSize
+                    50,               // maximumPoolSize
+                    60L,              // keepAliveTime
+                    TimeUnit.SECONDS,
+                    new SynchronousQueue<>()
+            );
 
-                OutputStream outputStream = clientSocket.getOutputStream();
-                for (int i = 0; i < counter; i++) {
-                    outputStream.write("+PONG\r\n".getBytes());
-                }
+
+            while (true) {
+                Socket clientSocket = serverSocket.accept();
+                threadPool.submit(() -> handleClient(clientSocket));
             }
 
         } catch (IOException e) {
           System.out.println("IOException: " + e.getMessage());
-        } finally {
-          try {
-            if (clientSocket != null) {
-              clientSocket.close();
-            }
-          } catch (IOException e) {
-            System.out.println("IOException: " + e.getMessage());
-          }
         }
   }
+
+    private static void handleClient(Socket clientSocket) {
+        try (BufferedReader in = new BufferedReader(
+                new InputStreamReader(clientSocket.getInputStream()));
+             OutputStream out = clientSocket.getOutputStream()) {
+
+            String clientRequest;
+            while ((clientRequest = in.readLine()) != null) {
+                System.out.println("Client says: " + clientRequest);
+
+                if (clientRequest.equals("PING")) {
+                    out.write("+PONG\r\n".getBytes());
+                } else {
+                    out.write("-ERR unknown command\r\n".getBytes());
+                }
+                out.flush();
+            }
+        } catch (IOException e) {
+            System.out.println("IOException: " + e.getMessage());
+        }
+    }
 }
