@@ -10,19 +10,19 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
-  public static void main(String[] args){
-    // You can use print statements as follows for debugging, they'll be visible when running tests.
-    System.out.println("Logs from your program will appear here!");
+    public static void main(String[] args){
+        // You can use print statements as follows for debugging, they'll be visible when running tests.
+        System.out.println("Logs from your program will appear here!");
 
-    //  Uncomment this block to pass the first stage
-        ServerSocket serverSocket = null;
+        //  Uncomment this block to pass the first stage
+        ServerSocket serverSocket;
         int port = 6379;
         try {
-          serverSocket = new ServerSocket(port);
-          // Since the tester restarts your program quite often, setting SO_REUSEADDR
-          // ensures that we don't run into 'Address already in use' errors
-          serverSocket.setReuseAddress(true);
-          // Wait for connection from client.
+            serverSocket = new ServerSocket(port);
+            // Since the tester restarts your program quite often, setting SO_REUSEADDR
+            // ensures that we don't run into 'Address already in use' errors
+            serverSocket.setReuseAddress(true);
+            // Wait for connection from client.
 
             ExecutorService threadPool = new ThreadPoolExecutor(
                     4,                // corePoolSize
@@ -39,9 +39,9 @@ public class Main {
             }
 
         } catch (IOException e) {
-          System.out.println("IOException: " + e.getMessage());
+            System.out.println("IOException: " + e.getMessage());
         }
-  }
+    }
 
     private static void handleClient(Socket clientSocket) {
         try (BufferedReader in = new BufferedReader(
@@ -54,10 +54,7 @@ public class Main {
 
                 if (clientRequest.equals("PING")) {
                     out.write("+PONG\r\n".getBytes());
-                } else {
-                    out.write("-ERR unknown command\r\n".getBytes());
                 }
-                out.flush();
             }
         } catch (IOException e) {
             System.out.println("IOException: " + e.getMessage());
