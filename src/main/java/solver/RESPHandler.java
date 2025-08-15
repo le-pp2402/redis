@@ -72,7 +72,7 @@ public class RESPHandler {
         if (!args.isEmpty() && args.get(0).equals("ECHO")) {
             return args.get(1);
         } else if (!args.isEmpty() && args.get(0).equals("PING")) {
-            return args.get(1);
+            return "PONG";
         }
 
         return "";
