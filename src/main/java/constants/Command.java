@@ -1,7 +1,7 @@
 package constants;
 
 public enum Command {
-    PING, SET, GET,  ECHO;
+    PING, SET, GET, ECHO;
 
     public static Command getCommand(String command) {
         String upperCommand = command.toUpperCase();
