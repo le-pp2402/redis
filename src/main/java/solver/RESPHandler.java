@@ -30,7 +30,7 @@ public class RESPHandler {
                 sb.append("\r\n");
             }
 
-            sb.append(result);
+            sb.append(result.first);
             sb.append("\r\n");
 
             os.write(sb.toString().getBytes());
