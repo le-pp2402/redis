@@ -44,20 +44,22 @@ public class Main {
     }
 
     private static void handleClient(Socket clientSocket)  {
-        try {
-            var inputStream = clientSocket.getInputStream();
+        try (Socket socket = clientSocket) {
+            var inputStream = socket.getInputStream();
+            var outputStream = socket.getOutputStream();
             RedisInputStream redisInputStream = new RedisInputStream(inputStream);
 
-            try {
-                var result = RESPHandler.handle(redisInputStream);
-                RESPHandler.sendCommand(clientSocket.getOutputStream(), result);
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("Exception: " + e.getMessage());
+            while (true) {
+                try {
+                    var result = RESPHandler.handle(redisInputStream);
+                    RESPHandler.sendCommand(outputStream, result);
+                } catch (RuntimeException e) {
+                    // Connection closed or invalid request; stop handling this client
+                    break;
+                }
             }
         } catch (IOException e) {
             System.out.println("IOException: " + e.getMessage());
         }
-
     }
 }
