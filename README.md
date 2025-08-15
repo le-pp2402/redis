@@ -1,34 +1,35 @@
 [![progress-banner](https://backend.codecrafters.io/progress/redis/6bd7f976-ea62-48ca-81a4-ae9f7c8dbe0a)](https://app.codecrafters.io/users/le-pp2402?r=2qF)
 
-This is a starting point for Java solutions to the
-["Build Your Own Redis" Challenge](https://codecrafters.io/challenges/redis).
+### "Build Your Own Redis" Challenge
 
-In this challenge, you'll build a toy Redis clone that's capable of handling
-basic commands like `PING`, `SET` and `GET`. Along the way we'll learn about
-event loops, the Redis protocol and more.
+In this challenge, you'll build a simple Redis clone that supports basic commands like `PING`, `SET`, and `GET`. Along the way, you'll learn about event loops, the Redis protocol, and more.
 
-**Note**: If you're viewing this repo on GitHub, head over to
-[codecrafters.io](https://codecrafters.io) to try the challenge.
+---
 
-# Passing the first stage
+### RedisInputStream
 
-The entry point for your Redis implementation is in `src/main/java/Main.java`.
-Study and uncomment the relevant code, and push your changes to pass the first
-stage:
+#### What is it for?
 
-```sh
-git commit -am "pass 1st stage" # any msg
-git push origin master
-```
+**User Space** and **Kernel Space**:
 
-That's all!
+![User Space vs Kernel Space](./resources/kernel-user-mode.jpg)
 
-# Stage 2 & beyond
+- **User Space**: Where user applications run, with limited access to system resources.
+- **Kernel Space**: Where the operating system kernel runs, with full access to hardware.
 
-Note: This section is for stages 2 and beyond.
+When an application needs to perform privileged operations (like reading from disk or sending data over the network), it makes a **system call** to the kernel. This triggers a **context switch**:
 
-1. Ensure you have `mvn` installed locally
-1. Run `./your_program.sh` to run your Redis server, which is implemented in
-   `src/main/java/Main.java`.
-1. Commit your changes and run `git push origin master` to submit your solution
-   to CodeCrafters. Test output will be streamed to your terminal.
+1. The OS saves the current state of the user process.
+2. Control switches to the kernel to perform the requested operation.
+3. The OS restores the user process state and returns control.
+
+**Context switches** have costs:
+- **CPU time** for saving/restoring state.
+- **Cache misses** as CPU caches may need to be reloaded.
+
+These costs occur during system calls, task scheduling, or hardware interrupts.
+
+
+When a program connects to a server (such as Redis), it cannot predict exactly how much data the server will send. Allocating a buffer that's too large wastes memory, while one that's too small is inefficient.
+
+Performance: Reading data in a loop using a buffer is much more efficient. Instead of making a system call to read 1 byte from the socket each time you need a byte, the program makes a single I/O call to read 8KB (the default buffer size), then processes those 8KB in memory. This significantly reduces the cost of **context switching** between kernel and user space.
