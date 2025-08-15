@@ -50,14 +50,11 @@ public class Main {
 
             try {
                 var result = RESPHandler.handle(redisInputStream);
-
                 RESPHandler.sendCommand(clientSocket.getOutputStream(), result);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Exception: " + e.getMessage());
             }
-
-
         } catch (IOException e) {
             System.out.println("IOException: " + e.getMessage());
         }

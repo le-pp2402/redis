@@ -7,7 +7,7 @@ public enum DataType {
         return switch (this) {
             case SIMPLE_STRING -> '+';
             case ERROR -> '-';
-            case INTEGER -> '0';
+            case INTEGER -> ':';
             case BULK_STRING -> '$';
             case ARRAYS -> '*';
         };
