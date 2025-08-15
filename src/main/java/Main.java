@@ -54,7 +54,6 @@ public class Main {
                     var result = RESPHandler.handle(redisInputStream);
                     RESPHandler.sendCommand(outputStream, result);
                 } catch (RuntimeException e) {
-                    // Connection closed or invalid request; stop handling this client
                     break;
                 }
             }
