@@ -30,9 +30,30 @@ public class RedisInputStream extends FilterInputStream {
         }
     }
 
+    public void ensureCrLf() {
+        fill();
+        if (buf[id++] == '\r') {
+            fill();
+            if (buf[id++] == '\n') {
+                return;
+            }
+        }
+        throw new RuntimeException("Unexpected CRLF encoding.");
+    }
+
     public byte readByte() throws RuntimeException {
         fill();  // Đảm bảo buffer được fill trước khi đọc
         return buf[id++];
+    }
+
+    public String readBytes(int len)  throws RuntimeException {
+        StringBuilder sb = new StringBuilder(len);
+        while (len > 0) {
+            fill();
+            sb.append((char) buf[id++]);
+            len--;
+        }
+        return sb.toString();
     }
 
     public String readLine() {

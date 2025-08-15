@@ -5,7 +5,9 @@ import constants.Command;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class RESPHandler {
     public static final byte DOLLAR_BYTE = '$';
@@ -55,7 +57,22 @@ public class RESPHandler {
     }
 
     private static String handleArray(RedisInputStream in) {
-        throw new UnsupportedOperationException("This operation is not yet implemented.");
+        int len = Integer.parseInt(in.readLine());
+        List<String> args = new ArrayList<>(len);
+        for (int i = 0; i < len; i++) {
+            byte f = in.readByte();
+            int elemLen = Integer.parseInt(in.readLine());
+            args.add(in.readBytes(elemLen));
+            in.ensureCrLf();
+        }
+
+        if (!args.isEmpty() && args.get(0).equals("ECHO")) {
+            return args.get(1);
+        } else if (!args.isEmpty() && args.get(0).equals("PING")) {
+            return args.get(1);
+        }
+
+        return "";
     }
 
     private static String handleBulkString(RedisInputStream in) {
@@ -67,19 +84,14 @@ public class RESPHandler {
     }
 
     public static String handle(RedisInputStream in, byte fb) {
-        // Convert byte thành char trước khi cộng với String
         String req = (char)fb + in.readLine();
-        
-        System.out.println("DEBUG: fb = " + fb + " (char: " + (char)fb + ")");
-        System.out.println("DEBUG: req = '" + req + "'");
 
         String command = req.substring(0, req.indexOf(' '));
-        System.out.println("DEBUG: command = '" + command + "'");
 
         if (Command.getCommand(command).equals(Command.ECHO)) {
             return command.substring(command.indexOf(' ') + 1);
         } else if (Command.getCommand(command).equals(Command.PING)) {
-            return "+PONG\r\n";
+            return "PONG";
         }
 
         return "";
