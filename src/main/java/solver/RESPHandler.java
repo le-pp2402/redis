@@ -20,12 +20,15 @@ public class RESPHandler {
     public static void sendCommand(final OutputStream os, String result) {
         try {
             int len = result.length();
-            String builder = String.valueOf(DOLLAR_BYTE) +
-                    len +
-                    Arrays.toString(CRLF) +
-                    result +
-                    Arrays.toString(CRLF);
-            os.write(builder.getBytes());
+            StringBuilder sb = new StringBuilder();
+
+            sb.append((char)DOLLAR_BYTE);
+            sb.append(result.length());
+            sb.append("\r\n");
+            sb.append(result);
+            sb.append("\r\n");
+
+            os.write(sb.toString().getBytes());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
