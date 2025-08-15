@@ -9,7 +9,7 @@ public class Client {
         Socket clientSocket = new Socket("127.0.0.1", 6379);
 
         OutputStream outputStream = clientSocket.getOutputStream();
-        outputStream.write("PING\nPING\nPING\n+PING\n".getBytes());
+        outputStream.write("PING hey".getBytes());
 
 
         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));

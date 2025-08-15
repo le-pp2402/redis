@@ -1,7 +1,7 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import utils.RedisInputStream;
+import solver.RESPHandler;
+
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -43,21 +43,24 @@ public class Main {
         }
     }
 
-    private static void handleClient(Socket clientSocket) {
-        try (BufferedReader in = new BufferedReader(
-                new InputStreamReader(clientSocket.getInputStream()));
-             OutputStream out = clientSocket.getOutputStream()) {
+    private static void handleClient(Socket clientSocket)  {
+        try {
+            var inputStream = clientSocket.getInputStream();
+            RedisInputStream redisInputStream = new RedisInputStream(inputStream);
 
-            String clientRequest;
-            while ((clientRequest = in.readLine()) != null) {
-                System.out.println("Client says: " + clientRequest);
+            try {
+                var result = RESPHandler.handle(redisInputStream);
 
-                if (clientRequest.equals("PING")) {
-                    out.write("+PONG\r\n".getBytes());
-                }
+                RESPHandler.sendCommand(clientSocket.getOutputStream(), result);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Exception: " + e.getMessage());
             }
+
+
         } catch (IOException e) {
             System.out.println("IOException: " + e.getMessage());
         }
+
     }
 }

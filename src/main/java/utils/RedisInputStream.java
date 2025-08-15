@@ -1,4 +1,4 @@
-package Utils;
+package utils;
 
 import java.io.FilterInputStream;
 import java.io.IOException;
@@ -12,7 +12,8 @@ public class RedisInputStream extends FilterInputStream {
     public RedisInputStream(InputStream in) {
         super(in);
         this.buf = new byte[INPUT_BUFFER_SIZE];
-        limit = INPUT_BUFFER_SIZE;
+        this.id = 0;
+        this.limit = 0;
     }
 
     private void fill() {
@@ -30,7 +31,7 @@ public class RedisInputStream extends FilterInputStream {
     }
 
     public byte readByte() throws RuntimeException {
-        fill();
+        fill();  // Đảm bảo buffer được fill trước khi đọc
         return buf[id++];
     }
 
