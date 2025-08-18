@@ -27,6 +27,7 @@ public class Container {
         if (lifetimeContainer.containsKey(key) && lifetimeContainer.get(key) < cur) {
             container.remove(key);
             lifetimeContainer.remove(key);
+            return new Pair<>("-1", DataType.BULK_STRING);
         }
 
         if (container.containsKey(key)) {
