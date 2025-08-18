@@ -88,7 +88,7 @@ public class RESPHandler {
         } else if (!args.isEmpty() && args.get(0).equals(Command.SET.toString())) {
             Long expr = null;
 
-            if (args.size() >= 3 && Argument.getArgument(args.get(3)).equals(Argument.PX)) {
+            if (args.size() > 3 && Argument.getArgument(args.get(3)).equals(Argument.PX)) {
                 expr = Long.parseLong(args.get(4));
             }
             return Container.set(args.get(1), args.get(2), expr);

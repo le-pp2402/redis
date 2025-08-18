@@ -9,7 +9,7 @@ public class Client {
         Socket clientSocket = new Socket("127.0.0.1", 6379);
 
         OutputStream outputStream = clientSocket.getOutputStream();
-        outputStream.write("*5\r\n$3\r\nSET\r\n$9\r\nblueberry\r\n$5\r\napple\r\n$2\r\npx\r\n$3\r\n100\r\n".getBytes());
+        outputStream.write("*3\r\n$3\r\nSET\r\n$6\r\norange\r\n$10\r\nstrawberry\r\n".getBytes());
 
 
         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
