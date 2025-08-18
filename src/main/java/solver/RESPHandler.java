@@ -1,6 +1,7 @@
 package solver;
 
 import constants.DataType;
+import container.Container;
 import utils.RedisInputStream;
 import constants.Command;
 
@@ -25,10 +26,11 @@ public class RESPHandler {
 
             sb.append((char)result.second.getSymbol());
 
-            if (result.second != DataType.SIMPLE_STRING) {
-                sb.append(result.first.length());
-                sb.append("\r\n");
-            }
+            if (result.second != DataType.SIMPLE_STRING)
+                if (!(result.second == DataType.BULK_STRING && result.first.equals("-1"))) {
+                    sb.append(result.first.length());
+                    sb.append("\r\n");
+                }
 
             sb.append(result.first);
             sb.append("\r\n");
@@ -74,6 +76,10 @@ public class RESPHandler {
             return new Pair<> (args.get(1), DataType.BULK_STRING);
         } else if (!args.isEmpty() && args.get(0).equals(Command.PING.toString())) {
             return new Pair<>("PONG", DataType.SIMPLE_STRING);
+        } else if (!args.isEmpty() && args.get(0).equals(Command.GET.toString())) {
+            return Container.get(args.get(1));
+        } else if (!args.isEmpty() && args.get(0).equals(Command.SET.toString())) {
+            return Container.set(args.get(1), args.get(2));
         }
 
         throw  new UnsupportedOperationException("This operation is not yet implemented.");
@@ -92,10 +98,20 @@ public class RESPHandler {
 
         String command = req.substring(0, req.indexOf(' '));
 
+        String[] args = req.substring(req.indexOf(' ') + 1).split(" ");
+
         if (Command.getCommand(command).equals(Command.ECHO)) {
             return new Pair<> (req.substring(req.indexOf(' ') + 1), DataType.BULK_STRING);
         } else if (Command.getCommand(command).equals(Command.PING)) {
             return new Pair<>("PONG", DataType.SIMPLE_STRING);
+        } else if (Command.getCommand(command).equals(Command.GET)) {
+            return new Pair<>(req.substring(req.indexOf(' ') + 1), DataType.BULK_STRING);
+        } else if (Command.getCommand(command).equals(Command.SET)) {
+            return new Pair<>(req.substring(req.indexOf(' ') + 1), DataType.SIMPLE_STRING);
+        } else if (Command.getCommand(command).equals(Command.SET)) {
+            return Container.get(args[1]);
+        } else if (Command.getCommand(command).equals(Command.SET)) {
+            return Container.set(args[1], args[2]);
         }
 
         throw  new UnsupportedOperationException("This operation is not yet implemented.");
