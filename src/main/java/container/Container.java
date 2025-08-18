@@ -24,7 +24,7 @@ public class Container {
     public static Pair<String, DataType> get(String key) {
         Long cur = System.currentTimeMillis();
 
-        if (lifetimeContainer.containsKey(key) && lifetimeContainer.get(key) > cur) {
+        if (lifetimeContainer.containsKey(key) && lifetimeContainer.get(key) < cur) {
             container.remove(key);
             lifetimeContainer.remove(key);
         }
