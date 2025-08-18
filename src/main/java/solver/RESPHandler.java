@@ -1,5 +1,6 @@
 package solver;
 
+import constants.Argument;
 import constants.DataType;
 import container.Container;
 import utils.RedisInputStream;
@@ -79,7 +80,12 @@ public class RESPHandler {
         } else if (!args.isEmpty() && args.get(0).equals(Command.GET.toString())) {
             return Container.get(args.get(1));
         } else if (!args.isEmpty() && args.get(0).equals(Command.SET.toString())) {
-            return Container.set(args.get(1), args.get(2));
+            Long expr = null;
+
+            if (args.size() > 2 && Argument.getArgument(args.get(2)).equals(Argument.PX)) {
+                expr = Long.parseLong(args.get(3));
+            }
+            return Container.set(args.get(1), args.get(2),  expr);
         }
 
         throw  new UnsupportedOperationException("This operation is not yet implemented.");
@@ -111,9 +117,12 @@ public class RESPHandler {
         } else if (Command.getCommand(command).equals(Command.SET)) {
             return Container.get(args[1]);
         } else if (Command.getCommand(command).equals(Command.SET)) {
-            return Container.set(args[1], args[2]);
+            Long expr = null;
+            if (args.length > 2 && Argument.getArgument(args[2]).equals(Argument.PX)) {
+                expr = Long.parseLong(args[3]);
+            }
+            return Container.set(args[1], args[2],  expr);
         }
-
         throw  new UnsupportedOperationException("This operation is not yet implemented.");
     }
 }
