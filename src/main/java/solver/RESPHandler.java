@@ -73,6 +73,12 @@ public class RESPHandler {
             in.ensureCrLf();
         }
 
+        System.out.println("This is the elems in the array [");
+        for (var elem: args) {
+            System.out.println(elem);
+        }
+        System.out.println("]");
+
         if (!args.isEmpty() && args.get(0).equals(Command.ECHO.toString())) {
             return new Pair<> (args.get(1), DataType.BULK_STRING);
         } else if (!args.isEmpty() && args.get(0).equals(Command.PING.toString())) {
