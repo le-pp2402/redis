@@ -1,9 +1,15 @@
+package solver;
+
+import constants.Command;
+import solver.impl.Echo;
+import solver.impl.Get;
+import solver.impl.Ping;
 import utils.RedisInputStream;
-import solver.RESPHandler;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -12,6 +18,8 @@ import java.util.concurrent.TimeUnit;
 public class Main {
     public static void main(String[] args) {
         // You can use print statements as follows for debugging, they'll be visible when running tests.
+        System.out.println("Loading commands handler");
+        loadCommandHandlers();
         System.out.println("Logs from your program will appear here!");
 
         //  Uncomment this block to pass the first stage
@@ -41,6 +49,14 @@ public class Main {
         } catch (IOException e) {
             System.out.println("IOException: " + e.getMessage());
         }
+    }
+
+    public static HashMap<Command, ICommandHandler> commandHandlers = new HashMap<>();
+
+    private static void loadCommandHandlers() {
+        commandHandlers.put(Command.PING, new Ping());
+        commandHandlers.put(Command.ECHO, new Echo());
+        commandHandlers.put(Command.GET, new Get());
     }
 
     private static void handleClient(Socket clientSocket)  {
