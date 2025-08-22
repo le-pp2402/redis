@@ -1,10 +1,7 @@
 package solver;
 
 import constants.Command;
-import solver.impl.Echo;
-import solver.impl.Get;
-import solver.impl.Ping;
-import solver.impl.Type;
+import solver.impl.*;
 import utils.RedisInputStream;
 
 import java.io.*;
@@ -58,6 +55,7 @@ public class Main {
         commandHandlers.put(Command.PING, new Ping());
         commandHandlers.put(Command.ECHO, new Echo());
         commandHandlers.put(Command.GET, new Get());
+        commandHandlers.put(Command.SET, new Set());
         commandHandlers.put(Command.TYPE, new Type());
     }
 
