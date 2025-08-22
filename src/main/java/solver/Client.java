@@ -11,7 +11,7 @@ public class Client {
         Socket clientSocket = new Socket("127.0.0.1", 6379);
 
         OutputStream outputStream = clientSocket.getOutputStream();
-        outputStream.write("*3\r\n$3\r\nSET\r\n$6\r\norange\r\n$10\r\nstrawberry\r\n".getBytes());
+        outputStream.write("3\r\n$4\r\nTYPE\r\n$5\r\ngrape\r\n$9\r\nraspberry\r\n".getBytes());
 
 
         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
