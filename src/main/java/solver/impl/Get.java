@@ -10,6 +10,6 @@ import java.util.List;
 public class Get implements ICommandHandler {
     @Override
     public Pair<String, DataType> handle(List<String> args) {
-        return Container.get(args.get(1));
+        return Container.get(args.getFirst());
     }
 }
