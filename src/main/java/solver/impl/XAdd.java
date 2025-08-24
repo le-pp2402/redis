@@ -25,7 +25,7 @@
                 var curKey = Container.latestID.get().milliseconds;
                 if (Integer.parseInt(value.substring(0, value.indexOf('-'))) == curKey) {
                     value = value.substring(0, value.length() - 1);
-                    value += String.valueOf(curKey + 1);
+                    value += String.valueOf(Container.latestID.get().sequenceNumber + 1);
                 } else {
                     value = value.replace('*', '0');
                 }
