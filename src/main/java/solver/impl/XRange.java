@@ -39,6 +39,9 @@ public class XRange implements ICommandHandler {
             }
 
             StringBuilder sb = new StringBuilder();
+            sb.append((char) DataType.ARRAYS.getSymbol());
+            sb.append(2);
+            sb.append("\r\n");
             sb.append((char) DataType.BULK_STRING.getSymbol());
             sb.append(e.getKey().length());
             sb.append("\r\n");
@@ -57,6 +60,7 @@ public class XRange implements ICommandHandler {
         sb.append("\r\n");
         for (var e : res) {
             sb.append(e);
+            System.out.println(e);
         }
 
         return new Pair<>(sb.toString(), DataType.ARRAYS);
