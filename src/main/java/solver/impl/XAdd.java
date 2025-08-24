@@ -20,9 +20,11 @@ public class XAdd implements ICommandHandler {
             var id = ID.parse(value);
             assert id != null;
             if (id.compareTo(new ID(0, 0)) == 0) {
+                Container.latestID = id;
                 return new Pair<>("ERR The ID specified in XADD must be greater than 0-0", DataType.ERROR);
             }
-             else if (id.compareTo(Container.latestID) <= 0) {
+            else if (id.compareTo(Container.latestID) <= 0) {
+                Container.latestID = id;
                 return new Pair<>("ERR The ID specified in XADD is equal or smaller than the target stream top item", DataType.ERROR);
             }
             Container.latestID = id;
