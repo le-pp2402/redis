@@ -23,7 +23,7 @@
 
             if (value.charAt(value.length() - 1) == '*') {
                 var curKey = Container.latestID.get().sequenceNumber;
-                if (Integer.parseInt(key) == curKey) {
+                if (Integer.parseInt(value.substring(0, value.indexOf('-'))) == curKey) {
                     value = value.substring(0, value.length() - 1);
                     value += String.valueOf(curKey + 1);
                 } else {
