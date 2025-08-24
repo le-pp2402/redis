@@ -30,6 +30,10 @@ public class XRange implements ICommandHandler {
             var props = Container.streamContainer.get(id.toString());
             var allProps = new ArrayList<String>();
             for (var elem : props.entrySet()) {
+                String prop = elem.getKey();
+                System.out.println(prop);
+                System.out.println(elem.getValue());
+
                 allProps.add(elem.getKey());
                 allProps.add(elem.getValue());
             }
@@ -38,8 +42,10 @@ public class XRange implements ICommandHandler {
             sb.append((char) DataType.BULK_STRING.getSymbol());
             sb.append(e.getKey().length());
             sb.append("\r\n");
-            sb.append(e.getValue());
+            sb.append(e.getKey());
             sb.append("\r\n");
+
+            var db = toRESP(allProps);
 
             sb.append(toRESP(allProps));
             res.add(sb.toString());
