@@ -16,6 +16,6 @@ public class Type implements ICommandHandler {
             return new Pair<>("none", DataType.SIMPLE_STRING);
         }
 
-        return new Pair<>("string", DataType.SIMPLE_STRING);
+        return db;
     }
 }
