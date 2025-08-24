@@ -37,16 +37,16 @@ public class XAdd implements ICommandHandler {
             concurrentHashMap.put(args.get(i), args.get(i + 1));
         }
 
-        Container.set(key, value, null);
-        Container.streamContainer.put(value, concurrentHashMap);
+        Container.set(key, id.toString(), null);
+        Container.streamContainer.put(id.toString(), concurrentHashMap);
 
-        return new Pair<>(value, DataType.BULK_STRING);
+        return new Pair<>(id.toString(), DataType.BULK_STRING);
     }
 
     public ID autoGenerateID(String id) {
         if (id.equals("*")) {
-            var primaryPart = Container.latestID.get().milliseconds + 1;
-            var seqPart = Container.latestID.get().sequenceNumber + 1;
+            var primaryPart = System.currentTimeMillis();
+            var seqPart = 0;
             return new ID(primaryPart, seqPart);
         } else if (id.contains("*")) {
             var curKey = Container.latestID.get().milliseconds;
