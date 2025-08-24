@@ -5,9 +5,10 @@ import constants.ID;
 import solver.Pair;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Container {
-    public static ID latestID = new ID(0, 0);
+    public static AtomicReference<ID> latestID = new AtomicReference<>(new ID(0, 0));
     public static ConcurrentHashMap<String, String> container = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<String, ConcurrentHashMap<String, String>> streamContainer = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<String, Long> lifetimeContainer = new ConcurrentHashMap<>();
