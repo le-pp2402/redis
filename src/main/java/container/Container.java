@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Container {
     public static ConcurrentHashMap<String, String> container = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<String, ConcurrentHashMap<String, String>> streamContainer = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<String, Long> lifetimeContainer = new ConcurrentHashMap<>();
 
     public static Pair<String, DataType> set(String key, String value, Long expiry) {
@@ -31,6 +32,10 @@ public class Container {
         }
 
         if (container.containsKey(key)) {
+            var value = container.get(key);
+            if (streamContainer.containsKey(value)) {
+                return new Pair<>("stream", DataType.SIMPLE_STRING);
+            }
             return new Pair<>(container.get(key), DataType.BULK_STRING);
         } else {
             return new Pair<>("-1", DataType.SIMPLE_STRING );
