@@ -1,7 +1,7 @@
 package constants;
 
 public enum DataType {
-    SIMPLE_STRING, ERROR, INTEGER, BULK_STRING, ARRAYS;
+    SIMPLE_STRING, ERROR, INTEGER, BULK_STRING, ARRAYS, STREAM;
 
     public byte getSymbol() {
         return switch (this) {
@@ -10,6 +10,7 @@ public enum DataType {
             case INTEGER -> ':';
             case BULK_STRING -> '$';
             case ARRAYS -> '*';
+            case STREAM -> (byte)0;
         };
     }
 }

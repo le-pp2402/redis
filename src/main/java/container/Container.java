@@ -34,7 +34,7 @@ public class Container {
         if (container.containsKey(key)) {
             var value = container.get(key);
             if (streamContainer.containsKey(value)) {
-                return new Pair<>("stream", DataType.SIMPLE_STRING);
+                return new Pair<>("stream", DataType.STREAM);
             }
             return new Pair<>(container.get(key), DataType.BULK_STRING);
         } else {

@@ -16,6 +16,10 @@ public class Type implements ICommandHandler {
             return new Pair<>("none", DataType.SIMPLE_STRING);
         }
 
-        return db;
+        if (db.second.equals(DataType.STREAM)) {
+            return new Pair<>("stream", DataType.SIMPLE_STRING);
+        }
+
+        return new Pair<>("string", DataType.SIMPLE_STRING);
     }
 }
