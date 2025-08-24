@@ -28,7 +28,7 @@ public class RESPHandler {
             sb.append((char)result.second.getSymbol());
 
             if (result.second != DataType.SIMPLE_STRING)
-                if (!(result.second == DataType.BULK_STRING && result.first.equals("-1"))) {
+                if (!(result.second == DataType.BULK_STRING && result.first.equals("-1")) && result.second != DataType.ERROR) {
                     sb.append(result.first.length());
                     sb.append("\r\n");
                 }
