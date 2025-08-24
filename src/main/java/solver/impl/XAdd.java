@@ -1,6 +1,7 @@
 package solver.impl;
 
 import constants.DataType;
+import constants.ID;
 import container.Container;
 import solver.ICommandHandler;
 import solver.Pair;
@@ -14,6 +15,18 @@ public class XAdd implements ICommandHandler {
     public Pair<String, DataType> handle(List<String> args) {
         String key = args.get(0);
         String value = args.get(1);
+
+        synchronized (XAdd.this) {
+            var id = ID.parse(value);
+            assert id != null;
+            if (id.compareTo(new ID(0, 0)) == 0) {
+                return new Pair<>("ERR The ID specified in XADD must be greater than 0-0", DataType.ERROR);
+            }
+             else if (id.compareTo(Container.latestID) <= 0) {
+                return new Pair<>("ERR The ID specified in XADD is equal or smaller than the target stream top item", DataType.ERROR);
+            }
+            Container.latestID = id;
+        }
 
         ConcurrentHashMap<String, String> concurrentHashMap = new ConcurrentHashMap<>();
         for (int i = 2; i < args.size(); i += 2) {
