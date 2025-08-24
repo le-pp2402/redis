@@ -22,7 +22,7 @@
              */
 
             if (value.charAt(value.length() - 1) == '*') {
-                var curKey = Container.latestID.get().sequenceNumber;
+                var curKey = Container.latestID.get().milliseconds;
                 if (Integer.parseInt(value.substring(0, value.indexOf('-'))) == curKey) {
                     value = value.substring(0, value.length() - 1);
                     value += String.valueOf(curKey + 1);
