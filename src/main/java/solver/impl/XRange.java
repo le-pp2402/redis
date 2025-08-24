@@ -16,7 +16,17 @@ public class XRange implements ICommandHandler {
     public Pair<String, DataType> handle(List<String> args) {
         List<String> res = new ArrayList<>();
 
+        System.out.println("********************");;
+        for (var x: Container.streamContainer.entrySet()) {
+            System.out.println(x.getKey());
+        }
+        System.out.println("********************");;
+
         for (var e : Container.container.entrySet()) {
+
+            System.out.println(e.getKey());
+            System.out.println(e.getValue());
+
             if (e.getKey().equals(args.get(0)) && Container.streamContainer.contains(e.getValue())) {
                 ID id = ID.parse(e.getValue());
                 ID left = ID.parse(args.get(0));
@@ -45,7 +55,7 @@ public class XRange implements ICommandHandler {
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append(DataType.ARRAYS);
+        sb.append(DataType.ARRAYS.getSymbol());
         sb.append(res.size());
         sb.append("\r\n");
         for (var e : res) {
