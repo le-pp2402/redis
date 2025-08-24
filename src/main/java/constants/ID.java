@@ -1,8 +1,8 @@
 package constants;
 
 public class ID implements Comparable<ID> {
-    private long milliseconds;
-    private int sequenceNumber;
+    public long milliseconds;
+    public int sequenceNumber;
 
     public ID() {}
 
