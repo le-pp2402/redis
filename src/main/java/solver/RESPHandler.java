@@ -23,20 +23,24 @@ public class RESPHandler {
 
     public static void sendCommand(final OutputStream os, Pair<String, DataType> result) {
         try {
-            StringBuilder sb = new StringBuilder();
+            if (result.second == DataType.ARRAYS) {
+                os.write(result.first.getBytes());
+            } else {
+                StringBuilder sb = new StringBuilder();
 
-            sb.append((char)result.second.getSymbol());
+                sb.append((char) result.second.getSymbol());
 
-            if (result.second != DataType.SIMPLE_STRING)
-                if (!(result.second == DataType.BULK_STRING && result.first.equals("-1")) && result.second != DataType.ERROR) {
-                    sb.append(result.first.length());
-                    sb.append("\r\n");
-                }
+                if (result.second != DataType.SIMPLE_STRING)
+                    if (!(result.second == DataType.BULK_STRING && result.first.equals("-1")) && result.second != DataType.ERROR) {
+                        sb.append(result.first.length());
+                        sb.append("\r\n");
+                    }
 
-            sb.append(result.first);
-            sb.append("\r\n");
+                sb.append(result.first);
+                sb.append("\r\n");
 
-            os.write(sb.toString().getBytes());
+                os.write(sb.toString().getBytes());
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
