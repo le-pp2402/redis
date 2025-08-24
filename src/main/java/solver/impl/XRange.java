@@ -35,7 +35,7 @@ public class XRange implements ICommandHandler {
             }
 
             StringBuilder sb = new StringBuilder();
-            sb.append(DataType.BULK_STRING.getSymbol());
+            sb.append((char) DataType.BULK_STRING.getSymbol());
             sb.append(e.getKey().length());
             sb.append("\r\n");
             sb.append(e.getValue());
@@ -46,7 +46,7 @@ public class XRange implements ICommandHandler {
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append(DataType.ARRAYS.getSymbol());
+        sb.append((char) DataType.ARRAYS.getSymbol());
         sb.append(res.size());
         sb.append("\r\n");
         for (var e : res) {
@@ -62,11 +62,11 @@ public class XRange implements ICommandHandler {
 
     public String toRESP(List<String> args) {
         StringBuilder sb = new StringBuilder();
-        sb.append(DataType.ARRAYS.getSymbol());
+        sb.append((char) DataType.ARRAYS.getSymbol());
         sb.append(args.size());
         sb.append("\r\n");
         for (var e: args) {
-            sb.append(DataType.BULK_STRING.getSymbol());
+            sb.append((char) DataType.BULK_STRING.getSymbol());
             sb.append(e.length());
             sb.append("\r\n");
             sb.append(e);
