@@ -85,6 +85,9 @@ public class XRead implements ICommandHandler {
             eachStreams.add(sb.toString());
         }
 
+        if (eachStreams.isEmpty()) {
+            return new Pair<>("-1", DataType.BULK_STRING);
+        }
 
         StringBuilder sb = new StringBuilder();
         sb.append((char) DataType.ARRAYS.getSymbol());
