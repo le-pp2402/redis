@@ -16,9 +16,9 @@ public class XRead implements ICommandHandler {
 
         if (args.get(1).equals("block")) {
             start = 3;
-            var sleep = Long.parseLong(args.get(2));
+            var sleep = Long.parseLong(args.get(1));
             try {
-                Thread.sleep(Math.max(0, sleep - 10));
+                Thread.sleep(Math.max(0, sleep));
             } catch (InterruptedException e) {
                 System.err.println(e.getMessage());
             }
