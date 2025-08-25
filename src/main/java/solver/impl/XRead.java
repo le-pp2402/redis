@@ -42,6 +42,8 @@ public class XRead implements ICommandHandler {
 
         List<String> eachStreams = new ArrayList<>();
 
+        boolean exist = false;
+
         for (Pair<String, ID> key : keys) {                                     // [stream_name] - [lowest_id]
 
             List<String> res = new ArrayList<>();
@@ -49,12 +51,13 @@ public class XRead implements ICommandHandler {
             for (var k : Container.streamDirector.get(key.first)) {             // all keys belong to [stream_name]
                 var id = ID.parse(k);
                 if (!inRange(key.second, id)) continue;
-
+                exist = true;
                 var props = Container.streamContainer.get(id.toString());      // [key - 1], [key - 2]
                 var allProps = new ArrayList<String>();
                 for (var elem : props.entrySet()) {
                     allProps.add(elem.getKey());
                     allProps.add(elem.getValue());
+
                 }
 
                 StringBuilder sb = new StringBuilder();
@@ -89,7 +92,7 @@ public class XRead implements ICommandHandler {
             eachStreams.add(sb.toString());
         }
 
-        if (eachStreams.isEmpty()) {
+        if (!exist) {
             return new Pair<>("-1", DataType.BULK_STRING);
         }
 
