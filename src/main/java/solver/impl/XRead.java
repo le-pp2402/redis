@@ -13,36 +13,49 @@ public class XRead implements ICommandHandler {
     @Override
     public Pair<String, DataType> handle(List<String> args) {
         int start = 1;
-        ID latestId = Container.latestID.get();
+        ID fetchNext = null;
+        ID cur = Container.latestID.get();
+
         if (args.get(0).equals("block")) {
             start = 3;
 
-            System.out.println("we need to wait " + args.get(1) + " ms");
             var sleep = Long.parseLong(args.get(1));
 
-            if (sleep == 0) {
+            if (sleep == 0 && args.getLast().equals("$")) {
+
+                // TODO: Implement something using epoll (idk & not sure yet :() instead of using while(true)
+                // The current solution is incorrect because it only considers the latest ID across all streams;
+                // the correct implementation should handle each stream separately.
+
                 while (true) {
-                    if (!Container.latestID.get().equals(latestId)) {
+                    if (cur.compareTo(Container.latestID.get()) != 0) {
                         break;
                     }
                 }
-            } else {
-                try {
-                    System.out.println("Start wait: " + System.currentTimeMillis());
-                    Thread.sleep(Math.max(0, sleep));
-                    System.out.println("End: " + System.currentTimeMillis());
-                } catch (InterruptedException e) {
-                    System.err.println(e.getMessage());
-                }
+
+                fetchNext = Container.latestID.get();
             }
 
+            try {
+                Thread.sleep(Math.max(0, sleep));
+            } catch (InterruptedException e) {
+                System.err.println(e.getMessage());
+            }
+
+            if (args.getLast().equals("$") && cur.compareTo(Container.latestID.get()) != 0) {
+                fetchNext = Container.latestID.get();
+            }
+
+            if (cur.compareTo(Container.latestID.get()) != 0) {
+                fetchNext = Container.latestID.get();
+            }
         }
 
-        boolean newest = false;
+        boolean useFetchNext = false;
 
         if (args.getLast().equals("$")) {
-            newest = true;
             args.removeLast();
+            useFetchNext = true;
         }
 
         int shift = (args.size() - start) / 2;
@@ -52,11 +65,9 @@ public class XRead implements ICommandHandler {
             keys.add(
                     new Pair<>(
                             args.get(i),
-                            newest ? latestId : ID.parse(args.get(i + shift))
+                            (!useFetchNext ? ID.parse(args.get(i + shift)) : fetchNext)
                     )
             );
-
-            System.out.println(keys.getLast().first + " " + keys.getLast().second + "             =>\n");;
         }
 
         List<String> eachStreams = new ArrayList<>();
@@ -69,20 +80,12 @@ public class XRead implements ICommandHandler {
 
             for (var k : Container.streamDirector.get(key.first)) {             // all keys belong to [stream_name]
                 var id = ID.parse(k);
-                System.out.println("all key belong to = " + key.first + " is " + k);
 
-                if (newest) {
-                    if (Container.streamDirector.get(args.get(start)) != null) {
-                        id = ID.parse(
-                                Container.streamDirector
-                                        .get(args.get(start))
-                                        .getLast()
-                        );
-                    } else {
-                        break;
-                    }
+                if (useFetchNext) {
+                    id = fetchNext;
+                    if (fetchNext == null) break;
                 } else {
-                    if (!inRange(latestId, id)) continue;
+                    if (!inRange(cur, id)) continue;
                 }
 
                 exist = true;
@@ -99,14 +102,14 @@ public class XRead implements ICommandHandler {
                 sb.append(2);
                 sb.append("\r\n");
                 sb.append((char) DataType.BULK_STRING.getSymbol());
-                sb.append(k.length());
+                sb.append(id.toString().length());
                 sb.append("\r\n");
-                sb.append(k);
+                sb.append(id.toString());
                 sb.append("\r\n");
                 sb.append(toRESP(allProps));
                 res.add(sb.toString());
 
-                if (newest) break;
+                if (useFetchNext) break;
             }
 
             StringBuilder sb = new StringBuilder();
@@ -127,7 +130,7 @@ public class XRead implements ICommandHandler {
 
             eachStreams.add(sb.toString());
 
-            if (newest) break;
+            if (useFetchNext) break;
         }
 
         if (!exist) {
