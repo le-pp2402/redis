@@ -39,10 +39,20 @@ public class XAdd implements ICommandHandler {
             concurrentHashMap.put(args.get(i), args.get(i + 1));
         }
 
+        System.out.println(key);
 
         if (Container.streamDirector.contains(key)) {
+            System.out.println("[BEFORE] All key");
             var curKeys = Container.streamDirector.get(key);
+            for (var c: curKeys) {
+                System.out.println(c);
+            }
+
             curKeys.add(id.toString());
+            System.out.println("[AFTER] All key");
+            for (var c: curKeys) {
+                System.out.println(c);
+            }
             Container.streamDirector.replace(key, curKeys);
         } else {
             var keys = new ArrayList<String>();

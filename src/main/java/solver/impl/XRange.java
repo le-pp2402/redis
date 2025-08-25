@@ -56,9 +56,6 @@ public class XRange implements ICommandHandler {
             sb.append("\r\n");
             sb.append(e.getKey());
             sb.append("\r\n");
-
-            var db = toRESP(allProps);
-
             sb.append(toRESP(allProps));
             res.add(sb.toString());
         }

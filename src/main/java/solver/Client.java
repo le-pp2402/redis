@@ -13,8 +13,8 @@ public class Client {
         OutputStream outputStream = clientSocket.getOutputStream();
         String[] data = {
                 "*6\r\n$5\r\nXREAD\r\n$5\r\nblock\r\n$4\r\n1000\r\n$7\r\nstreams\r\n$5\r\napple\r\n$3\r\n0-1\r\n",
-        };
 
+        };
 
         for (int i = 0; i < 4; i++) {
             outputStream.write(data[i].getBytes());
