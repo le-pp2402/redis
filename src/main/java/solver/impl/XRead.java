@@ -23,7 +23,7 @@ public class XRead implements ICommandHandler {
 
         for (var e: Container.streamContainer.entrySet()) {
             ID id = ID.parse(e.getKey());
-            ID left = ID.parse(args.get(1));
+            ID left = ID.parse(args.get(2));
 
             assert left != null && id != null;
             if (!inRange(left, id)) continue;
