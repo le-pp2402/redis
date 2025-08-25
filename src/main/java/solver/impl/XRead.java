@@ -27,7 +27,7 @@ public class XRead implements ICommandHandler {
         int shift = (args.size() - start) / 2;
         List<Pair<String, ID>> keys = new ArrayList<>();
 
-        for (int i = 1; i + shift < args.size(); i++) {
+        for (int i = start; i + shift < args.size(); i++) {
             keys.add(
                     new Pair<>(
                             args.get(i),
