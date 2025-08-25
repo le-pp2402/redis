@@ -19,6 +19,10 @@ public class XRange implements ICommandHandler {
         }
         System.out.println("********************");;
 
+        if (args.get(0).equals("-")) {
+            args.set(0, "0-0");
+        }
+
         for (var e: Container.streamContainer.entrySet()) {
             ID id = ID.parse(e.getKey());
             ID left = ID.parse(args.get(1));
