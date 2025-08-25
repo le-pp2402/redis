@@ -19,13 +19,23 @@ public class XRead implements ICommandHandler {
 
             System.out.println("we need to wait " + args.get(1) + " ms");
             var sleep = Long.parseLong(args.get(1));
-            try {
-                System.out.println("Start wait: " + System.currentTimeMillis());
-                Thread.sleep(Math.max(0, sleep));
-                System.out.println("End: " + System.currentTimeMillis());
-            } catch (InterruptedException e) {
-                System.err.println(e.getMessage());
+
+            if (sleep == 0) {
+                while (true) {
+                    if (!Container.latestID.get().equals(latestId)) {
+                        break;
+                    }
+                }
+            } else {
+                try {
+                    System.out.println("Start wait: " + System.currentTimeMillis());
+                    Thread.sleep(Math.max(0, sleep));
+                    System.out.println("End: " + System.currentTimeMillis());
+                } catch (InterruptedException e) {
+                    System.err.println(e.getMessage());
+                }
             }
+
         }
 
         boolean newest = false;
@@ -33,7 +43,6 @@ public class XRead implements ICommandHandler {
         if (args.getLast().equals("$")) {
             newest = true;
             args.removeLast();
-
         }
 
         int shift = (args.size() - start) / 2;
