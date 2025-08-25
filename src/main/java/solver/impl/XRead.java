@@ -12,65 +12,77 @@ import java.util.List;
 public class XRead implements ICommandHandler {
     @Override
     public Pair<String, DataType> handle(List<String> args) {
-        List<String> res = new ArrayList<>();
 
-        System.out.println("********************");;
-        for (var x: Container.streamContainer.entrySet()) {
-            System.out.println(x.getKey());
+        int shift = (args.size() - 1) / 2;
+        List<Pair<String, ID>> keys = new ArrayList<>();
+
+        for (int i = 1; i + shift < args.size(); i++) {
+            keys.add(
+                    new Pair<>(
+                            args.get(i),
+                            ID.parse(args.get(i + shift))
+                    )
+            );
         }
-        System.out.println("********************");;
 
+        List<String> eachStreams = new ArrayList<String>();
 
-        for (var e: Container.streamContainer.entrySet()) {
-            ID id = ID.parse(e.getKey());
-            ID left = ID.parse(args.get(2));
+        for (Pair<String, ID> key : keys) {                                     // [stream_name] - [lowest_id]
 
-            assert left != null && id != null;
-            if (!inRange(left, id)) continue;
+            List<String> res = new ArrayList<>();
 
-            var props = Container.streamContainer.get(id.toString());
-            var allProps = new ArrayList<String>();
-            for (var elem : props.entrySet()) {
-                String prop = elem.getKey();
-                System.out.println(prop);
-                System.out.println(elem.getValue());
+            for (var k : Container.streamDirector.get(key.first)) {             // all keys belong to [stream_name]
+                var id = ID.parse(k);
+                if (!inRange(key.second, id)) continue;
 
-                allProps.add(elem.getKey());
-                allProps.add(elem.getValue());
+                var props = Container.streamContainer.get(id.toString());      // [key - 1], [key - 2]
+                var allProps = new ArrayList<String>();
+                for (var elem : props.entrySet()) {
+                    allProps.add(elem.getKey());
+                    allProps.add(elem.getValue());
+                }
+
+                StringBuilder sb = new StringBuilder();
+                sb.append((char) DataType.ARRAYS.getSymbol());
+                sb.append(2);
+                sb.append("\r\n");
+                sb.append((char) DataType.BULK_STRING.getSymbol());
+                sb.append(key.first.length());
+                sb.append("\r\n");
+                sb.append(key.first);
+                sb.append("\r\n");
+                sb.append(toRESP(allProps));
+                res.add(sb.toString());
             }
 
             StringBuilder sb = new StringBuilder();
             sb.append((char) DataType.ARRAYS.getSymbol());
-            sb.append(2);
+            sb.append(res.size());
             sb.append("\r\n");
-            sb.append((char) DataType.BULK_STRING.getSymbol());
-            sb.append(e.getKey().length());
-            sb.append("\r\n");
-            sb.append(e.getKey());
-            sb.append("\r\n");
+            for (String s : res) {
+                sb.append(s);
+            }
 
-            var db = toRESP(allProps);
+            sb = new StringBuilder("*2\r\n")
+                    .append((char) DataType.BULK_STRING.getSymbol())
+                    .append(key.first.length())
+                    .append("\r\n")
+                    .append(key.first)
+                    .append("\r\n")
+                    .append(sb);
 
-            sb.append(toRESP(allProps));
-            res.add(sb.toString());
+            eachStreams.add(sb.toString());
         }
+
 
         StringBuilder sb = new StringBuilder();
         sb.append((char) DataType.ARRAYS.getSymbol());
-        sb.append(res.size());
+        sb.append(eachStreams.size());
         sb.append("\r\n");
-        for (var e : res) {
-            sb.append(e);
-            System.out.println(e);
-        }
 
-        sb = new StringBuilder("*1\r\n*2\r\n")
-                .append((char) DataType.BULK_STRING.getSymbol())
-                .append(args.get(1).length())
-                .append("\r\n")
-                .append(args.get(1))
-                .append("\r\n")
-                .append(sb);
+        for (String s : eachStreams) {
+            sb.append(s);
+        }
 
         return new Pair<>(sb.toString(), DataType.ARRAYS);
     }

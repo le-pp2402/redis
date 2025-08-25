@@ -1,11 +1,13 @@
 package solver.impl;
 
+import com.sun.source.tree.ContinueTree;
 import constants.DataType;
 import constants.ID;
 import container.Container;
 import solver.ICommandHandler;
 import solver.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -35,6 +37,17 @@ public class XAdd implements ICommandHandler {
         ConcurrentHashMap<String, String> concurrentHashMap = new ConcurrentHashMap<>();
         for (int i = 2; i < args.size(); i += 2) {
             concurrentHashMap.put(args.get(i), args.get(i + 1));
+        }
+
+
+        if (Container.streamDirector.contains(key)) {
+            var curKeys = Container.streamDirector.get(key);
+            curKeys.add(id.toString());
+            Container.streamDirector.replace(key, curKeys);
+        } else {
+            var keys = new ArrayList<String>();
+            keys.add(id.toString());
+            Container.streamDirector.put(key, keys);
         }
 
         Container.set(key, id.toString(), null);
