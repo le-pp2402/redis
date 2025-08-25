@@ -47,9 +47,9 @@ public class XRead implements ICommandHandler {
                 sb.append(2);
                 sb.append("\r\n");
                 sb.append((char) DataType.BULK_STRING.getSymbol());
-                sb.append(key.first.length());
+                sb.append(k.length());
                 sb.append("\r\n");
-                sb.append(key.first);
+                sb.append(k);
                 sb.append("\r\n");
                 sb.append(toRESP(allProps));
                 res.add(sb.toString());
