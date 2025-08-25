@@ -12,8 +12,19 @@ import java.util.List;
 public class XRead implements ICommandHandler {
     @Override
     public Pair<String, DataType> handle(List<String> args) {
+        int start = 1;
 
-        int shift = (args.size() - 1) / 2;
+        if (args.get(1).equals("block")) {
+            start = 3;
+            var sleep = Long.parseLong(args.get(2));
+            try {
+                Thread.sleep(sleep);
+            } catch (InterruptedException e) {
+                System.err.println(e.getMessage());
+            }
+        }
+
+        int shift = (args.size() - start) / 2;
         List<Pair<String, ID>> keys = new ArrayList<>();
 
         for (int i = 1; i + shift < args.size(); i++) {
