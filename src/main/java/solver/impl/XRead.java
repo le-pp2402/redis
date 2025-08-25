@@ -59,15 +59,16 @@ public class XRead implements ICommandHandler {
 
             for (var k : Container.streamDirector.get(key.first)) {             // all keys belong to [stream_name]
                 var id = ID.parse(k);
+                System.out.println("all key belong to = " + key.first + " is " + k);
                 if (!inRange(key.second, id)) continue;
 
                 exist = true;
+
                 var props = Container.streamContainer.get(id.toString());      // [key - 1], [key - 2]
                 var allProps = new ArrayList<String>();
                 for (var elem : props.entrySet()) {
                     allProps.add(elem.getKey());
                     allProps.add(elem.getValue());
-
                 }
 
                 StringBuilder sb = new StringBuilder();
