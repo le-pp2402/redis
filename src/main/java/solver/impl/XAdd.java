@@ -65,6 +65,10 @@ public class XAdd implements ICommandHandler {
         } else {
             var keys = new ArrayList<String>();
             keys.add(id.toString());
+            System.out.println("[AFTER] All key");
+            for (var c: keys) {
+                System.out.println(c);
+            }
             Container.streamDirector.put(key, keys);
         }
 
