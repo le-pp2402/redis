@@ -61,7 +61,7 @@ public class XAdd implements ICommandHandler {
             for (var c: curKeys) {
                 System.out.println(c);
             }
-            Container.streamDirector.replace(key, curKeys);
+            Container.streamDirector.put(key, curKeys);
         } else {
             var keys = new ArrayList<String>();
             keys.add(id.toString());
