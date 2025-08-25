@@ -11,14 +11,21 @@ public class Client {
         Socket clientSocket = new Socket("127.0.0.1", 6379);
 
         OutputStream outputStream = clientSocket.getOutputStream();
-        String[] data = {
-                "*6\r\n$5\r\nXREAD\r\n$5\r\nblock\r\n$4\r\n1000\r\n$7\r\nstreams\r\n$5\r\napple\r\n$3\r\n0-1\r\n",
 
+        String[] data = {
+                "*5\r\n$4\r\nXADD\r\n$9\r\nblueberry\r\n$3\r\n0-1\r\n$11\r\ntemperature\r\n$2\r\n11\r\n",
+                "*5\r\n$4\r\nXADD\r\n$9\r\nblueberry\r\n$3\r\n0-2\r\n$11\r\ntemperature\r\n$2\r\n46\r\n",
+                "*6\r\n$5\r\nXREAD\r\n$5\r\nblock\r\n$1\r\n0\r\n$7\r\nstreams\r\n$9\r\nblueberry\r\n$1\r\n$\r\n"
         };
 
-        for (int i = 0; i < 4; i++) {
-            outputStream.write(data[i].getBytes());
+        outputStream.write(data[0].getBytes());
+        outputStream.write(data[1].getBytes());
+        try {
+            Thread.sleep(200);
+        } catch (Exception e) {
+
         }
+        outputStream.write(data[2].getBytes());
 
         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 

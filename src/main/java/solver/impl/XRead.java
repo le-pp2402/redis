@@ -33,6 +33,7 @@ public class XRead implements ICommandHandler {
         if (args.getLast().equals("$")) {
             newest = true;
             args.removeLast();
+
         }
 
         int shift = (args.size() - start) / 2;
@@ -60,7 +61,20 @@ public class XRead implements ICommandHandler {
             for (var k : Container.streamDirector.get(key.first)) {             // all keys belong to [stream_name]
                 var id = ID.parse(k);
                 System.out.println("all key belong to = " + key.first + " is " + k);
-                if (!inRange(key.second, id)) continue;
+
+                if (newest) {
+                    if (Container.streamDirector.get(args.get(start)) != null) {
+                        id = ID.parse(
+                                Container.streamDirector
+                                        .get(args.get(start))
+                                        .getLast()
+                        );
+                    } else {
+                        break;
+                    }
+                } else {
+                    if (!inRange(latestId, id)) continue;
+                }
 
                 exist = true;
 
@@ -82,6 +96,8 @@ public class XRead implements ICommandHandler {
                 sb.append("\r\n");
                 sb.append(toRESP(allProps));
                 res.add(sb.toString());
+
+                if (newest) break;
             }
 
             StringBuilder sb = new StringBuilder();
@@ -101,6 +117,8 @@ public class XRead implements ICommandHandler {
                     .append(sb);
 
             eachStreams.add(sb.toString());
+
+            if (newest) break;
         }
 
         if (!exist) {

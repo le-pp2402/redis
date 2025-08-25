@@ -49,26 +49,14 @@ public class XAdd implements ICommandHandler {
         }
         System.out.println("****************\n");
 
-        if (Container.streamDirector.contains(key)) {
-            System.out.println("[BEFORE] All key");
+        // all key belongs to KEY ~~~ [blueberry]
+        if (Container.streamDirector.get(key) != null) {
             var curKeys = Container.streamDirector.get(key);
-            for (var c: curKeys) {
-                System.out.println(c);
-            }
-
             curKeys.add(id.toString());
-            System.out.println("[AFTER] All key");
-            for (var c: curKeys) {
-                System.out.println(c);
-            }
             Container.streamDirector.put(key, curKeys);
         } else {
             var keys = new ArrayList<String>();
             keys.add(id.toString());
-            System.out.println("[AFTER] All key");
-            for (var c: keys) {
-                System.out.println(c);
-            }
             Container.streamDirector.put(key, keys);
         }
 
