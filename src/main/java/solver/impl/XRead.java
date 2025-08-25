@@ -13,7 +13,7 @@ public class XRead implements ICommandHandler {
     @Override
     public Pair<String, DataType> handle(List<String> args) {
         int start = 1;
-
+        ID latestId = Container.latestID.get();
         if (args.get(0).equals("block")) {
             start = 3;
 
@@ -30,7 +30,7 @@ public class XRead implements ICommandHandler {
         }
 
         boolean newest = false;
-        ID latestId = new ID(System.currentTimeMillis(), 0);
+
         if (args.getLast().equals("$")) {
             newest = true;
             args.removeLast();
