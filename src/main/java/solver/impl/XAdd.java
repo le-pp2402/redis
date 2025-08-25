@@ -41,6 +41,14 @@ public class XAdd implements ICommandHandler {
 
         System.out.println(key);
 
+        System.out.println("****************\n");
+        for (var elem: Container.streamDirector.entrySet()) {
+            System.out.println(elem.getKey());
+            System.out.println(elem.getValue());
+            System.out.println("--");
+        }
+        System.out.println("****************\n");
+
         if (Container.streamDirector.contains(key)) {
             System.out.println("[BEFORE] All key");
             var curKeys = Container.streamDirector.get(key);
