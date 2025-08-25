@@ -23,9 +23,17 @@ public class XRead implements ICommandHandler {
                 System.out.println("Start wait: " + System.currentTimeMillis());
                 Thread.sleep(Math.max(0, sleep));
                 System.out.println("End: " + System.currentTimeMillis());
+
             } catch (InterruptedException e) {
                 System.err.println(e.getMessage());
             }
+        }
+
+        boolean newest = false;
+        ID latestId = new ID(System.currentTimeMillis(), 0);
+        if (args.getLast().equals("$")) {
+            newest = true;
+            args.removeLast();
         }
 
         int shift = (args.size() - start) / 2;
@@ -51,6 +59,8 @@ public class XRead implements ICommandHandler {
             for (var k : Container.streamDirector.get(key.first)) {             // all keys belong to [stream_name]
                 var id = ID.parse(k);
                 if (!inRange(key.second, id)) continue;
+                if (newest && !inRange(latestId, id)) continue;
+
                 exist = true;
                 var props = Container.streamContainer.get(id.toString());      // [key - 1], [key - 2]
                 var allProps = new ArrayList<String>();
