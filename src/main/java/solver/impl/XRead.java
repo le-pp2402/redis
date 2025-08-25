@@ -14,7 +14,7 @@ public class XRead implements ICommandHandler {
     public Pair<String, DataType> handle(List<String> args) {
         int start = 1;
 
-        if (args.get(1).equals("block")) {
+        if (args.get(0).equals("block")) {
             start = 3;
 
             System.out.println("we need to wait " + args.get(1));
