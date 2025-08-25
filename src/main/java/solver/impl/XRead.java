@@ -43,7 +43,7 @@ public class XRead implements ICommandHandler {
             keys.add(
                     new Pair<>(
                             args.get(i),
-                            ID.parse(args.get(i + shift))
+                            newest ? latestId : ID.parse(args.get(i + shift))
                     )
             );
         }
