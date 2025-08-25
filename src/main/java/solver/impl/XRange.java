@@ -23,6 +23,11 @@ public class XRange implements ICommandHandler {
             args.set(1, "0-0");
         }
 
+        if (args.get(2).equals("+")) {
+            long cur = System.currentTimeMillis();
+            args.set(2, Long.toString(cur + 10) + "-0");
+        }
+
         for (var e: Container.streamContainer.entrySet()) {
             ID id = ID.parse(e.getKey());
             ID left = ID.parse(args.get(1));
