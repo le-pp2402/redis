@@ -6,7 +6,6 @@ import container.Container;
 import solver.ICommandHandler;
 import solver.Pair;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +43,7 @@ public class XRead implements ICommandHandler {
         List<String> res = new ArrayList<>();
 
         for (var key : Container.streamDirector.get(stream)) {
+            System.out.println("************* " + key);
             if (lowest.compareTo(ID.parse(key)) >= 0) continue;
             hasResult = true;
             System.out.println(key);
