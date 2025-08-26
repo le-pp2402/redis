@@ -1,15 +1,13 @@
 package solver.impl;
 
-import com.sun.source.tree.ContinueTree;
 import constants.DataType;
 import constants.ID;
 import container.Container;
 import solver.ICommandHandler;
 import solver.Pair;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.List;
 
 public class XAdd implements ICommandHandler {
 
@@ -30,7 +28,7 @@ public class XAdd implements ICommandHandler {
             return new Pair<>("ERR The ID specified in XADD must be greater than 0-0", DataType.ERROR);
         }
         else if (id.compareTo(Container.getLatestIdOfStream(stream)) <= 0) {
-                return new Pair<>("ERR The ID specified in XADD is equal or smaller than the target stream top item", DataType.ERROR);
+            return new Pair<>("ERR The ID specified in XADD is equal or smaller than the target stream top item", DataType.ERROR);
         }
         Container.setLatestIdOfStream(stream, id);
 
@@ -49,16 +47,8 @@ public class XAdd implements ICommandHandler {
         }
         System.out.println("****************\n");
 
-        // all key belongs to KEY ~~~ [blueberry]
-        if (Container.streamDirector.get(stream) != null) {
-            var curKeys = Container.streamDirector.get(stream);
-            curKeys.add(id.toString());
-            Container.streamDirector.put(stream, curKeys);
-        } else {
-            var keys = new ArrayList<String>();
-            keys.add(id.toString());
-            Container.streamDirector.put(stream, keys);
-        }
+        // FIX: Use thread-safe method to add stream key
+        Container.addStreamKey(stream, id.toString());
 
         Container.set(stream, id.toString(), null);
         Container.streamContainer.put(id.toString(), concurrentHashMap);

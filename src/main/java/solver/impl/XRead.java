@@ -42,7 +42,10 @@ public class XRead implements ICommandHandler {
         boolean hasResult = false;
         List<String> res = new ArrayList<>();
 
-        for (var key : Container.streamDirector.get(stream)) {
+        // FIX: Use the new thread-safe method
+        List<String> streamKeys = Container.getStreamKeys(stream);
+
+        for (var key : streamKeys) {
             System.out.println("************* " + key);
             if (lowest.compareTo(ID.parse(key)) >= 0) continue;
             hasResult = true;
@@ -111,7 +114,10 @@ public class XRead implements ICommandHandler {
 
             List<String> res = new ArrayList<>();
 
-            for (var k : Container.streamDirector.get(stream)) {             // all keys belong to stream
+            // FIX: Use the new thread-safe method
+            List<String> streamKeys = Container.getStreamKeys(stream);
+
+            for (var k : streamKeys) {             // all keys belong to stream
                 System.out.println("sdkfhasdkfhasfkhasf************* " + k);
                 var id = ID.parse(k);
 

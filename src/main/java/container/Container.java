@@ -6,6 +6,7 @@ import solver.Pair;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Container {
@@ -13,7 +14,10 @@ public class Container {
     public static ConcurrentHashMap<String, ID> lastestIdOfStream = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<String, Long> f = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<String, String> container = new ConcurrentHashMap<>();
-    public static ConcurrentHashMap<String, List<String>> streamDirector = new ConcurrentHashMap<>();
+
+    // FIX: Use CopyOnWriteArrayList for thread-safe list operations
+    public static ConcurrentHashMap<String, CopyOnWriteArrayList<String>> streamDirector = new ConcurrentHashMap<>();
+
     public static ConcurrentHashMap<String, ConcurrentHashMap<String, String>> streamContainer = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<String, Long> lifetimeContainer = new ConcurrentHashMap<>();
 
@@ -28,6 +32,16 @@ public class Container {
     public static void setLatestIdOfStream(String stream, ID newID) {
         lastestIdOfStream.put(stream, newID);
         f.put(newID.toString(), System.currentTimeMillis());
+    }
+
+    // FIX: Add thread-safe method to add stream keys
+    public static void addStreamKey(String stream, String key) {
+        streamDirector.computeIfAbsent(stream, k -> new CopyOnWriteArrayList<>()).add(key);
+    }
+
+    // FIX: Add thread-safe method to get stream keys
+    public static List<String> getStreamKeys(String stream) {
+        return streamDirector.getOrDefault(stream, new CopyOnWriteArrayList<>());
     }
 
     public static Pair<String, DataType> set(String key, String value, Long expiry) {
@@ -58,7 +72,8 @@ public class Container {
             }
             return new Pair<>(container.get(key), DataType.BULK_STRING);
         } else {
-            return new Pair<>("-1", DataType.SIMPLE_STRING );
+            // FIX: Use consistent DataType for null responses
+            return new Pair<>("-1", DataType.BULK_STRING);
         }
     }
 }
