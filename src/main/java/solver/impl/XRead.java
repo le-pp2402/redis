@@ -112,6 +112,7 @@ public class XRead implements ICommandHandler {
             List<String> res = new ArrayList<>();
 
             for (var k : Container.streamDirector.get(stream)) {             // all keys belong to stream
+                System.out.println("sdkfhasdkfhasfkhasf************* " + k);
                 var id = ID.parse(k);
 
                 if (lowest.compareTo(id) >= 0) continue;

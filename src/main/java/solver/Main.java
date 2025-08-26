@@ -73,6 +73,7 @@ public class Main {
                     var result = RESPHandler.handle(redisInputStream);
                     RESPHandler.sendCommand(outputStream, result);
                 } catch (RuntimeException e) {
+                    System.out.println(e.getMessage());
                     break;
                 }
             }
