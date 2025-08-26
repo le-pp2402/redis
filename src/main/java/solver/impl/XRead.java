@@ -34,6 +34,8 @@ public class XRead implements ICommandHandler {
                 }
 
                 fetchNext = Container.latestID.get();
+
+                System.out.println("After blocking the latest id get is : " + fetchNext.toString());
             }
 
             try {
