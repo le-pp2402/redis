@@ -12,7 +12,7 @@ public class Type implements ICommandHandler {
     public Pair<String, DataType> handle(List<String> args) {
         var db = Container.get(args.getFirst());
 
-        if (db.first.equals("-1") && db.second.equals(DataType.SIMPLE_STRING)) {
+        if (db.first.equals("-1") && db.second.equals(DataType.BULK_STRING)) {
             return new Pair<>("none", DataType.SIMPLE_STRING);
         }
 
