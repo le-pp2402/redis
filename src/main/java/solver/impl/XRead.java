@@ -14,26 +14,28 @@ public class XRead implements ICommandHandler {
     public Pair<String, DataType> handle(List<String> args) {
         int start = 1;
         ID fetchNext = null;
+        String blockStream = null;
         ID cur = Container.latestID.get();
+
+        long b = System.currentTimeMillis();
 
         if (args.get(0).equals("block")) {
             start = 3;
+
+            blockStream = args.get(3);
+            cur = Container.getLatestIdOfStream(blockStream);
 
             var sleep = Long.parseLong(args.get(1));
 
             if (sleep == 0) {
 
-                // TODO: Implement something using epoll (idk & not sure yet :() instead of using while(true)
-                // The current solution is incorrect because it only considers the latest ID across all streams;
-                // the correct implementation should handle each stream separately.
-
                 while (true) {
-                    if (cur.compareTo(Container.latestID.get()) != 0) {
+                    if (cur.compareTo(Container.getLatestIdOfStream(blockStream)) != 0) {
                         break;
                     }
                 }
 
-                fetchNext = Container.latestID.get();
+                fetchNext = Container.getLatestIdOfStream(blockStream);
 
                 System.out.println("After blocking the latest id get is : " + fetchNext.toString());
             }
@@ -44,12 +46,8 @@ public class XRead implements ICommandHandler {
                 System.err.println(e.getMessage());
             }
 
-            if (args.getLast().equals("$") && cur.compareTo(Container.latestID.get()) != 0) {
-                fetchNext = Container.latestID.get();
-            }
-
-            if (cur.compareTo(Container.latestID.get()) != 0) {
-                fetchNext = Container.latestID.get();
+            if (args.getLast().equals("$") || cur.compareTo(Container.getLatestIdOfStream(blockStream)) != 0) {
+                fetchNext = Container.getLatestIdOfStream(blockStream);
             }
         }
 
@@ -87,7 +85,9 @@ public class XRead implements ICommandHandler {
                     id = fetchNext;
                     if (fetchNext == null) break;
                 } else {
-                    if (!inRange(cur, id)) continue;
+                    if (Container.f.get(id.toString()) <= b) {
+                        continue;
+                    }
                 }
 
                 exist = true;

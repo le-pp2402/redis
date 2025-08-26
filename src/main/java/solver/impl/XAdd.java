@@ -15,31 +15,31 @@ public class XAdd implements ICommandHandler {
 
     @Override
     public Pair<String, DataType> handle(List<String> args) {
-        var key = args.get(0);
+        var stream = args.get(0);
         var value = args.get(1);
 
         /*
         When * is used for the sequence number, Redis picks the last sequence number used in the stream (for the same time part) and increments it by 1.
         The default sequence number is 0. The only exception is when the time part is also 0. In that case, the default sequence number is 1.
          */
-        var id = autoGenerateID(value);
+        var id = autoGenerateID(stream, value);
 
         assert id != null;
 
         if (id.compareTo(new ID(0, 0)) == 0) {
             return new Pair<>("ERR The ID specified in XADD must be greater than 0-0", DataType.ERROR);
         }
-        else if (id.compareTo(Container.latestID.get()) <= 0) {
+        else if (id.compareTo(Container.getLatestIdOfStream(stream)) <= 0) {
                 return new Pair<>("ERR The ID specified in XADD is equal or smaller than the target stream top item", DataType.ERROR);
         }
-        Container.latestID.set(id);
+        Container.setLatestIdOfStream(stream, id);
 
         ConcurrentHashMap<String, String> concurrentHashMap = new ConcurrentHashMap<>();
         for (int i = 2; i < args.size(); i += 2) {
             concurrentHashMap.put(args.get(i), args.get(i + 1));
         }
 
-        System.out.println(key);
+        System.out.println(stream);
 
         System.out.println("****************\n");
         for (var elem: Container.streamDirector.entrySet()) {
@@ -50,32 +50,33 @@ public class XAdd implements ICommandHandler {
         System.out.println("****************\n");
 
         // all key belongs to KEY ~~~ [blueberry]
-        if (Container.streamDirector.get(key) != null) {
-            var curKeys = Container.streamDirector.get(key);
+        if (Container.streamDirector.get(stream) != null) {
+            var curKeys = Container.streamDirector.get(stream);
             curKeys.add(id.toString());
-            Container.streamDirector.put(key, curKeys);
+            Container.streamDirector.put(stream, curKeys);
         } else {
             var keys = new ArrayList<String>();
             keys.add(id.toString());
-            Container.streamDirector.put(key, keys);
+            Container.streamDirector.put(stream, keys);
         }
 
-        Container.set(key, id.toString(), null);
+        Container.set(stream, id.toString(), null);
         Container.streamContainer.put(id.toString(), concurrentHashMap);
 
         return new Pair<>(id.toString(), DataType.BULK_STRING);
     }
 
-    public ID autoGenerateID(String id) {
+    public ID autoGenerateID(String stream, String id) {
         if (id.equals("*")) {
             var primaryPart = System.currentTimeMillis();
             var seqPart = 0;
             return new ID(primaryPart, seqPart);
         } else if (id.contains("*")) {
-            var curKey = Container.latestID.get().milliseconds;
-            if (Integer.parseInt(id.substring(0, id.indexOf('-'))) == curKey) {
+            var curKey = Container.getLatestIdOfStream(stream);
+
+            if (Integer.parseInt(id.substring(0, id.indexOf('-'))) == curKey.milliseconds) {
                 id = id.substring(0, id.length() - 1);
-                id += String.valueOf(Container.latestID.get().sequenceNumber + 1);
+                id += String.valueOf(curKey.sequenceNumber + 1);
             } else {
                 id = id.replace('*', '0');
             }

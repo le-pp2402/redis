@@ -10,10 +10,25 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class Container {
     public static AtomicReference<ID> latestID = new AtomicReference<>(new ID(0, 0));
+    public static ConcurrentHashMap<String, ID> lastestIdOfStream = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<String, Long> f = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<String, String> container = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<String, List<String>> streamDirector = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<String, ConcurrentHashMap<String, String>> streamContainer = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<String, Long> lifetimeContainer = new ConcurrentHashMap<>();
+
+    public static ID getLatestIdOfStream(String stream) {
+        if (lastestIdOfStream.containsKey(stream)) {
+            return lastestIdOfStream.get(stream);
+        } else {
+            return new ID(0, 0);
+        }
+    }
+
+    public static void setLatestIdOfStream(String stream, ID newID) {
+        lastestIdOfStream.put(stream, newID);
+        f.put(newID.toString(), System.currentTimeMillis());
+    }
 
     public static Pair<String, DataType> set(String key, String value, Long expiry) {
         if (expiry != null) {
