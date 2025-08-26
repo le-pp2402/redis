@@ -18,8 +18,15 @@ public class XRead implements ICommandHandler {
     private Pair<String, DataType> blockingUsage(List<String> args) {
         long waitTime = Long.parseLong(args.get(1));
         String stream = args.get(3);
+        String lastArg = args.getLast();
 
-        ID lowest = Container.getLatestIdOfStream(stream);
+        // For $, we want entries added AFTER this point
+        ID lowest;
+        if (lastArg.equals("$")) {
+            lowest = Container.getLatestIdOfStream(stream);
+        } else {
+            lowest = ID.parse(lastArg);
+        }
 
         if (waitTime > 0) {
             try {
@@ -28,15 +35,17 @@ public class XRead implements ICommandHandler {
                 throw new RuntimeException(e);
             }
         } else {
+            // Block indefinitely until new entries arrive
             while (true) {
-                if (lowest.compareTo(Container.getLatestIdOfStream(stream)) != 0) {
+                if (lowest.compareTo(Container.getLatestIdOfStream(stream)) < 0) {
                     break;
                 }
+                try {
+                    Thread.sleep(10); // Small sleep to prevent busy waiting
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        }
-
-        if (!args.getLast().equals("$") && ID.parse(args.getLast()).compareTo(lowest) > 0) {
-            lowest =  ID.parse(args.getLast());
         }
 
         boolean hasResult = false;
@@ -47,11 +56,14 @@ public class XRead implements ICommandHandler {
 
         for (var key : streamKeys) {
             System.out.println("************* " + key);
-            if (lowest.compareTo(ID.parse(key)) >= 0) continue;
+            ID keyId = ID.parse(key);
+            if (lowest.compareTo(keyId) >= 0) continue;
             hasResult = true;
             System.out.println(key);
 
             var props = Container.streamContainer.get(key);      // props
+            if (props == null) continue; // Skip if properties don't exist
+
             var allProps = new ArrayList<String>();
             for (var elem : props.entrySet()) {
                 allProps.add(elem.getKey());
@@ -59,15 +71,10 @@ public class XRead implements ICommandHandler {
             }
 
             StringBuilder sb = new StringBuilder();
-            sb.append((char) DataType.ARRAYS.getSymbol());
-            sb.append(2);
-            sb.append("\r\n");
-            sb.append((char) DataType.BULK_STRING.getSymbol());
-            sb.append(key.length());
-            sb.append("\r\n");
-            sb.append(key);
-            sb.append("\r\n");
-            sb.append(toRESP(allProps));
+            sb.append("*2\r\n"); // Array with 2 elements (ID + fields)
+            sb.append("$").append(key.length()).append("\r\n"); // Entry ID as bulk string
+            sb.append(key).append("\r\n");
+            sb.append(toRESP(allProps)); // Fields as array
             res.add(sb.toString());
         }
 
@@ -75,15 +82,19 @@ public class XRead implements ICommandHandler {
             return new Pair<>("-1", DataType.BULK_STRING);
         }
 
-        if (args.getLast().equals("$")) {
-            res = res.subList(res.size() - 1, res.size());
+        // For $, we should only return the latest entries, not filter by subList
+        if (lastArg.equals("$") && !res.isEmpty()) {
+            // Return all new entries that were added after the initial snapshot
+            // Don't limit to just the last one
         }
 
+        // Build the final response in correct RESP format
         var sb = new StringBuilder();
-
-        sb.append((char) DataType.ARRAYS.getSymbol());
-        sb.append(res.size());
-        sb.append("\r\n");
+        sb.append("*1\r\n"); // Array with 1 element (the stream result)
+        sb.append("*2\r\n"); // Array with 2 elements (stream name + entries)
+        sb.append("$").append(stream.length()).append("\r\n"); // Stream name as bulk string
+        sb.append(stream).append("\r\n");
+        sb.append("*").append(res.size()).append("\r\n"); // Array of entries
         for (var elem : res) {
             sb.append(elem);
         }
@@ -182,15 +193,10 @@ public class XRead implements ICommandHandler {
 
     public String toRESP(List<String> args) {
         StringBuilder sb = new StringBuilder();
-        sb.append((char) DataType.ARRAYS.getSymbol());
-        sb.append(args.size());
-        sb.append("\r\n");
+        sb.append("*").append(args.size()).append("\r\n");
         for (var e: args) {
-            sb.append((char) DataType.BULK_STRING.getSymbol());
-            sb.append(e.length());
-            sb.append("\r\n");
-            sb.append(e);
-            sb.append("\r\n");
+            sb.append("$").append(e.length()).append("\r\n");
+            sb.append(e).append("\r\n");
         }
         return sb.toString();
     }
