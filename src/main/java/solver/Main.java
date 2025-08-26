@@ -74,6 +74,8 @@ public class Main {
                     RESPHandler.sendCommand(outputStream, result);
                 } catch (RuntimeException e) {
                     System.out.println(e.getMessage());
+                    e.printStackTrace();
+                    System.out.println(e.getMessage());
                     break;
                 }
             }
