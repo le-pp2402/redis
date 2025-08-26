@@ -12,7 +12,7 @@ import java.util.List;
 public class XRead implements ICommandHandler {
     @Override
     public Pair<String, DataType> handle(List<String> args) {
-        return args.getFirst().equalsIgnoreCase("block") ? nonBlockingUsage(args) : blockingUsage(args);
+        return !args.getFirst().equalsIgnoreCase("block") ? nonBlockingUsage(args) : blockingUsage(args);
     }
 
     private Pair<String, DataType> blockingUsage(List<String> args) {
