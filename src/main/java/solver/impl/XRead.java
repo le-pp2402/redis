@@ -6,93 +6,119 @@ import container.Container;
 import solver.ICommandHandler;
 import solver.Pair;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
 public class XRead implements ICommandHandler {
     @Override
     public Pair<String, DataType> handle(List<String> args) {
-        int start = 1;
-        ID fetchNext = null;
-        String blockStream = null;
-        ID cur = Container.latestID.get();
+        return args.getFirst().equalsIgnoreCase("block") ? nonBlockingUsage(args) : blockingUsage(args);
+    }
 
-        long b = System.currentTimeMillis();
+    private Pair<String, DataType> blockingUsage(List<String> args) {
+        long waitTime = Long.parseLong(args.get(1));
+        String stream = args.get(3);
 
-        if (args.get(0).equals("block")) {
-            start = 3;
+        ID lowest = Container.getLatestIdOfStream(stream);
 
-            blockStream = args.get(3);
-            cur = Container.getLatestIdOfStream(blockStream);
-
-            var sleep = Long.parseLong(args.get(1));
-
-            if (sleep == 0) {
-
-                while (true) {
-                    if (cur.compareTo(Container.getLatestIdOfStream(blockStream)) != 0) {
-                        break;
-                    }
-                }
-
-                fetchNext = Container.getLatestIdOfStream(blockStream);
-
-                System.out.println("After blocking the latest id get is : " + fetchNext.toString());
-            }
-
+        if (waitTime > 0) {
             try {
-                Thread.sleep(Math.max(0, sleep));
+                Thread.sleep(waitTime);
             } catch (InterruptedException e) {
-                System.err.println(e.getMessage());
+                throw new RuntimeException(e);
             }
-
-            if (args.getLast().equals("$") || cur.compareTo(Container.getLatestIdOfStream(blockStream)) != 0) {
-                fetchNext = Container.getLatestIdOfStream(blockStream);
+        } else {
+            while (true) {
+                if (lowest.compareTo(Container.getLatestIdOfStream(stream)) != 0) {
+                    break;
+                }
             }
         }
 
-        boolean useFetchNext = false;
+        if (!args.getLast().equals("$") && ID.parse(args.getLast()).compareTo(lowest) > 0) {
+            lowest =  ID.parse(args.getLast());
+        }
+
+        boolean hasResult = false;
+        List<String> res = new ArrayList<>();
+
+        for (var key : Container.streamDirector.get(stream)) {
+            if (lowest.compareTo(ID.parse(key)) >= 0) continue;
+            hasResult = true;
+            System.out.println(key);
+
+            var props = Container.streamContainer.get(key);      // props
+            var allProps = new ArrayList<String>();
+            for (var elem : props.entrySet()) {
+                allProps.add(elem.getKey());
+                allProps.add(elem.getValue());
+            }
+
+            StringBuilder sb = new StringBuilder();
+            sb.append((char) DataType.ARRAYS.getSymbol());
+            sb.append(2);
+            sb.append("\r\n");
+            sb.append((char) DataType.BULK_STRING.getSymbol());
+            sb.append(key.length());
+            sb.append("\r\n");
+            sb.append(key);
+            sb.append("\r\n");
+            sb.append(toRESP(allProps));
+            res.add(sb.toString());
+        }
+
+        if (!hasResult) {
+            return new Pair<>("-1", DataType.BULK_STRING);
+        }
 
         if (args.getLast().equals("$")) {
-            args.removeLast();
-            useFetchNext = true;
+            res = res.subList(res.size() - 1, res.size());
         }
 
-        int shift = (args.size() - start) / 2;
-        List<Pair<String, ID>> keys = new ArrayList<>();
+        var sb = new StringBuilder();
 
-        for (int i = start; i + shift < args.size(); i++) {
-            keys.add(
+        sb.append((char) DataType.ARRAYS.getSymbol());
+        sb.append(res.size());
+        sb.append("\r\n");
+        for (var elem : res) {
+            sb.append(elem);
+        }
+
+        return new Pair<>(sb.toString(), DataType.ARRAYS);
+    }
+
+    private Pair<String, DataType> nonBlockingUsage (List < String > args) {
+        var streams = new ArrayList<Pair<String, ID>>(); // stream and lowest id
+
+        int shift = (args.size() - 1) / 2;
+
+        for (int i = 1; i + shift < args.size(); i++) {
+            streams.add(
                     new Pair<>(
                             args.get(i),
-                            (!useFetchNext ? ID.parse(args.get(i + shift)) : fetchNext)
+                            ID.parse(args.get(i + shift))
                     )
             );
         }
 
         List<String> eachStreams = new ArrayList<>();
+        boolean hasResult = false;
 
-        boolean exist = false;
-
-        for (Pair<String, ID> key : keys) {                                     // [stream_name] - [lowest_id]
+        for (Pair<String, ID> key : streams) {
+            var stream = key.first;
+            var lowest = key.second;
 
             List<String> res = new ArrayList<>();
 
-            for (var k : Container.streamDirector.get(key.first)) {             // all keys belong to [stream_name]
+            for (var k : Container.streamDirector.get(stream)) {             // all keys belong to stream
                 var id = ID.parse(k);
 
-                if (useFetchNext) {
-                    id = fetchNext;
-                    if (fetchNext == null) break;
-                } else {
-                    if (Container.f.get(id.toString()) <= b) {
-                        continue;
-                    }
-                }
+                if (lowest.compareTo(id) >= 0) continue;
 
-                exist = true;
+                hasResult = true;
 
-                var props = Container.streamContainer.get(id.toString());      // [key - 1], [key - 2]
+                var props = Container.streamContainer.get(id.toString());      // props
                 var allProps = new ArrayList<String>();
                 for (var elem : props.entrySet()) {
                     allProps.add(elem.getKey());
@@ -110,8 +136,6 @@ public class XRead implements ICommandHandler {
                 sb.append("\r\n");
                 sb.append(toRESP(allProps));
                 res.add(sb.toString());
-
-                if (useFetchNext) break;
             }
 
             StringBuilder sb = new StringBuilder();
@@ -131,11 +155,9 @@ public class XRead implements ICommandHandler {
                     .append(sb);
 
             eachStreams.add(sb.toString());
-
-            if (useFetchNext) break;
         }
 
-        if (!exist) {
+        if (!hasResult) {
             return new Pair<>("-1", DataType.BULK_STRING);
         }
 
@@ -149,10 +171,6 @@ public class XRead implements ICommandHandler {
         }
 
         return new Pair<>(sb.toString(), DataType.ARRAYS);
-    }
-
-    public boolean inRange(ID left, ID value) {
-        return  left.compareTo(value) < 0;
     }
 
     public String toRESP(List<String> args) {

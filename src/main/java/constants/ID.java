@@ -17,8 +17,8 @@ public class ID implements Comparable<ID> {
             return new ID(Long.parseLong(parts[0]), Integer.parseInt(parts[1]));
         } catch (NumberFormatException e) {
             System.err.println("ID: \"" + id + "\" is not a valid ID");
+            throw e;
         }
-        return null;
     }
 
     public String toString() {
