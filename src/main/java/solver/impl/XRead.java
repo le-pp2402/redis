@@ -21,7 +21,7 @@ public class XRead implements ICommandHandler {
 
             var sleep = Long.parseLong(args.get(1));
 
-            if (sleep == 0 && args.getLast().equals("$")) {
+            if (sleep == 0) {
 
                 // TODO: Implement something using epoll (idk & not sure yet :() instead of using while(true)
                 // The current solution is incorrect because it only considers the latest ID across all streams;
