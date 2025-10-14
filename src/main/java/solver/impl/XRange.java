@@ -13,11 +13,11 @@ public class XRange implements ICommandHandler {
     public Pair<String, DataType> handle(List<String> args) {
         List<String> res = new ArrayList<>();
 
-        System.out.println("********************");;
-        for (var x: Container.streamContainer.entrySet()) {
+        System.out.println("********************");
+        for (var x : Container.streamContainer.entrySet()) {
             System.out.println(x.getKey());
         }
-        System.out.println("********************");;
+        System.out.println("********************");
 
         if (args.get(1).equals("-")) {
             args.set(1, "0-0");
@@ -28,13 +28,14 @@ public class XRange implements ICommandHandler {
             args.set(2, Long.toString(cur + 10) + "-0");
         }
 
-        for (var e: Container.streamContainer.entrySet()) {
+        for (var e : Container.streamContainer.entrySet()) {
             ID id = ID.parse(e.getKey());
             ID left = ID.parse(args.get(1));
             ID right = ID.parse(args.get(2));
 
             assert left != null && right != null && id != null;
-            if (!inRange(left, right, id)) continue;
+            if (!inRange(left, right, id))
+                continue;
 
             var props = Container.streamContainer.get(id.toString());
             var allProps = new ArrayList<String>();
@@ -73,7 +74,7 @@ public class XRange implements ICommandHandler {
     }
 
     public boolean inRange(ID left, ID right, ID value) {
-        return  (left.compareTo(value) <= 0 && right.compareTo(value) >= 0);
+        return (left.compareTo(value) <= 0 && right.compareTo(value) >= 0);
     }
 
     public String toRESP(List<String> args) {
@@ -81,7 +82,7 @@ public class XRange implements ICommandHandler {
         sb.append((char) DataType.ARRAYS.getSymbol());
         sb.append(args.size());
         sb.append("\r\n");
-        for (var e: args) {
+        for (var e : args) {
             sb.append((char) DataType.BULK_STRING.getSymbol());
             sb.append(e.length());
             sb.append("\r\n");

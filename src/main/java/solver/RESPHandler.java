@@ -31,7 +31,8 @@ public class RESPHandler {
                 sb.append((char) result.second.getSymbol());
 
                 if (result.second != DataType.SIMPLE_STRING)
-                    if (!(result.second == DataType.BULK_STRING && result.first.equals("-1")) && result.second != DataType.ERROR) {
+                    if (!(result.second == DataType.BULK_STRING && result.first.equals("-1"))
+                            && result.second != DataType.ERROR) {
                         sb.append(result.first.length());
                         sb.append("\r\n");
                     }
@@ -78,13 +79,13 @@ public class RESPHandler {
         }
 
         System.out.println("This is the elems in the array [");
-        for (var elem: args) {
+        for (var elem : args) {
             System.out.println(elem);
         }
         System.out.println("]");
 
         if (!args.isEmpty()) {
-            var cmd = Command.getCommand(args.getFirst());
+            var cmd = Command.getCommand(args.get(0));
 
             if (Main.commandHandlers.containsKey(cmd)) {
                 return Main.commandHandlers.get(cmd).handle(args.subList(1, args.size()));
@@ -92,11 +93,11 @@ public class RESPHandler {
             throw new UnsupportedOperationException("This operation is not yet implemented.");
         }
 
-        throw  new UnsupportedOperationException("This operation is not yet implemented.");
+        throw new UnsupportedOperationException("This operation is not yet implemented.");
     }
 
     public static Pair<String, DataType> handle(RedisInputStream in, byte fb) {
-        String req = (char)fb + in.readLine();
+        String req = (char) fb + in.readLine();
 
         Command cmd = Command.getCommand(req.substring(0, req.indexOf(' ')));
 

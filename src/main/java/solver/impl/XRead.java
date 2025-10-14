@@ -10,15 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class XRead implements ICommandHandler {
+
     @Override
     public Pair<String, DataType> handle(List<String> args) {
-        return !args.getFirst().equalsIgnoreCase("block") ? nonBlockingUsage(args) : blockingUsage(args);
+        return !args.get(0).equalsIgnoreCase("block") ? nonBlockingUsage(args) : blockingUsage(args);
     }
 
     private Pair<String, DataType> blockingUsage(List<String> args) {
         long waitTime = Long.parseLong(args.get(1));
         String stream = args.get(3);
-        String lastArg = args.getLast();
+        String lastArg = args.get(args.size() - 1);
 
         // For $, we want entries added AFTER this point
         ID lowest;
@@ -57,12 +58,14 @@ public class XRead implements ICommandHandler {
         for (var key : streamKeys) {
             System.out.println("************* " + key);
             ID keyId = ID.parse(key);
-            if (lowest.compareTo(keyId) >= 0) continue;
+            if (lowest.compareTo(keyId) >= 0)
+                continue;
             hasResult = true;
             System.out.println(key);
 
-            var props = Container.streamContainer.get(key);      // props
-            if (props == null) continue; // Skip if properties don't exist
+            var props = Container.streamContainer.get(key); // props
+            if (props == null)
+                continue; // Skip if properties don't exist
 
             var allProps = new ArrayList<String>();
             for (var elem : props.entrySet()) {
@@ -102,7 +105,7 @@ public class XRead implements ICommandHandler {
         return new Pair<>(sb.toString(), DataType.ARRAYS);
     }
 
-    private Pair<String, DataType> nonBlockingUsage (List < String > args) {
+    private Pair<String, DataType> nonBlockingUsage(List<String> args) {
         var streams = new ArrayList<Pair<String, ID>>(); // stream and lowest id
 
         int shift = (args.size() - 1) / 2;
@@ -111,9 +114,7 @@ public class XRead implements ICommandHandler {
             streams.add(
                     new Pair<>(
                             args.get(i),
-                            ID.parse(args.get(i + shift))
-                    )
-            );
+                            ID.parse(args.get(i + shift))));
         }
 
         List<String> eachStreams = new ArrayList<>();
@@ -128,15 +129,16 @@ public class XRead implements ICommandHandler {
             // FIX: Use the new thread-safe method
             List<String> streamKeys = Container.getStreamKeys(stream);
 
-            for (var k : streamKeys) {             // all keys belong to stream
+            for (var k : streamKeys) { // all keys belong to stream
                 System.out.println("sdkfhasdkfhasfkhasf************* " + k);
                 var id = ID.parse(k);
 
-                if (lowest.compareTo(id) >= 0) continue;
+                if (lowest.compareTo(id) >= 0)
+                    continue;
 
                 hasResult = true;
 
-                var props = Container.streamContainer.get(id.toString());      // props
+                var props = Container.streamContainer.get(id.toString()); // props
                 var allProps = new ArrayList<String>();
                 for (var elem : props.entrySet()) {
                     allProps.add(elem.getKey());
@@ -194,7 +196,7 @@ public class XRead implements ICommandHandler {
     public String toRESP(List<String> args) {
         StringBuilder sb = new StringBuilder();
         sb.append("*").append(args.size()).append("\r\n");
-        for (var e: args) {
+        for (var e : args) {
             sb.append("$").append(e.length()).append("\r\n");
             sb.append(e).append("\r\n");
         }

@@ -15,12 +15,13 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
-        // You can use print statements as follows for debugging, they'll be visible when running tests.
+        // You can use print statements as follows for debugging, they'll be visible
+        // when running tests.
         System.out.println("Loading commands handler");
         loadCommandHandlers();
         System.out.println("Logs from your program will appear here!");
 
-        //  Uncomment this block to pass the first stage
+        // Uncomment this block to pass the first stage
         ServerSocket serverSocket;
         int port = 6379;
         try {
@@ -31,13 +32,11 @@ public class Main {
             // Wait for connection from client.
 
             ExecutorService threadPool = new ThreadPoolExecutor(
-                    4,                // corePoolSize
-                    50,               // maximumPoolSize
-                    60L,              // keepAliveTime
+                    4, // corePoolSize
+                    50, // maximumPoolSize
+                    60L, // keepAliveTime
                     TimeUnit.SECONDS,
-                    new SynchronousQueue<>()
-            );
-
+                    new SynchronousQueue<>());
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
@@ -62,7 +61,7 @@ public class Main {
         commandHandlers.put(Command.XREAD, new XRead());
     }
 
-    private static void handleClient(Socket clientSocket)  {
+    private static void handleClient(Socket clientSocket) {
         try (Socket socket = clientSocket) {
             var inputStream = socket.getInputStream();
             var outputStream = socket.getOutputStream();

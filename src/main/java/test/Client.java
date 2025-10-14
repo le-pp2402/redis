@@ -1,4 +1,4 @@
-package solver;
+package test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,7 +8,7 @@ import java.net.Socket;
 
 public class Client {
     public static void main(String[] args) throws IOException {
-        // First client connects to Redis
+
         Socket clientSocket = new Socket("127.0.0.1", 6379);
         OutputStream outputStream = clientSocket.getOutputStream();
 
@@ -32,7 +32,7 @@ public class Client {
             e.printStackTrace();
         }
 
-//        // Second client connects to the SAME Redis port (fix here)
+        // // Second client connects to the SAME Redis port (fix here)
         Socket clientSocket1 = new Socket("127.0.0.1", 6379);
         clientSocket1.getOutputStream().write(data[2].getBytes());
 

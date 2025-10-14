@@ -10,7 +10,7 @@ import java.util.List;
 public class Type implements ICommandHandler {
     @Override
     public Pair<String, DataType> handle(List<String> args) {
-        var db = Container.get(args.getFirst());
+        var db = Container.get(args.get(0));
 
         if (db.first.equals("-1") && db.second.equals(DataType.BULK_STRING)) {
             return new Pair<>("none", DataType.SIMPLE_STRING);
