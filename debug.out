@@ -1,0 +1,145 @@
+Initiating test run...
+
+[33m⏳ Turbo test runners busy. You are in queue.[0m
+[33m[0m
+[33mUpgrade to skip the wait: https://codecrafters.io/turbo[0m
+
+Running tests. Logs should appear shortly...
+
+Detected changes to pom.xml. Re-building... (this might take a while)
+
+[33m[build][0m [34mStarting build...[0m
+[33m[build][0m [34mIf you don't see logs for 60s+, please contact us at hello@codecrafters.io[0m
+[33m[build][0m Step 1 complete.
+[33m[build][0m Step 2 complete.
+[33m[build][0m Step 3 complete.
+[33m[build][0m Step 4 complete.
+[33m[build][0m Step 5 complete.
+[33m[build][0m Step 6 complete.
+[33m[build][0m Step 7 complete.
+[33m[build][0m Step 8 complete.
+[33m[build][0m Step 9 complete.
+[33m[build][0m Step 10 complete.
+[33m[build][0m Step 11 complete.
+[33m[build][0m Step 12 complete.
+[33m[build][0m Step 13 complete.
+[33m[build][0m Step 14 complete.
+[33m[build][0m > WARNING: A restricted method in java.lang.System has been called
+[33m[build][0m > WARNING: java.lang.System::load has been called by org.fusesource.jansi.internal.JansiLoader in an unnamed module (file:/usr/share/maven/lib/jansi-2.4.1.jar)
+[33m[build][0m > WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+[33m[build][0m > WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+[33m[build][0m > 
+[33m[build][0m > WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+[33m[build][0m > WARNING: sun.misc.Unsafe::objectFieldOffset has been called by com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper (file:/usr/share/maven/lib/guava-33.2.1-jre.jar)
+[33m[build][0m > WARNING: Please consider reporting this to the maintainers of class com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper
+[33m[build][0m > WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+[33m[build][0m > [ERROR] COMPILATION ERROR : 
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[14,30] '.class' expected
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[14,37] illegal start of expression
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[15,17] not a statement
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[15,105] ';' expected
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[18,11] illegal start of expression
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[9,9] 'try' without 'catch', 'finally' or resource declarations
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[20,11] illegal start of type
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[20,29] ';' expected
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[24,1] class, interface, enum, or record expected
+[33m[build][0m > [ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile) on project codecrafters-redis: Compilation failure: Compilation failure: 
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[14,30] '.class' expected
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[14,37] illegal start of expression
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[15,17] not a statement
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[15,105] ';' expected
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[18,11] illegal start of expression
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[9,9] 'try' without 'catch', 'finally' or resource declarations
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[20,11] illegal start of type
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[20,29] ';' expected
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[24,1] class, interface, enum, or record expected
+[33m[build][0m > [ERROR] -> [Help 1]
+[33m[build][0m > [ERROR] 
+[33m[build][0m > [ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[33m[build][0m > [ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[33m[build][0m > [ERROR] 
+[33m[build][0m > [ERROR] For more information about the errors and possible solutions, please read the following articles:
+[33m[build][0m > [ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[33m[build][0m Error: process "/bin/sh -c .codecrafters/compile.sh" did not complete successfully: exit code: 1.
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[20,11] illegal start of type
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[20,29] ';' expected
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[24,1] class, interface, enum, or record expected
+[33m[build][0m > [ERROR] -> [Help 1]
+[33m[build][0m > [ERROR] 
+[33m[build][0m > [ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[33m[build][0m > [ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[33m[build][0m > [ERROR] 
+[33m[build][0m > [ERROR] For more information about the errors and possible solutions, please read the following articles:
+[33m[build][0m > [ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[33m[build][0m [31mBuild failed. Check the logs above for the reason.[0m
+[33m[build][0m [31mIf you think this is a CodeCrafters error, please contact us at hello@codecrafters.io.[0m
+
+[31m[33m[build][0m [34mStarting build...[0m
+[33m[build][0m [34mIf you don't see logs for 60s+, please contact us at hello@codecrafters.io[0m
+[33m[build][0m Step 1 complete.
+[33m[build][0m Step 2 complete.
+[33m[build][0m Step 3 complete.
+[33m[build][0m Step 4 complete.
+[33m[build][0m Step 5 complete.
+[33m[build][0m Step 6 complete.
+[33m[build][0m Step 7 complete.
+[33m[build][0m Step 8 complete.
+[33m[build][0m Step 9 complete.
+[33m[build][0m Step 10 complete.
+[33m[build][0m Step 11 complete.
+[33m[build][0m Step 12 complete.
+[33m[build][0m Step 13 complete.
+[33m[build][0m Step 14 complete.
+[33m[build][0m > WARNING: A restricted method in java.lang.System has been called
+[33m[build][0m > WARNING: java.lang.System::load has been called by org.fusesource.jansi.internal.JansiLoader in an unnamed module (file:/usr/share/maven/lib/jansi-2.4.1.jar)
+[33m[build][0m > WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+[33m[build][0m > WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+[33m[build][0m > 
+[33m[build][0m > WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+[33m[build][0m > WARNING: sun.misc.Unsafe::objectFieldOffset has been called by com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper (file:/usr/share/maven/lib/guava-33.2.1-jre.jar)
+[33m[build][0m > WARNING: Please consider reporting this to the maintainers of class com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper
+[33m[build][0m > WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+[33m[build][0m > [ERROR] COMPILATION ERROR : 
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[14,30] '.class' expected
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[14,37] illegal start of expression
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[15,17] not a statement
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[15,105] ';' expected
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[18,11] illegal start of expression
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[9,9] 'try' without 'catch', 'finally' or resource declarations
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[20,11] illegal start of type
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[20,29] ';' expected
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[24,1] class, interface, enum, or record expected
+[33m[build][0m > [ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile) on project codecrafters-redis: Compilation failure: Compilation failure: 
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[14,30] '.class' expected
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[14,37] illegal start of expression
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[15,17] not a statement
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[15,105] ';' expected
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[18,11] illegal start of expression
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[9,9] 'try' without 'catch', 'finally' or resource declarations
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[20,11] illegal start of type
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[20,29] ';' expected
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[24,1] class, interface, enum, or record expected
+[33m[build][0m > [ERROR] -> [Help 1]
+[33m[build][0m > [ERROR] 
+[33m[build][0m > [ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[33m[build][0m > [ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[33m[build][0m > [ERROR] 
+[33m[build][0m > [ERROR] For more information about the errors and possible solutions, please read the following articles:
+[33m[build][0m > [ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[33m[build][0m Error: process "/bin/sh -c .codecrafters/compile.sh" did not complete successfully: exit code: 1.
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[20,11] illegal start of type
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[20,29] ';' expected
+[33m[build][0m > [ERROR] /app/src/main/java/test/stream/TypeCommand.java:[24,1] class, interface, enum, or record expected
+[33m[build][0m > [ERROR] -> [Help 1]
+[33m[build][0m > [ERROR] 
+[33m[build][0m > [ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[33m[build][0m > [ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[33m[build][0m > [ERROR] 
+[33m[build][0m > [ERROR] For more information about the errors and possible solutions, please read the following articles:
+[33m[build][0m > [ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[33m[build][0m [31mBuild failed. Check the logs above for the reason.[0m
+[33m[build][0m [31mIf you think this is a CodeCrafters error, please contact us at hello@codecrafters.io.[0m
+
+[0m
+
+View our article on debugging test failures: https://codecrafters.io/debug
