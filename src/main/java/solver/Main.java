@@ -13,12 +13,16 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.log4j.BasicConfigurator;
+
 public class Main {
     public static void main(String[] args) {
-        // You can use print statements as follows for debugging, they'll be visible
-        // when running tests.
+        // Loading logger configurator;
+        BasicConfigurator.configure();
+
         System.out.println("Loading commands handler");
         loadCommandHandlers();
+
         System.out.println("Logs from your program will appear here!");
 
         // Uncomment this block to pass the first stage

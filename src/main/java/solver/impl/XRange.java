@@ -29,7 +29,7 @@ public class XRange implements ICommandHandler {
         }
 
         for (var e : Container.streamContainer.entrySet()) {
-            ID id = ID.parse(e.getKey());
+            ID id = e.getKey();
             ID left = ID.parse(args.get(1));
             ID right = ID.parse(args.get(2));
 
@@ -53,7 +53,7 @@ public class XRange implements ICommandHandler {
             sb.append(2);
             sb.append("\r\n");
             sb.append((char) DataType.BULK_STRING.getSymbol());
-            sb.append(e.getKey().length());
+            sb.append(e.getKey().toString().length());
             sb.append("\r\n");
             sb.append(e.getKey());
             sb.append("\r\n");

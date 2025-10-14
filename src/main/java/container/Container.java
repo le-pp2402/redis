@@ -12,13 +12,15 @@ import java.util.concurrent.atomic.AtomicReference;
 public class Container {
     public static AtomicReference<ID> latestID = new AtomicReference<>(new ID(0, 0));
     public static ConcurrentHashMap<String, ID> lastestIdOfStream = new ConcurrentHashMap<>();
-    public static ConcurrentHashMap<String, Long> f = new ConcurrentHashMap<>();
+
     public static ConcurrentHashMap<String, String> container = new ConcurrentHashMap<>();
 
-    // FIX: Use CopyOnWriteArrayList for thread-safe list operations
-    public static ConcurrentHashMap<String, CopyOnWriteArrayList<String>> streamDirector = new ConcurrentHashMap<>();
+    // name of stream -> key of object
+    public static ConcurrentHashMap<String, CopyOnWriteArrayList<ID>> streamDirector = new ConcurrentHashMap<>();
 
-    public static ConcurrentHashMap<String, ConcurrentHashMap<String, String>> streamContainer = new ConcurrentHashMap<>();
+    // key of object -> object
+    public static ConcurrentHashMap<ID, ConcurrentHashMap<String, String>> streamContainer = new ConcurrentHashMap<>();
+
     public static ConcurrentHashMap<String, Long> lifetimeContainer = new ConcurrentHashMap<>();
 
     public static ID getLatestIdOfStream(String stream) {
@@ -31,16 +33,13 @@ public class Container {
 
     public static void setLatestIdOfStream(String stream, ID newID) {
         lastestIdOfStream.put(stream, newID);
-        f.put(newID.toString(), System.currentTimeMillis());
     }
 
-    // FIX: Add thread-safe method to add stream keys
-    public static void addStreamKey(String stream, String key) {
+    public static void addStreamKey(String stream, ID key) {
         streamDirector.computeIfAbsent(stream, k -> new CopyOnWriteArrayList<>()).add(key);
     }
 
-    // FIX: Add thread-safe method to get stream keys
-    public static List<String> getStreamKeys(String stream) {
+    public static List<ID> getStreamKeys(String stream) {
         return streamDirector.getOrDefault(stream, new CopyOnWriteArrayList<>());
     }
 
@@ -67,12 +66,11 @@ public class Container {
 
         if (container.containsKey(key)) {
             var value = container.get(key);
-            if (streamContainer.containsKey(value)) {
+            if (streamContainer.containsKey(ID.parse(value))) {
                 return new Pair<>("stream", DataType.STREAM);
             }
             return new Pair<>(container.get(key), DataType.BULK_STRING);
         } else {
-            // FIX: Use consistent DataType for null responses
             return new Pair<>("-1", DataType.BULK_STRING);
         }
     }

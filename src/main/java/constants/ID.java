@@ -4,7 +4,8 @@ public class ID implements Comparable<ID> {
     public long milliseconds;
     public int sequenceNumber;
 
-    public ID() {}
+    public ID() {
+    }
 
     public ID(long milliseconds, int sequenceNumber) {
         this.milliseconds = milliseconds;
