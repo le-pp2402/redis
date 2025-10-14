@@ -4,19 +4,24 @@ import constants.DataType;
 import constants.ID;
 import solver.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.apache.log4j.Logger;
+
 public class Container {
+    private static final Logger logger = Logger.getLogger(Container.class.getName());
+
     public static AtomicReference<ID> latestID = new AtomicReference<>(new ID(0, 0));
     public static ConcurrentHashMap<String, ID> lastestIdOfStream = new ConcurrentHashMap<>();
 
     public static ConcurrentHashMap<String, String> container = new ConcurrentHashMap<>();
 
     // name of stream -> key of object
-    public static ConcurrentHashMap<String, CopyOnWriteArrayList<ID>> streamDirector = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<String, List<ID>> streamDirector = new ConcurrentHashMap<>();
 
     // key of object -> object
     public static ConcurrentHashMap<ID, ConcurrentHashMap<String, String>> streamContainer = new ConcurrentHashMap<>();
@@ -36,7 +41,8 @@ public class Container {
     }
 
     public static void addStreamKey(String stream, ID key) {
-        streamDirector.computeIfAbsent(stream, k -> new CopyOnWriteArrayList<>()).add(key);
+        logger.info("Adding " + key + " to stream " + stream);
+        streamDirector.computeIfAbsent(stream, _ -> new ArrayList<>()).add(key);
     }
 
     public static List<ID> getStreamKeys(String stream) {
