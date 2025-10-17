@@ -18,7 +18,7 @@ public class XReadCommand {
         };
 
         try {
-            BaseTest.forDebug(java.util.List.of(input));
+            // BaseTest.forDebug(java.util.List.of(input));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -35,7 +35,7 @@ public class XRangeCommand {
         };
 
         try {
-            BaseTest.forDebug(List.of(input));
+            // BaseTest.forDebug(List.of(input));
         } catch (Exception e) {
             e.printStackTrace();
         }
