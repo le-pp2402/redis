@@ -71,8 +71,7 @@ public class Container {
         }
 
         if (container.containsKey(key)) {
-            var value = container.get(key);
-            if (streamDirector.containsKey(value)) {
+            if (streamDirector.containsKey(key)) {
                 return new Pair<>("stream", DataType.STREAM);
             }
             return new Pair<>(container.get(key), DataType.BULK_STRING);

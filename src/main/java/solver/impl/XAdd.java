@@ -52,6 +52,10 @@ public class XAdd implements ICommandHandler {
 
         logger.info("\nAdding to stream " + stream);
 
+        Container.addStreamKey(stream, id);
+        Container.set(stream, id.toString(), null);
+        Container.streamContainer.put(id, concurrentHashMap);
+
         System.out.println("****************\n");
         for (var elem : Container.streamDirector.entrySet()) {
             System.out.println(elem.getKey());
@@ -59,10 +63,6 @@ public class XAdd implements ICommandHandler {
             System.out.println("--");
         }
         System.out.println("****************\n");
-
-        Container.addStreamKey(stream, id);
-        Container.set(stream, id.toString(), null);
-        Container.streamContainer.put(id, concurrentHashMap);
 
         return new Pair<>(id.toString(), DataType.BULK_STRING);
     }

@@ -1,12 +1,8 @@
 package solver;
 
-import constants.Argument;
 import constants.DataType;
-import container.Container;
 import utils.RedisInputStream;
 import constants.Command;
-
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -72,7 +68,7 @@ public class RESPHandler {
         int len = Integer.parseInt(in.readLine());
         List<String> args = new ArrayList<>(len);
         for (int i = 0; i < len; i++) {
-            byte f = in.readByte();
+            byte _ = in.readByte();
             int elemLen = Integer.parseInt(in.readLine());
             args.add(in.readBytes(elemLen));
             in.ensureCrLf();

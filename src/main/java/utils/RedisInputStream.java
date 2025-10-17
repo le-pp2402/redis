@@ -15,7 +15,7 @@ public class RedisInputStream extends FilterInputStream {
         this.id = 0;
         this.limit = 0;
     }
-
+    
     private void fill() {
         if (id >= limit) {
             try {
@@ -42,11 +42,11 @@ public class RedisInputStream extends FilterInputStream {
     }
 
     public byte readByte() throws RuntimeException {
-        fill();  // Đảm bảo buffer được fill trước khi đọc
+        fill(); // Đảm bảo buffer được fill trước khi đọc
         return buf[id++];
     }
 
-    public String readBytes(int len)  throws RuntimeException {
+    public String readBytes(int len) throws RuntimeException {
         StringBuilder sb = new StringBuilder(len);
         while (len > 0) {
             fill();

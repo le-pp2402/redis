@@ -27,9 +27,9 @@ public class XRead implements ICommandHandler {
         }
 
         if (args.get(0).equals(CommonStatement.block.toString())) {
-            return blockedHandler(args);
+            return blockedHandler(args.subList(1, args.size()));
         } else {
-            return nonBlockedHandler(args);
+            return nonBlockedHandler(args.subList(1, args.size()));
         }
     }
 
@@ -46,7 +46,7 @@ public class XRead implements ICommandHandler {
         } else {
             var result = buildRESP(ids.subList(id_pos, ids.size()));
             StringBuffer sb = new StringBuffer();
-            sb.append(DataType.ARRAYS);
+            sb.append((char) DataType.ARRAYS.getSymbol());
             sb.append(2);
             sb.append(RESPHandler.CRLF);
             sb.append(RESPBuilder.buildBulkString(stream));
@@ -56,7 +56,54 @@ public class XRead implements ICommandHandler {
     }
 
     private Pair<String, DataType> nonBlockedHandler(List<String> args) {
-        return null;
+        List<String> streams = new ArrayList<>();
+        List<String> greaterIds = new ArrayList<>();
+        int skip = args.size() / 2;
+        for (int i = 0; i < skip; i++) {
+            streams.add(args.get(i));
+            greaterIds.add(args.get(i + skip));
+        }
+
+        List<StringBuffer> res = new ArrayList<>();
+
+        for (int ind = 0; ind < streams.size(); ind++) { // for each stream
+            String stream = streams.get(ind);
+            String greaterId = greaterIds.get(ind);
+
+            var ids = Container.getStreamKeys(stream);
+            var id_pos = BinarySearch.upperBound(ids, ID.parse(greaterId));
+
+            if (id_pos < ids.size()) { // get elem from stream
+                var result = buildRESP(ids.subList(id_pos, ids.size()));
+                StringBuffer sb = new StringBuffer();
+                sb.append((char) DataType.ARRAYS.getSymbol());
+                sb.append(2);
+                logger.info("XREAD adding stream " + sb.toString() + " to response.");
+                sb.append(RESPBuilder.CRLF);
+                sb.append(RESPBuilder.buildBulkString(stream));
+                sb.append(RESPBuilder.buildArray(result));
+                res.add(sb);
+            }
+        }
+
+        if (res.isEmpty()) {
+            return new Pair<>(null, DataType.BULK_STRING);
+        } else {
+            StringBuffer sb = new StringBuffer();
+            sb.append((char) DataType.ARRAYS.getSymbol());
+            sb.append(res.size());
+            sb.append(RESPBuilder.CRLF);
+
+            logger.info("XREAD cur: " + sb.toString());
+
+            for (var e : res) {
+                sb.append(e.toString());
+            }
+
+            logger.info("XREAD response: \n" + sb.toString());
+
+            return new Pair<>(sb.toString(), DataType.ARRAYS);
+        }
     }
 
     private List<StringBuffer> buildRESP(List<ID> ids) {
@@ -64,14 +111,14 @@ public class XRead implements ICommandHandler {
 
         for (ID id : ids) {
             StringBuffer sb = new StringBuffer();
-            sb.append(DataType.ARRAYS);
+            sb.append((char) DataType.ARRAYS.getSymbol());
             sb.append(2);
-            sb.append(RESPHandler.CRLF);
+            sb.append(RESPBuilder.CRLF);
             sb.append(RESPBuilder.buildBulkString(id.toString()));
-            sb.append(DataType.ARRAYS);
+            sb.append((char) DataType.ARRAYS.getSymbol());
             var allKV = Container.streamContainer.get(id);
             sb.append(allKV.size() * 2);
-            sb.append(RESPHandler.CRLF);
+            sb.append(RESPBuilder.CRLF);
             for (var elem : allKV.entrySet()) {
                 sb.append(RESPBuilder.buildBulkString(elem.getKey()));
                 sb.append(RESPBuilder.buildBulkString(elem.getValue()));

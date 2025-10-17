@@ -2,25 +2,31 @@ package utils.builds;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import constants.DataType;
-import solver.RESPHandler;
 
 public class RESPBuilder {
+    private static final Logger logger = Logger.getLogger(RESPBuilder.class.getName());
+
+    public static char[] CRLF = { '\r', '\n' };
+
     public static StringBuffer buildBulkString(String str) {
         StringBuffer sb = new StringBuffer();
-        sb.append(DataType.BULK_STRING.getSymbol());
+        sb.append((char) DataType.BULK_STRING.getSymbol());
         sb.append(str.length());
-        sb.append(RESPHandler.CRLF);
+        sb.append(CRLF);
+        logger.info("in build BulkString: " + sb);
         sb.append(str);
-        sb.append(RESPHandler.CRLF);
+        sb.append(CRLF);
         return sb;
     }
 
     public static StringBuffer buildArray(List<StringBuffer> str) {
         StringBuffer sb = new StringBuffer();
-        sb.append(DataType.ARRAYS.getSymbol());
+        sb.append((char) DataType.ARRAYS.getSymbol());
         sb.append(str.size());
-        sb.append(RESPHandler.CRLF);
+        sb.append(CRLF);
         for (var strbuff : str) {
             sb.append(strbuff);
         }

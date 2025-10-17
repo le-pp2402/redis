@@ -8,16 +8,14 @@ import solver.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 public class XRange implements ICommandHandler {
+    private static final Logger logger = Logger.getLogger(XRange.class.getName());
+
     @Override
     public Pair<String, DataType> handle(List<String> args) {
         List<String> res = new ArrayList<>();
-
-        System.out.println("********************");
-        for (var x : Container.streamContainer.entrySet()) {
-            System.out.println(x.getKey());
-        }
-        System.out.println("********************");
 
         if (args.get(1).equals("-")) {
             args.set(1, "0-0");
@@ -28,17 +26,18 @@ public class XRange implements ICommandHandler {
             args.set(2, Long.toString(cur + 10) + "-0");
         }
 
-        for (var e : Container.streamContainer.entrySet()) {
-            ID id = e.getKey();
-            ID left = ID.parse(args.get(1));
-            ID right = ID.parse(args.get(2));
+        ID left = ID.parse(args.get(1));
+        ID right = ID.parse(args.get(2));
+        assert left != null && right != null;
 
-            assert left != null && right != null && id != null;
+        Container.streamContainer.forEach((id, props) -> {
             if (!inRange(left, right, id))
-                continue;
+                return;
 
-            var props = Container.streamContainer.get(id.toString());
+            logger.info("Checking ID " + id + " in range " + left + " to " + right);
+
             var allProps = new ArrayList<String>();
+
             for (var elem : props.entrySet()) {
                 String prop = elem.getKey();
                 System.out.println(prop);
@@ -53,18 +52,21 @@ public class XRange implements ICommandHandler {
             sb.append(2);
             sb.append("\r\n");
             sb.append((char) DataType.BULK_STRING.getSymbol());
-            sb.append(e.getKey().toString().length());
+            sb.append(id.toString().length());
             sb.append("\r\n");
-            sb.append(e.getKey());
+            sb.append(id);
             sb.append("\r\n");
             sb.append(toRESP(allProps));
             res.add(sb.toString());
-        }
+        });
 
         StringBuilder sb = new StringBuilder();
         sb.append((char) DataType.ARRAYS.getSymbol());
         sb.append(res.size());
         sb.append("\r\n");
+
+        res.sort(String::compareTo);
+
         for (var e : res) {
             sb.append(e);
             System.out.println(e);
