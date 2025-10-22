@@ -64,6 +64,7 @@ public class Main {
         commandHandlers.put(Command.XRANGE, new XRange());
         commandHandlers.put(Command.XREAD, new XRead());
         commandHandlers.put(Command.INCR, new Incr());
+        commandHandlers.put(Command.MULTI, new Multi());
     }
 
     private static void handleClient(Socket clientSocket) {
