@@ -15,6 +15,6 @@ public class Set implements ICommandHandler {
         if (args.size() > 2 && Argument.getArgument(args.get(2)).equals(Argument.PX)) {
             expr = Long.parseLong(args.get(3));
         }
-        return Container.set(args.get(0), args.get(1),  expr);
+        return Container.set(args.get(0), args.get(1), expr);
     }
 }

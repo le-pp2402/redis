@@ -19,7 +19,13 @@ public class RESPHandler {
 
     public static void sendCommand(final OutputStream os, Pair<String, DataType> result) {
         try {
-            if (result.second == DataType.ARRAYS) {
+            if (result.second == DataType.INTEGER) {
+                var sb = new StringBuilder();
+                sb.append((char) COLON_BYTE);
+                sb.append(result.first);
+                sb.append("\r\n");
+                os.write(sb.toString().getBytes());
+            } else if (result.second == DataType.ARRAYS) {
                 if (result.first == null) {
                     os.write(("*-1\r\n").getBytes());
                 } else {
@@ -31,6 +37,7 @@ public class RESPHandler {
                 sb.append((char) result.second.getSymbol());
 
                 if (result.second != DataType.SIMPLE_STRING)
+
                     if (!(result.second == DataType.BULK_STRING && result.first.equals("-1"))
                             && result.second != DataType.ERROR) {
                         sb.append(result.first.length());

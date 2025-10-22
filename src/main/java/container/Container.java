@@ -18,7 +18,7 @@ public class Container {
     public static AtomicReference<ID> latestID = new AtomicReference<>(new ID(0, 0));
     public static ConcurrentHashMap<String, ID> lastestIdOfStream = new ConcurrentHashMap<>();
 
-    public static ConcurrentHashMap<String, String> container = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<String, Object> container = new ConcurrentHashMap<>();
 
     // name of stream -> key of object
     public static ConcurrentHashMap<String, List<ID>> streamDirector = new ConcurrentHashMap<>();
@@ -56,7 +56,6 @@ public class Container {
         } else {
             lifetimeContainer.remove(key);
         }
-
         container.put(key, value);
         return new Pair<>("OK", DataType.SIMPLE_STRING);
     }
@@ -74,7 +73,7 @@ public class Container {
             if (streamDirector.containsKey(key)) {
                 return new Pair<>("stream", DataType.STREAM);
             }
-            return new Pair<>(container.get(key), DataType.BULK_STRING);
+            return new Pair<>((String) container.get(key), DataType.BULK_STRING);
         } else {
             return new Pair<>("-1", DataType.BULK_STRING);
         }
