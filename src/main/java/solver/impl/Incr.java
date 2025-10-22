@@ -17,6 +17,11 @@ public class Incr implements ICommandHandler {
         var key = args.get(0);
         var value = Container.get(key);
 
+        if (value == null) {
+            Container.container.put(key, "1");
+            return new Pair<>("1", DataType.INTEGER);
+        }
+
         logger.info("INCR called on key: " + key + " with current value: " + value.first);
 
         try {
