@@ -31,9 +31,8 @@ public class Incr implements ICommandHandler {
             Container.container.put(key, String.valueOf(num));
             return new Pair<>(String.valueOf(num), DataType.INTEGER);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            return new Pair<>("ERR value is not an integer or out of range", DataType.ERROR);
         }
-        return null;
     }
 
 }
