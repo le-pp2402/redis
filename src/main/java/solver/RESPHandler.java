@@ -20,7 +20,11 @@ public class RESPHandler {
     public static void sendCommand(final OutputStream os, Pair<String, DataType> result) {
         try {
             if (result.second == DataType.ARRAYS) {
-                os.write(result.first.getBytes());
+                if (result.first == null) {
+                    os.write(("*-1\r\n").getBytes());
+                } else {
+                    os.write(result.first.getBytes());
+                }
             } else {
                 StringBuilder sb = new StringBuilder();
 

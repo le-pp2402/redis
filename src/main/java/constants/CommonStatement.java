@@ -1,5 +1,5 @@
 package constants;
 
 public enum CommonStatement {
-    block;
+    block, $;
 }

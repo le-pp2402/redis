@@ -6,7 +6,6 @@ import constants.ID;
 import container.Container;
 import solver.ICommandHandler;
 import solver.Pair;
-import solver.RESPHandler;
 import utils.builds.RESPBuilder;
 import utils.searching.BinarySearch;
 
@@ -26,7 +25,8 @@ public class XRead implements ICommandHandler {
             logger.info(arg + " ");
         }
 
-        if (args.get(0).equals(CommonStatement.block.toString())) {
+        // block 0 stream
+        if (args.get(0).equalsIgnoreCase(CommonStatement.block.toString())) {
             return blockedHandler(args.subList(1, args.size()));
         } else {
             return nonBlockedHandler(args.subList(1, args.size()));
@@ -36,23 +36,118 @@ public class XRead implements ICommandHandler {
     // Single stream
     private Pair<String, DataType> blockedHandler(List<String> args) {
 
-        String stream = args.get(0), greaterId = args.get(1);
-
-        var ids = Container.getStreamKeys(stream);
-        var id_pos = BinarySearch.upperBound(ids, ID.parse(greaterId));
-
-        if (id_pos == ids.size()) {
-            return new Pair<String, DataType>(null, DataType.BULK_STRING);
-        } else {
-            var result = buildRESP(ids.subList(id_pos, ids.size()));
-            StringBuffer sb = new StringBuffer();
-            sb.append((char) DataType.ARRAYS.getSymbol());
-            sb.append(2);
-            sb.append(RESPHandler.CRLF);
-            sb.append(RESPBuilder.buildBulkString(stream));
-            sb.append(RESPBuilder.buildArray(result));
-            return new Pair<>(sb.toString(), DataType.ARRAYS);
+        for (String arg : args) {
+            logger.info("XREAD BLOCK arg: " + arg + " ");
         }
+
+        // 0 stream
+        int timeout = Integer.parseInt(args.get(0));
+
+        List<String> streams = new ArrayList<>();
+        List<ID> greaterIds = new ArrayList<>();
+        int skip = (args.size() - 2) / 2;
+
+        for (int i = 2; i + skip < args.size(); i++) {
+            var stream = args.get(i);
+            streams.add(stream);
+            var curId = Container.getLatestIdOfStream(stream);
+
+            if (args.get(i + skip).equalsIgnoreCase(CommonStatement.$.toString())) {
+                greaterIds.add(curId);
+                continue;
+            }
+
+            if (curId.compareTo(ID.parse(args.get(i + skip))) > 0) {
+                greaterIds.add(curId);
+            } else {
+                greaterIds.add(ID.parse(args.get(i + skip)));
+            }
+        }
+
+        if (timeout != 0) {
+            logger.info("Start waiting at " + System.currentTimeMillis());
+            List<StringBuffer> res = new ArrayList<>();
+            try {
+                Thread.sleep(Math.max(timeout, 0L));
+                logger.info("XREAD BLOCK woke up from sleep. Current time: " + System.currentTimeMillis());
+                for (int ind = 0; ind < streams.size(); ind++) { // for each stream
+                    String stream = streams.get(ind);
+                    ID greaterId = greaterIds.get(ind);
+
+                    var ids = Container.getStreamKeys(stream);
+                    var id_pos = BinarySearch.upperBound(ids, greaterId);
+
+                    if (id_pos < ids.size()) {
+                        var result = buildRESP(ids.subList(id_pos, ids.size()));
+                        StringBuffer sb = new StringBuffer();
+                        sb.append((char) DataType.ARRAYS.getSymbol());
+                        sb.append(2);
+                        sb.append(RESPBuilder.CRLF);
+                        sb.append(RESPBuilder.buildBulkString(stream));
+                        sb.append(RESPBuilder.buildArray(result));
+                        res.add(sb);
+                    }
+                }
+            } catch (Exception e) {
+                logger.error("XREAD BLOCK exception: " + e.getMessage());
+            }
+
+            if (res.isEmpty()) {
+                return new Pair<>(null, DataType.ARRAYS);
+            } else {
+                StringBuffer sb = new StringBuffer();
+                sb.append((char) DataType.ARRAYS.getSymbol());
+                sb.append(res.size());
+                sb.append(RESPBuilder.CRLF);
+
+                logger.info("XREAD BLOCK cur: " + sb.toString());
+
+                for (var e : res) {
+                    sb.append(e.toString());
+                }
+
+                logger.info("XREAD BLOCK response: \n" + sb.toString());
+
+                return new Pair<>(sb.toString(), DataType.ARRAYS);
+            }
+        } else {
+            try {
+                while (true) {
+                    Thread.sleep(50);
+                    for (int ind = 0; ind < streams.size(); ind++) {
+                        String stream = streams.get(ind);
+                        ID greaterId = greaterIds.get(ind);
+
+                        var ids = Container.getStreamKeys(stream).getLast();
+                        if (ids.compareTo(greaterId) > 0) {
+                            var result = buildRESP(List.of(ids));
+                            StringBuffer sb = new StringBuffer();
+                            sb.append((char) DataType.ARRAYS.getSymbol());
+                            sb.append(2);
+                            sb.append(RESPBuilder.CRLF);
+                            sb.append(RESPBuilder.buildBulkString(stream));
+                            sb.append(RESPBuilder.buildArray(result));
+
+                            // var res = RESPBuilder.buildArray(List.of(sb));
+
+                            StringBuffer res = new StringBuffer();
+                            res.append((char) DataType.ARRAYS.getSymbol());
+                            res.append(1);
+                            res.append(RESPBuilder.CRLF);
+                            res.append(sb.toString());
+
+                            return new Pair<>(res.toString(), DataType.ARRAYS);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                logger.error("XREAD BLOCK exception: " + e.getMessage());
+            }
+        }
+
+        assert (false);
+
+        return null;
     }
 
     private Pair<String, DataType> nonBlockedHandler(List<String> args) {

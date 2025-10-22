@@ -1,0 +1,1639 @@
+Initiating test run...
+
+[33m⏳ Turbo test runners busy. You are in queue.[0m
+[33m[0m
+[33mUpgrade to skip the wait: https://codecrafters.io/turbo[0m
+
+Running tests. Logs should appear shortly...
+
+[33m[compile][0m WARNING: A restricted method in java.lang.System has been called
+[33m[compile][0m WARNING: java.lang.System::load has been called by org.fusesource.jansi.internal.JansiLoader in an unnamed module (file:/usr/share/maven/lib/jansi-2.4.1.jar)
+[33m[compile][0m WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+[33m[compile][0m WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+[33m[compile][0m 
+[33m[compile][0m WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+[33m[compile][0m WARNING: sun.misc.Unsafe::objectFieldOffset has been called by com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper (file:/usr/share/maven/lib/guava-33.2.1-jre.jar)
+[33m[compile][0m WARNING: Please consider reporting this to the maintainers of class com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper
+[33m[compile][0m WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+[33m[compile][0m Moved ./.codecrafters/run.sh → ./your_program.sh
+[33m[compile][0m [32mCompilation successful.[0m
+
+Debug = true
+
+[33m[tester::#JM1] [0m[94mRunning tests for Stage #JM1 (Bind to a port)[0m
+[33m[tester::#JM1] [0m[94m$ ./your_program.sh[0m
+[33m[tester::#JM1] [0m[94mConnecting to port 6379...[0m
+[33m[your_program] [0mLoading commands handler
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[tester::#JM1] [0m[36mConnection successful[0m
+[33m[tester::#JM1] [0m[92mTest passed.[0m
+[33m[tester::#JM1] [0m[36mTerminating program[0m
+[33m[tester::#JM1] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#RG2] [0m[94mRunning tests for Stage #RG2 (Respond to PING)[0m
+[33m[tester::#RG2] [0m[94m$ ./your_program.sh[0m
+[33m[your_program] [0mLoading commands handler
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[tester::#RG2] [0m[36mConnection established, sending ping command...[0m
+[33m[tester::#RG2] [client] [0m[94m$ redis-cli PING[0m
+[33m[tester::#RG2] [client] [0m[36mSent bytes: "*1\r\n$4\r\nPING\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mPING
+[33m[your_program] [0m]
+[33m[tester::#RG2] [client] [0m[36mReceived bytes: "+PONG\r\n"[0m
+[33m[tester::#RG2] [client] [0m[36mReceived RESP simple string: "PONG"[0m
+[33m[tester::#RG2] [client] [0m[92m✔︎ Received "PONG"[0m
+[33m[tester::#RG2] [0m[92mTest passed.[0m
+[33m[tester::#RG2] [0m[36mTerminating program[0m
+[33m[tester::#RG2] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#WY1] [0m[94mRunning tests for Stage #WY1 (Respond to multiple PINGs)[0m
+[33m[tester::#WY1] [0m[94m$ ./your_program.sh[0m
+[33m[your_program] [0mLoading commands handler
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[tester::#WY1] [client-1] [0m[94m$ redis-cli PING[0m
+[33m[tester::#WY1] [client-1] [0m[36mSent bytes: "*1\r\n$4\r\nPING\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mPING
+[33m[your_program] [0m]
+[33m[tester::#WY1] [client-1] [0m[36mReceived bytes: "+PONG\r\n"[0m
+[33m[tester::#WY1] [client-1] [0m[36mReceived RESP simple string: "PONG"[0m
+[33m[tester::#WY1] [client-1] [0m[92m✔︎ Received "PONG"[0m
+[33m[tester::#WY1] [client-1] [0m[94m> PING[0m
+[33m[tester::#WY1] [client-1] [0m[36mSent bytes: "*1\r\n$4\r\nPING\r\n"[0m
+[33m[tester::#WY1] [client-1] [0m[36mReceived bytes: "+PONG\r\n"[0m
+[33m[tester::#WY1] [client-1] [0m[36mReceived RESP simple string: "PONG"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mPING
+[33m[your_program] [0m]
+[33m[tester::#WY1] [client-1] [0m[92m✔︎ Received "PONG"[0m
+[33m[tester::#WY1] [client-1] [0m[94m> PING[0m
+[33m[tester::#WY1] [client-1] [0m[36mSent bytes: "*1\r\n$4\r\nPING\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mPING
+[33m[tester::#WY1] [client-1] [0m[36mReceived bytes: "+PONG\r\n"[0m
+[33m[your_program] [0m]
+[33m[tester::#WY1] [client-1] [0m[36mReceived RESP simple string: "PONG"[0m
+[33m[tester::#WY1] [client-1] [0m[92m✔︎ Received "PONG"[0m
+[33m[tester::#WY1] [client-1] [0m[36mSuccess, closing connection...[0m
+[33m[tester::#WY1] [0m[92mTest passed.[0m
+[33m[tester::#WY1] [0m[36mTerminating program[0m
+[33m[your_program] [0mjava.lang.RuntimeException: Unexpected end of stream.
+[33m[your_program] [0m	at utils.RedisInputStream.fill(RedisInputStream.java:25)
+[33m[your_program] [0m	at utils.RedisInputStream.readByte(RedisInputStream.java:45)
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0m	at solver.RESPHandler.handle(RESPHandler.java:51)
+[33m[your_program] [0m	at solver.Main.handleClient(Main.java:76)
+[33m[your_program] [0m	at solver.Main.lambda$main$0(Main.java:47)
+[33m[your_program] [0m	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+[33m[your_program] [0m	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+[33m[your_program] [0m	at java.base/java.lang.Thread.run(Thread.java:1447)
+[33m[tester::#WY1] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#ZU2] [0m[94mRunning tests for Stage #ZU2 (Handle concurrent clients)[0m
+[33m[tester::#ZU2] [0m[94m$ ./your_program.sh[0m
+[33m[your_program] [0mLoading commands handler
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[tester::#ZU2] [client-1] [0m[94m$ redis-cli PING[0m
+[33m[tester::#ZU2] [client-1] [0m[36mSent bytes: "*1\r\n$4\r\nPING\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mPING
+[33m[your_program] [0m]
+[33m[tester::#ZU2] [client-1] [0m[36mReceived bytes: "+PONG\r\n"[0m
+[33m[tester::#ZU2] [client-1] [0m[36mReceived RESP simple string: "PONG"[0m
+[33m[tester::#ZU2] [client-1] [0m[92m✔︎ Received "PONG"[0m
+[33m[tester::#ZU2] [client-2] [0m[94m$ redis-cli PING[0m
+[33m[tester::#ZU2] [client-2] [0m[36mSent bytes: "*1\r\n$4\r\nPING\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mPING
+[33m[your_program] [0m]
+[33m[tester::#ZU2] [client-2] [0m[36mReceived bytes: "+PONG\r\n"[0m
+[33m[tester::#ZU2] [client-2] [0m[36mReceived RESP simple string: "PONG"[0m
+[33m[tester::#ZU2] [client-2] [0m[92m✔︎ Received "PONG"[0m
+[33m[tester::#ZU2] [client-1] [0m[94m> PING[0m
+[33m[tester::#ZU2] [client-1] [0m[36mSent bytes: "*1\r\n$4\r\nPING\r\n"[0m
+[33m[tester::#ZU2] [client-1] [0m[36mReceived bytes: "+PONG\r\n"[0m
+[33m[tester::#ZU2] [client-1] [0m[36mReceived RESP simple string: "PONG"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mPING
+[33m[your_program] [0m]
+[33m[tester::#ZU2] [client-1] [0m[92m✔︎ Received "PONG"[0m
+[33m[tester::#ZU2] [client-1] [0m[94m> PING[0m
+[33m[tester::#ZU2] [client-1] [0m[36mSent bytes: "*1\r\n$4\r\nPING\r\n"[0m
+[33m[tester::#ZU2] [client-1] [0m[36mReceived bytes: "+PONG\r\n"[0m
+[33m[tester::#ZU2] [client-1] [0m[36mReceived RESP simple string: "PONG"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mPING
+[33m[your_program] [0m]
+[33m[tester::#ZU2] [client-1] [0m[92m✔︎ Received "PONG"[0m
+[33m[tester::#ZU2] [client-2] [0m[94m> PING[0m
+[33m[tester::#ZU2] [client-2] [0m[36mSent bytes: "*1\r\n$4\r\nPING\r\n"[0m
+[33m[tester::#ZU2] [client-2] [0m[36mReceived bytes: "+PONG\r\n"[0m
+[33m[tester::#ZU2] [client-2] [0m[36mReceived RESP simple string: "PONG"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mPING
+[33m[your_program] [0m]
+[33m[tester::#ZU2] [client-2] [0m[92m✔︎ Received "PONG"[0m
+[33m[tester::#ZU2] [client-1] [0m[36mSuccess, closing connection...[0m
+[33m[your_program] [0mUnexpected end of stream.
+[33m[tester::#ZU2] [client-3] [0m[94m$ redis-cli PING[0m
+[33m[tester::#ZU2] [client-3] [0m[36mSent bytes: "*1\r\n$4\r\nPING\r\n"[0m
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mjava.lang.RuntimeException: Unexpected end of stream.
+[33m[your_program] [0m	at utils.RedisInputStream.fill(RedisInputStream.java:25)
+[33m[your_program] [0m	at utils.RedisInputStream.readByte(RedisInputStream.java:45)
+[33m[your_program] [0m	at solver.RESPHandler.handle(RESPHandler.java:51)
+[33m[your_program] [0m	at solver.Main.handleClient(Main.java:76)
+[33m[your_program] [0m	at solver.Main.lambda$main$0(Main.java:47)
+[33m[your_program] [0m	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+[33m[tester::#ZU2] [client-3] [0m[36mReceived bytes: "+PONG\r\n"[0m
+[33m[tester::#ZU2] [client-3] [0m[36mReceived RESP simple string: "PONG"[0m
+[33m[your_program] [0m	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mPING
+[33m[your_program] [0m]
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+[33m[your_program] [0m	at java.base/java.lang.Thread.run(Thread.java:1447)
+[33m[tester::#ZU2] [client-3] [0m[92m✔︎ Received "PONG"[0m
+[33m[tester::#ZU2] [client-2] [0m[36mSuccess, closing connection...[0m
+[33m[tester::#ZU2] [client-3] [0m[36mSuccess, closing connection...[0m
+[33m[tester::#ZU2] [0m[92mTest passed.[0m
+[33m[tester::#ZU2] [0m[36mTerminating program[0m
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mjava.lang.RuntimeException: Unexpected end of stream.
+[33m[your_program] [0m	at utils.RedisInputStream.fill(RedisInputStream.java:25)
+[33m[your_program] [0m	at utils.RedisInputStream.readByte(RedisInputStream.java:45)
+[33m[your_program] [0m	at solver.RESPHandler.handle(RESPHandler.java:51)
+[33m[your_program] [0m	at solver.Main.handleClient(Main.java:76)
+[33m[your_program] [0m	at solver.Main.lambda$main$0(Main.java:47)
+[33m[your_program] [0m	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+[33m[your_program] [0m	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+[33m[your_program] [0m	at java.base/java.lang.Thread.run(Thread.java:1447)
+[33m[your_program] [0mjava.lang.RuntimeException: Unexpected end of stream.
+[33m[your_program] [0m	at utils.RedisInputStream.fill(RedisInputStream.java:25)
+[33m[your_program] [0m	at utils.RedisInputStream.readByte(RedisInputStream.java:45)
+[33m[your_program] [0m	at solver.RESPHandler.handle(RESPHandler.java:51)
+[33m[your_program] [0m	at solver.Main.handleClient(Main.java:76)
+[33m[your_program] [0m	at solver.Main.lambda$main$0(Main.java:47)
+[33m[your_program] [0m	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+[33m[your_program] [0m	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+[33m[your_program] [0m	at java.base/java.lang.Thread.run(Thread.java:1447)
+[33m[your_program] [0mUnexpected end of stream.
+[33m[tester::#ZU2] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#QQ0] [0m[94mRunning tests for Stage #QQ0 (Implement the ECHO command)[0m
+[33m[tester::#QQ0] [0m[94m$ ./your_program.sh[0m
+[33m[your_program] [0mLoading commands handler
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[tester::#QQ0] [client] [0m[94m$ redis-cli ECHO apple[0m
+[33m[tester::#QQ0] [client] [0m[36mSent bytes: "*2\r\n$4\r\nECHO\r\n$5\r\napple\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mECHO
+[33m[your_program] [0mapple
+[33m[your_program] [0m]
+[33m[tester::#QQ0] [client] [0m[36mReceived bytes: "$5\r\napple\r\n"[0m
+[33m[tester::#QQ0] [client] [0m[36mReceived RESP bulk string: "apple"[0m
+[33m[tester::#QQ0] [client] [0m[92m✔︎ Received "apple"[0m
+[33m[tester::#QQ0] [0m[92mTest passed.[0m
+[33m[tester::#QQ0] [0m[36mTerminating program[0m
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mjava.lang.RuntimeException: Unexpected end of stream.
+[33m[your_program] [0m	at utils.RedisInputStream.fill(RedisInputStream.java:25)
+[33m[your_program] [0m	at utils.RedisInputStream.readByte(RedisInputStream.java:45)
+[33m[your_program] [0m	at solver.RESPHandler.handle(RESPHandler.java:51)
+[33m[your_program] [0m	at solver.Main.handleClient(Main.java:76)
+[33m[your_program] [0m	at solver.Main.lambda$main$0(Main.java:47)
+[33m[your_program] [0m	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+[33m[your_program] [0m	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+[33m[your_program] [0m	at java.base/java.lang.Thread.run(Thread.java:1447)
+[33m[your_program] [0mUnexpected end of stream.
+[33m[tester::#QQ0] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#LA7] [0m[94mRunning tests for Stage #LA7 (Implement the SET & GET commands)[0m
+[33m[tester::#LA7] [0m[94m$ ./your_program.sh[0m
+[33m[your_program] [0mLoading commands handler
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[tester::#LA7] [0m[36mSetting key blueberry to pineapple[0m
+[33m[tester::#LA7] [client] [0m[94m$ redis-cli SET blueberry pineapple[0m
+[33m[tester::#LA7] [client] [0m[36mSent bytes: "*3\r\n$3\r\nSET\r\n$9\r\nblueberry\r\n$9\r\npineapple\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mSET
+[33m[your_program] [0mblueberry
+[33m[your_program] [0mpineapple
+[33m[your_program] [0m]
+[33m[tester::#LA7] [client] [0m[36mReceived bytes: "+OK\r\n"[0m
+[33m[tester::#LA7] [client] [0m[36mReceived RESP simple string: "OK"[0m
+[33m[tester::#LA7] [client] [0m[92m✔︎ Received "OK"[0m
+[33m[tester::#LA7] [0m[36mGetting key blueberry[0m
+[33m[tester::#LA7] [client] [0m[94m> GET blueberry[0m
+[33m[tester::#LA7] [client] [0m[36mSent bytes: "*2\r\n$3\r\nGET\r\n$9\r\nblueberry\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[tester::#LA7] [client] [0m[36mReceived bytes: "$9\r\npineapple\r\n"[0m
+[33m[tester::#LA7] [client] [0m[36mReceived RESP bulk string: "pineapple"[0m
+[33m[your_program] [0mGET
+[33m[your_program] [0mblueberry
+[33m[your_program] [0m]
+[33m[tester::#LA7] [client] [0m[92m✔︎ Received "pineapple"[0m
+[33m[tester::#LA7] [0m[92mTest passed.[0m
+[33m[tester::#LA7] [0m[36mTerminating program[0m
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mjava.lang.RuntimeException: Unexpected end of stream.
+[33m[your_program] [0m	at utils.RedisInputStream.fill(RedisInputStream.java:25)
+[33m[your_program] [0m	at utils.RedisInputStream.readByte(RedisInputStream.java:45)
+[33m[your_program] [0m	at solver.RESPHandler.handle(RESPHandler.java:51)
+[33m[your_program] [0m	at solver.Main.handleClient(Main.java:76)
+[33m[your_program] [0m	at solver.Main.lambda$main$0(Main.java:47)
+[33m[your_program] [0m	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+[33m[your_program] [0m	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+[33m[your_program] [0m	at java.base/java.lang.Thread.run(Thread.java:1447)
+[33m[tester::#LA7] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#YZ1] [0m[94mRunning tests for Stage #YZ1 (Expiry)[0m
+[33m[tester::#YZ1] [0m[94m$ ./your_program.sh[0m
+[33m[your_program] [0mLoading commands handler
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[tester::#YZ1] [client] [0m[94m$ redis-cli SET apple raspberry PX 100[0m
+[33m[tester::#YZ1] [client] [0m[36mSent bytes: "*5\r\n$3\r\nSET\r\n$5\r\napple\r\n$9\r\nraspberry\r\n$2\r\nPX\r\n$3\r\n100\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mSET
+[33m[your_program] [0mapple
+[33m[your_program] [0mraspberry
+[33m[your_program] [0mPX
+[33m[your_program] [0m100
+[33m[your_program] [0m]
+[33m[tester::#YZ1] [client] [0m[36mReceived bytes: "+OK\r\n"[0m
+[33m[tester::#YZ1] [client] [0m[36mReceived RESP simple string: "OK"[0m
+[33m[tester::#YZ1] [client] [0m[92m✔︎ Received "OK"[0m
+[33m[tester::#YZ1] [0m[92mReceived OK at 08:11:12.144[0m
+[33m[tester::#YZ1] [0m[94mFetching key "apple" at 08:11:12.144 (should not be expired)[0m
+[33m[tester::#YZ1] [client] [0m[94m> GET apple[0m
+[33m[tester::#YZ1] [client] [0m[36mSent bytes: "*2\r\n$3\r\nGET\r\n$5\r\napple\r\n"[0m
+[33m[tester::#YZ1] [client] [0m[36mReceived bytes: "$9\r\nraspberry\r\n"[0m
+[33m[tester::#YZ1] [client] [0m[36mReceived RESP bulk string: "raspberry"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mGET
+[33m[your_program] [0mapple
+[33m[your_program] [0m]
+[33m[tester::#YZ1] [client] [0m[92m✔︎ Received "raspberry"[0m
+[33m[tester::#YZ1] [0m[36mSleeping for 101ms[0m
+[33m[tester::#YZ1] [0m[94mFetching key "apple" at 08:11:12.246 (should be expired)[0m
+[33m[tester::#YZ1] [client] [0m[94m> GET apple[0m
+[33m[tester::#YZ1] [client] [0m[36mSent bytes: "*2\r\n$3\r\nGET\r\n$5\r\napple\r\n"[0m
+[33m[tester::#YZ1] [client] [0m[36mReceived bytes: "$-1\r\n"[0m
+[33m[tester::#YZ1] [client] [0m[36mReceived RESP null bulk string: "$-1\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mGET
+[33m[your_program] [0mapple
+[33m[your_program] [0m]
+[33m[tester::#YZ1] [client] [0m[92m✔︎ Received "$-1\r\n"[0m
+[33m[tester::#YZ1] [0m[92mTest passed.[0m
+[33m[tester::#YZ1] [0m[36mTerminating program[0m
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mjava.lang.RuntimeException: Unexpected end of stream.
+[33m[your_program] [0m	at utils.RedisInputStream.fill(RedisInputStream.java:25)
+[33m[your_program] [0m	at utils.RedisInputStream.readByte(RedisInputStream.java:45)
+[33m[your_program] [0m	at solver.RESPHandler.handle(RESPHandler.java:51)
+[33m[your_program] [0m	at solver.Main.handleClient(Main.java:76)
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0m	at solver.Main.lambda$main$0(Main.java:47)
+[33m[your_program] [0m	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+[33m[your_program] [0m	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+[33m[your_program] [0m	at java.base/java.lang.Thread.run(Thread.java:1447)
+[33m[tester::#YZ1] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#CC3] [0m[94mRunning tests for Stage #CC3 (Streams - The TYPE command)[0m
+[33m[tester::#CC3] [0m[94m$ ./your_program.sh[0m
+[33m[your_program] [0mLoading commands handler
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[tester::#CC3] [client] [0m[94m$ redis-cli SET mango raspberry[0m
+[33m[tester::#CC3] [client] [0m[36mSent bytes: "*3\r\n$3\r\nSET\r\n$5\r\nmango\r\n$9\r\nraspberry\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mSET
+[33m[your_program] [0mmango
+[33m[your_program] [0mraspberry
+[33m[your_program] [0m]
+[33m[tester::#CC3] [client] [0m[36mReceived bytes: "+OK\r\n"[0m
+[33m[tester::#CC3] [client] [0m[36mReceived RESP simple string: "OK"[0m
+[33m[tester::#CC3] [client] [0m[92m✔︎ Received "OK"[0m
+[33m[tester::#CC3] [client] [0m[94m> TYPE mango[0m
+[33m[tester::#CC3] [client] [0m[36mSent bytes: "*2\r\n$4\r\nTYPE\r\n$5\r\nmango\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mTYPE
+[33m[your_program] [0mmango
+[33m[your_program] [0m]
+[33m[your_program] [0m0 [pool-1-thread-1] INFO solver.impl.Type  - Handling TYPE command [mango]
+[33m[tester::#CC3] [client] [0m[36mReceived bytes: "+string\r\n"[0m
+[33m[tester::#CC3] [client] [0m[36mReceived RESP simple string: "string"[0m
+[33m[tester::#CC3] [client] [0m[92m✔︎ Received "string"[0m
+[33m[tester::#CC3] [client] [0m[94m> TYPE missing_key_raspberry[0m
+[33m[tester::#CC3] [client] [0m[36mSent bytes: "*2\r\n$4\r\nTYPE\r\n$21\r\nmissing_key_raspberry\r\n"[0m
+[33m[tester::#CC3] [client] [0m[36mReceived bytes: "+none\r\n"[0m
+[33m[tester::#CC3] [client] [0m[36mReceived RESP simple string: "none"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mTYPE
+[33m[your_program] [0mmissing_key_raspberry
+[33m[your_program] [0m]
+[33m[your_program] [0m11 [pool-1-thread-1] INFO solver.impl.Type  - Handling TYPE command [missing_key_raspberry]
+[33m[tester::#CC3] [client] [0m[92m✔︎ Received "none"[0m
+[33m[tester::#CC3] [0m[92mTest passed.[0m
+[33m[tester::#CC3] [0m[36mTerminating program[0m
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mjava.lang.RuntimeException: Unexpected end of stream.
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0m	at utils.RedisInputStream.fill(RedisInputStream.java:25)
+[33m[your_program] [0m	at utils.RedisInputStream.readByte(RedisInputStream.java:45)
+[33m[your_program] [0m	at solver.RESPHandler.handle(RESPHandler.java:51)
+[33m[your_program] [0m	at solver.Main.handleClient(Main.java:76)
+[33m[your_program] [0m	at solver.Main.lambda$main$0(Main.java:47)
+[33m[your_program] [0m	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+[33m[your_program] [0m	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+[33m[your_program] [0m	at java.base/java.lang.Thread.run(Thread.java:1447)
+[33m[tester::#CC3] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#CF6] [0m[94mRunning tests for Stage #CF6 (Streams - Create a stream)[0m
+[33m[tester::#CF6] [0m[94m$ ./your_program.sh[0m
+[33m[your_program] [0mLoading commands handler
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[tester::#CF6] [client] [0m[94m$ redis-cli XADD raspberry 0-1 foo bar[0m
+[33m[tester::#CF6] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$9\r\nraspberry\r\n$3\r\n0-1\r\n$3\r\nfoo\r\n$3\r\nbar\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mraspberry
+[33m[your_program] [0m0-1
+[33m[your_program] [0mfoo
+[33m[your_program] [0mbar
+[33m[your_program] [0m]
+[33m[your_program] [0m0 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream raspberry
+[33m[your_program] [0m6 [pool-1-thread-1] INFO container.Container  - Adding 0-1 to stream raspberry
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0mraspberry
+[33m[your_program] [0m[0-1]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#CF6] [client] [0m[36mReceived bytes: "$3\r\n0-1\r\n"[0m
+[33m[tester::#CF6] [client] [0m[36mReceived RESP bulk string: "0-1"[0m
+[33m[tester::#CF6] [client] [0m[92m✔︎ Received "0-1"[0m
+[33m[tester::#CF6] [client] [0m[94m> TYPE raspberry[0m
+[33m[tester::#CF6] [client] [0m[36mSent bytes: "*2\r\n$4\r\nTYPE\r\n$9\r\nraspberry\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mTYPE
+[33m[your_program] [0mraspberry
+[33m[your_program] [0m]
+[33m[your_program] [0m18 [pool-1-thread-1] INFO solver.impl.Type  - Handling TYPE command [raspberry]
+[33m[tester::#CF6] [client] [0m[36mReceived bytes: "+stream\r\n"[0m
+[33m[tester::#CF6] [client] [0m[36mReceived RESP simple string: "stream"[0m
+[33m[tester::#CF6] [client] [0m[92m✔︎ Received "stream"[0m
+[33m[tester::#CF6] [0m[92mTest passed.[0m
+[33m[tester::#CF6] [0m[36mTerminating program[0m
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mjava.lang.RuntimeException: Unexpected end of stream.
+[33m[your_program] [0m	at utils.RedisInputStream.fill(RedisInputStream.java:25)
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0m	at utils.RedisInputStream.readByte(RedisInputStream.java:45)
+[33m[your_program] [0m	at solver.RESPHandler.handle(RESPHandler.java:51)
+[33m[your_program] [0m	at solver.Main.handleClient(Main.java:76)
+[33m[your_program] [0m	at solver.Main.lambda$main$0(Main.java:47)
+[33m[your_program] [0m	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+[33m[your_program] [0m	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+[33m[your_program] [0m	at java.base/java.lang.Thread.run(Thread.java:1447)
+[33m[tester::#CF6] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#HQ8] [0m[94mRunning tests for Stage #HQ8 (Streams - Validating entry IDs)[0m
+[33m[tester::#HQ8] [0m[94m$ ./your_program.sh[0m
+[33m[your_program] [0mLoading commands handler
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[tester::#HQ8] [client] [0m[94m$ redis-cli XADD mango 1-1 banana strawberry[0m
+[33m[tester::#HQ8] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$5\r\nmango\r\n$3\r\n1-1\r\n$6\r\nbanana\r\n$10\r\nstrawberry\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mmango
+[33m[your_program] [0m1-1
+[33m[your_program] [0mbanana
+[33m[your_program] [0mstrawberry
+[33m[your_program] [0m]
+[33m[your_program] [0m0 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream mango
+[33m[your_program] [0m5 [pool-1-thread-1] INFO container.Container  - Adding 1-1 to stream mango
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0mmango
+[33m[your_program] [0m[1-1]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#HQ8] [client] [0m[36mReceived bytes: "$3\r\n1-1\r\n"[0m
+[33m[tester::#HQ8] [client] [0m[36mReceived RESP bulk string: "1-1"[0m
+[33m[tester::#HQ8] [client] [0m[92m✔︎ Received "1-1"[0m
+[33m[tester::#HQ8] [client] [0m[94m> XADD mango 1-2 orange grape[0m
+[33m[tester::#HQ8] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$5\r\nmango\r\n$3\r\n1-2\r\n$6\r\norange\r\n$5\r\ngrape\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mmango
+[33m[your_program] [0m1-2
+[33m[your_program] [0morange
+[33m[your_program] [0mgrape
+[33m[your_program] [0m]
+[33m[your_program] [0m8 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream mango
+[33m[your_program] [0m9 [pool-1-thread-1] INFO container.Container  - Adding 1-2 to stream mango
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#HQ8] [client] [0m[36mReceived bytes: "$3\r\n1-2\r\n"[0m
+[33m[tester::#HQ8] [client] [0m[36mReceived RESP bulk string: "1-2"[0m
+[33m[your_program] [0mmango
+[33m[your_program] [0m[1-1, 1-2]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#HQ8] [client] [0m[92m✔︎ Received "1-2"[0m
+[33m[tester::#HQ8] [client] [0m[94m> XADD mango 1-2 blueberry pear[0m
+[33m[tester::#HQ8] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$5\r\nmango\r\n$3\r\n1-2\r\n$9\r\nblueberry\r\n$4\r\npear\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mmango
+[33m[your_program] [0m1-2
+[33m[your_program] [0mblueberry
+[33m[your_program] [0mpear
+[33m[your_program] [0m]
+[33m[tester::#HQ8] [client] [0m[36mReceived bytes: "-ERR The ID specified in XADD is equal or smaller than the target stream top item\r\n"[0m
+[33m[tester::#HQ8] [client] [0m[36mReceived RESP error: "ERR The ID specified in XADD is equal or smaller than the target stream top item"[0m
+[33m[tester::#HQ8] [client] [0m[92m✔︎ Received "ERR The ID specified in XADD is equal or smaller than the target stream top item"[0m
+[33m[tester::#HQ8] [client] [0m[94m> XADD mango 0-3 raspberry mango[0m
+[33m[tester::#HQ8] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$5\r\nmango\r\n$3\r\n0-3\r\n$9\r\nraspberry\r\n$5\r\nmango\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[tester::#HQ8] [client] [0m[36mReceived bytes: "-ERR The ID specified in XADD is equal or smaller than the target stream top item\r\n"[0m
+[33m[your_program] [0mmango
+[33m[your_program] [0m0-3
+[33m[tester::#HQ8] [client] [0m[36mReceived RESP error: "ERR The ID specified in XADD is equal or smaller than the target stream top item"[0m
+[33m[your_program] [0mraspberry
+[33m[your_program] [0mmango
+[33m[your_program] [0m]
+[33m[tester::#HQ8] [client] [0m[92m✔︎ Received "ERR The ID specified in XADD is equal or smaller than the target stream top item"[0m
+[33m[tester::#HQ8] [client] [0m[94m> XADD mango 0-0 pineapple apple[0m
+[33m[tester::#HQ8] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$5\r\nmango\r\n$3\r\n0-0\r\n$9\r\npineapple\r\n$5\r\napple\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mmango
+[33m[your_program] [0m0-0
+[33m[your_program] [0mpineapple
+[33m[your_program] [0mapple
+[33m[your_program] [0m]
+[33m[tester::#HQ8] [client] [0m[36mReceived bytes: "-ERR The ID specified in XADD must be greater than 0-0\r\n"[0m
+[33m[tester::#HQ8] [client] [0m[36mReceived RESP error: "ERR The ID specified in XADD must be greater than 0-0"[0m
+[33m[tester::#HQ8] [client] [0m[92m✔︎ Received "ERR The ID specified in XADD must be greater than 0-0"[0m
+[33m[tester::#HQ8] [0m[92mTest passed.[0m
+[33m[tester::#HQ8] [0m[36mTerminating program[0m
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mjava.lang.RuntimeException: Unexpected end of stream.
+[33m[your_program] [0m	at utils.RedisInputStream.fill(RedisInputStream.java:25)
+[33m[your_program] [0m	at utils.RedisInputStream.readByte(RedisInputStream.java:45)
+[33m[your_program] [0m	at solver.RESPHandler.handle(RESPHandler.java:51)
+[33m[your_program] [0m	at solver.Main.handleClient(Main.java:76)
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0m	at solver.Main.lambda$main$0(Main.java:47)
+[33m[your_program] [0m	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+[33m[your_program] [0m	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+[33m[your_program] [0m	at java.base/java.lang.Thread.run(Thread.java:1447)
+[33m[tester::#HQ8] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#YH3] [0m[94mRunning tests for Stage #YH3 (Streams - Partially auto-generated IDs)[0m
+[33m[tester::#YH3] [0m[94m$ ./your_program.sh[0m
+[33m[your_program] [0mLoading commands handler
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[tester::#YH3] [client] [0m[94m$ redis-cli XADD pear 0-* pear banana[0m
+[33m[tester::#YH3] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$4\r\npear\r\n$3\r\n0-*\r\n$4\r\npear\r\n$6\r\nbanana\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mpear
+[33m[your_program] [0m0-*
+[33m[your_program] [0mpear
+[33m[your_program] [0mbanana
+[33m[your_program] [0m]
+[33m[your_program] [0m0 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream pear
+[33m[your_program] [0m5 [pool-1-thread-1] INFO container.Container  - Adding 0-1 to stream pear
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0mpear
+[33m[your_program] [0m[0-1]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#YH3] [client] [0m[36mReceived bytes: "$3\r\n0-1\r\n"[0m
+[33m[tester::#YH3] [client] [0m[36mReceived RESP bulk string: "0-1"[0m
+[33m[tester::#YH3] [client] [0m[92m✔︎ Received "0-1"[0m
+[33m[tester::#YH3] [client] [0m[94m> XADD pear 1-* pear banana[0m
+[33m[tester::#YH3] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$4\r\npear\r\n$3\r\n1-*\r\n$4\r\npear\r\n$6\r\nbanana\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mpear
+[33m[your_program] [0m1-*
+[33m[your_program] [0mpear
+[33m[your_program] [0mbanana
+[33m[your_program] [0m]
+[33m[your_program] [0m19 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream pear
+[33m[tester::#YH3] [client] [0m[36mReceived bytes: "$3\r\n1-0\r\n"[0m
+[33m[tester::#YH3] [client] [0m[36mReceived RESP bulk string: "1-0"[0m
+[33m[your_program] [0m19 [pool-1-thread-1] INFO container.Container  - Adding 1-0 to stream pear
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0mpear
+[33m[your_program] [0m[0-1, 1-0]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#YH3] [client] [0m[92m✔︎ Received "1-0"[0m
+[33m[tester::#YH3] [client] [0m[94m> XADD pear 1-* banana grape[0m
+[33m[tester::#YH3] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$4\r\npear\r\n$3\r\n1-*\r\n$6\r\nbanana\r\n$5\r\ngrape\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mpear
+[33m[your_program] [0m1-*
+[33m[tester::#YH3] [client] [0m[36mReceived bytes: "$3\r\n1-1\r\n"[0m
+[33m[tester::#YH3] [client] [0m[36mReceived RESP bulk string: "1-1"[0m
+[33m[your_program] [0mbanana
+[33m[your_program] [0mgrape
+[33m[your_program] [0m]
+[33m[your_program] [0m21 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream pear
+[33m[your_program] [0m21 [pool-1-thread-1] INFO container.Container  - Adding 1-1 to stream pear
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0mpear
+[33m[your_program] [0m[0-1, 1-0, 1-1]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#YH3] [client] [0m[92m✔︎ Received "1-1"[0m
+[33m[tester::#YH3] [0m[92mTest passed.[0m
+[33m[tester::#YH3] [0m[36mTerminating program[0m
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mjava.lang.RuntimeException: Unexpected end of stream.
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0m	at utils.RedisInputStream.fill(RedisInputStream.java:25)
+[33m[your_program] [0m	at utils.RedisInputStream.readByte(RedisInputStream.java:45)
+[33m[your_program] [0m	at solver.RESPHandler.handle(RESPHandler.java:51)
+[33m[your_program] [0m	at solver.Main.handleClient(Main.java:76)
+[33m[your_program] [0m	at solver.Main.lambda$main$0(Main.java:47)
+[33m[your_program] [0m	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+[33m[your_program] [0m	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+[33m[your_program] [0m	at java.base/java.lang.Thread.run(Thread.java:1447)
+[33m[tester::#YH3] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#XU6] [0m[94mRunning tests for Stage #XU6 (Streams - Fully auto-generated IDs)[0m
+[33m[tester::#XU6] [0m[94m$ ./your_program.sh[0m
+[33m[your_program] [0mLoading commands handler
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[tester::#XU6] [client] [0m[94m$ redis-cli XADD orange * foo bar[0m
+[33m[tester::#XU6] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$6\r\norange\r\n$1\r\n*\r\n$3\r\nfoo\r\n$3\r\nbar\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0morange
+[33m[your_program] [0m*
+[33m[your_program] [0mfoo
+[33m[your_program] [0mbar
+[33m[your_program] [0m]
+[33m[your_program] [0m0 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream orange
+[33m[your_program] [0m6 [pool-1-thread-1] INFO container.Container  - Adding 1761120674403-0 to stream orange
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0morange
+[33m[your_program] [0m[1761120674403-0]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#XU6] [client] [0m[36mReceived bytes: "$15\r\n1761120674403-0\r\n"[0m
+[33m[tester::#XU6] [client] [0m[36mReceived RESP bulk string: "1761120674403-0"[0m
+[33m[tester::#XU6] [client] [0m[92m✔︎ Received "1761120674403-0"[0m
+[33m[tester::#XU6] [0m[92mThe first part of the ID is a valid unix milliseconds timestamp[0m
+[33m[tester::#XU6] [0m[92mThe second part of the ID is a valid sequence number[0m
+[33m[tester::#XU6] [0m[92mTest passed.[0m
+[33m[tester::#XU6] [0m[36mTerminating program[0m
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mjava.lang.RuntimeException: Unexpected end of stream.
+[33m[your_program] [0m	at utils.RedisInputStream.fill(RedisInputStream.java:25)
+[33m[your_program] [0m	at utils.RedisInputStream.readByte(RedisInputStream.java:45)
+[33m[your_program] [0m	at solver.RESPHandler.handle(RESPHandler.java:51)
+[33m[your_program] [0m	at solver.Main.handleClient(Main.java:76)
+[33m[your_program] [0m	at solver.Main.lambda$main$0(Main.java:47)
+[33m[your_program] [0m	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+[33m[your_program] [0m	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+[33m[your_program] [0m	at java.base/java.lang.Thread.run(Thread.java:1447)
+[33m[your_program] [0mUnexpected end of stream.
+[33m[tester::#XU6] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#ZX1] [0m[94mRunning tests for Stage #ZX1 (Streams - Query entries from stream)[0m
+[33m[tester::#ZX1] [0m[94m$ ./your_program.sh[0m
+[33m[your_program] [0mLoading commands handler
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[tester::#ZX1] [client] [0m[94m$ redis-cli XADD orange 0-1 strawberry blueberry[0m
+[33m[tester::#ZX1] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$6\r\norange\r\n$3\r\n0-1\r\n$10\r\nstrawberry\r\n$9\r\nblueberry\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0morange
+[33m[your_program] [0m0-1
+[33m[your_program] [0mstrawberry
+[33m[your_program] [0mblueberry
+[33m[your_program] [0m]
+[33m[your_program] [0m0 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream orange
+[33m[your_program] [0m6 [pool-1-thread-1] INFO container.Container  - Adding 0-1 to stream orange
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0morange
+[33m[your_program] [0m[0-1]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#ZX1] [client] [0m[36mReceived bytes: "$3\r\n0-1\r\n"[0m
+[33m[tester::#ZX1] [client] [0m[36mReceived RESP bulk string: "0-1"[0m
+[33m[tester::#ZX1] [client] [0m[92m✔︎ Received "0-1"[0m
+[33m[tester::#ZX1] [client] [0m[94m> XADD orange 0-2 pineapple apple[0m
+[33m[tester::#ZX1] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$6\r\norange\r\n$3\r\n0-2\r\n$9\r\npineapple\r\n$5\r\napple\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0morange
+[33m[your_program] [0m0-2
+[33m[your_program] [0mpineapple
+[33m[your_program] [0mapple
+[33m[your_program] [0m]
+[33m[your_program] [0m19 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream orange
+[33m[tester::#ZX1] [client] [0m[36mReceived bytes: "$3\r\n0-2\r\n"[0m
+[33m[tester::#ZX1] [client] [0m[36mReceived RESP bulk string: "0-2"[0m
+[33m[your_program] [0m19 [pool-1-thread-1] INFO container.Container  - Adding 0-2 to stream orange
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0morange
+[33m[your_program] [0m[0-1, 0-2]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#ZX1] [client] [0m[92m✔︎ Received "0-2"[0m
+[33m[tester::#ZX1] [client] [0m[94m> XADD orange 0-3 raspberry orange[0m
+[33m[tester::#ZX1] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$6\r\norange\r\n$3\r\n0-3\r\n$9\r\nraspberry\r\n$6\r\norange\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0morange
+[33m[your_program] [0m0-3
+[33m[your_program] [0mraspberry
+[33m[your_program] [0morange
+[33m[your_program] [0m]
+[33m[tester::#ZX1] [client] [0m[36mReceived bytes: "$3\r\n0-3\r\n"[0m
+[33m[tester::#ZX1] [client] [0m[36mReceived RESP bulk string: "0-3"[0m
+[33m[your_program] [0m22 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream orange
+[33m[your_program] [0m22 [pool-1-thread-1] INFO container.Container  - Adding 0-3 to stream orange
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0morange
+[33m[your_program] [0m[0-1, 0-2, 0-3]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#ZX1] [client] [0m[92m✔︎ Received "0-3"[0m
+[33m[tester::#ZX1] [client] [0m[94m> XRANGE orange 0-2 0-3[0m
+[33m[tester::#ZX1] [client] [0m[36mSent bytes: "*4\r\n$6\r\nXRANGE\r\n$6\r\norange\r\n$3\r\n0-2\r\n$3\r\n0-3\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXRANGE
+[33m[your_program] [0morange
+[33m[your_program] [0m0-2
+[33m[your_program] [0m0-3
+[33m[your_program] [0m]
+[33m[your_program] [0m29 [pool-1-thread-1] INFO solver.impl.XRange  - Checking ID 0-3 in range 0-2 to 0-3
+[33m[your_program] [0mraspberry
+[33m[your_program] [0morange
+[33m[your_program] [0m29 [pool-1-thread-1] INFO solver.impl.XRange  - Checking ID 0-2 in range 0-2 to 0-3
+[33m[your_program] [0mpineapple
+[33m[your_program] [0mapple
+[33m[your_program] [0m*2
+[33m[your_program] [0m$3
+[33m[your_program] [0m0-2
+[33m[your_program] [0m*2
+[33m[your_program] [0m$9
+[33m[your_program] [0mpineapple
+[33m[your_program] [0m$5
+[33m[your_program] [0mapple
+[33m[your_program] [0m
+[33m[your_program] [0m*2
+[33m[your_program] [0m$3
+[33m[your_program] [0m0-3
+[33m[your_program] [0m*2
+[33m[your_program] [0m$9
+[33m[your_program] [0mraspberry
+[33m[your_program] [0m$6
+[33m[your_program] [0morange
+[33m[your_program] [0m
+[33m[tester::#ZX1] [client] [0m[36mReceived bytes: "*2\r\n*2\r\n$3\r\n0-2\r\n*2\r\n$9\r\npineapple\r\n$5\r\napple\r\n*2\r\n$3\r\n0-3\r\n*2\r\n$9\r\nraspberry\r\n$6\r\norange\r\n"[0m
+[33m[tester::#ZX1] [client] [0m[36mReceived RESP array: [[0m
+[33m[tester::#ZX1] [client] [0m[36m  [[0m
+[33m[tester::#ZX1] [client] [0m[36m    "0-2",[0m
+[33m[tester::#ZX1] [client] [0m[36m    ["pineapple", "apple"][0m
+[33m[tester::#ZX1] [client] [0m[36m  ],[0m
+[33m[tester::#ZX1] [client] [0m[36m  [[0m
+[33m[tester::#ZX1] [client] [0m[36m    "0-3",[0m
+[33m[tester::#ZX1] [client] [0m[36m    ["raspberry", "orange"][0m
+[33m[tester::#ZX1] [client] [0m[36m  ][0m
+[33m[tester::#ZX1] [client] [0m[36m][0m
+[33m[tester::#ZX1] [client] [0m[92m✔︎ Received [[0m
+[33m[tester::#ZX1] [client] [0m[92m  [[0m
+[33m[tester::#ZX1] [client] [0m[92m    "0-2",[0m
+[33m[tester::#ZX1] [client] [0m[92m    ["pineapple", "apple"][0m
+[33m[tester::#ZX1] [client] [0m[92m  ],[0m
+[33m[tester::#ZX1] [client] [0m[92m  [[0m
+[33m[tester::#ZX1] [client] [0m[92m    "0-3",[0m
+[33m[tester::#ZX1] [client] [0m[92m    ["raspberry", "orange"][0m
+[33m[tester::#ZX1] [client] [0m[92m  ][0m
+[33m[tester::#ZX1] [client] [0m[92m][0m
+[33m[tester::#ZX1] [0m[92mTest passed.[0m
+[33m[tester::#ZX1] [0m[36mTerminating program[0m
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mjava.lang.RuntimeException: Unexpected end of stream.
+[33m[your_program] [0m	at utils.RedisInputStream.fill(RedisInputStream.java:25)
+[33m[your_program] [0m	at utils.RedisInputStream.readByte(RedisInputStream.java:45)
+[33m[your_program] [0m	at solver.RESPHandler.handle(RESPHandler.java:51)
+[33m[your_program] [0m	at solver.Main.handleClient(Main.java:76)
+[33m[your_program] [0m	at solver.Main.lambda$main$0(Main.java:47)
+[33m[your_program] [0m	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+[33m[your_program] [0m	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+[33m[your_program] [0m	at java.base/java.lang.Thread.run(Thread.java:1447)
+[33m[tester::#ZX1] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#YP1] [0m[94mRunning tests for Stage #YP1 (Streams - Query with -)[0m
+[33m[tester::#YP1] [0m[94m$ ./your_program.sh[0m
+[33m[your_program] [0mLoading commands handler
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[tester::#YP1] [client] [0m[94m$ redis-cli XADD strawberry 0-1 mango raspberry[0m
+[33m[tester::#YP1] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$10\r\nstrawberry\r\n$3\r\n0-1\r\n$5\r\nmango\r\n$9\r\nraspberry\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mstrawberry
+[33m[your_program] [0m0-1
+[33m[your_program] [0mmango
+[33m[your_program] [0mraspberry
+[33m[your_program] [0m]
+[33m[your_program] [0m0 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream strawberry
+[33m[your_program] [0m7 [pool-1-thread-1] INFO container.Container  - Adding 0-1 to stream strawberry
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0mstrawberry
+[33m[your_program] [0m[0-1]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#YP1] [client] [0m[36mReceived bytes: "$3\r\n0-1\r\n"[0m
+[33m[tester::#YP1] [client] [0m[36mReceived RESP bulk string: "0-1"[0m
+[33m[tester::#YP1] [client] [0m[92m✔︎ Received "0-1"[0m
+[33m[tester::#YP1] [client] [0m[94m> XADD strawberry 0-2 mango blueberry[0m
+[33m[tester::#YP1] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$10\r\nstrawberry\r\n$3\r\n0-2\r\n$5\r\nmango\r\n$9\r\nblueberry\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mstrawberry
+[33m[your_program] [0m0-2
+[33m[your_program] [0mmango
+[33m[your_program] [0mblueberry
+[33m[your_program] [0m]
+[33m[your_program] [0m20 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream strawberry
+[33m[tester::#YP1] [client] [0m[36mReceived bytes: "$3\r\n0-2\r\n"[0m
+[33m[tester::#YP1] [client] [0m[36mReceived RESP bulk string: "0-2"[0m
+[33m[your_program] [0m20 [pool-1-thread-1] INFO container.Container  - Adding 0-2 to stream strawberry
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0mstrawberry
+[33m[your_program] [0m[0-1, 0-2]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#YP1] [client] [0m[92m✔︎ Received "0-2"[0m
+[33m[tester::#YP1] [client] [0m[94m> XADD strawberry 0-3 blueberry mango[0m
+[33m[tester::#YP1] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$10\r\nstrawberry\r\n$3\r\n0-3\r\n$9\r\nblueberry\r\n$5\r\nmango\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mstrawberry
+[33m[your_program] [0m0-3
+[33m[your_program] [0mblueberry
+[33m[your_program] [0mmango
+[33m[your_program] [0m]
+[33m[tester::#YP1] [client] [0m[36mReceived bytes: "$3\r\n0-3\r\n"[0m
+[33m[tester::#YP1] [client] [0m[36mReceived RESP bulk string: "0-3"[0m
+[33m[your_program] [0m22 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream strawberry
+[33m[your_program] [0m22 [pool-1-thread-1] INFO container.Container  - Adding 0-3 to stream strawberry
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0mstrawberry
+[33m[your_program] [0m[0-1, 0-2, 0-3]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#YP1] [client] [0m[92m✔︎ Received "0-3"[0m
+[33m[tester::#YP1] [client] [0m[94m> XRANGE strawberry - 0-3[0m
+[33m[tester::#YP1] [client] [0m[36mSent bytes: "*4\r\n$6\r\nXRANGE\r\n$10\r\nstrawberry\r\n$1\r\n-\r\n$3\r\n0-3\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXRANGE
+[33m[your_program] [0mstrawberry
+[33m[your_program] [0m-
+[33m[your_program] [0m0-3
+[33m[your_program] [0m]
+[33m[your_program] [0m27 [pool-1-thread-1] INFO solver.impl.XRange  - Checking ID 0-3 in range 0-0 to 0-3
+[33m[your_program] [0mblueberry
+[33m[your_program] [0mmango
+[33m[your_program] [0m27 [pool-1-thread-1] INFO solver.impl.XRange  - Checking ID 0-2 in range 0-0 to 0-3
+[33m[your_program] [0mmango
+[33m[your_program] [0mblueberry
+[33m[your_program] [0m27 [pool-1-thread-1] INFO solver.impl.XRange  - Checking ID 0-1 in range 0-0 to 0-3
+[33m[your_program] [0mmango
+[33m[your_program] [0mraspberry
+[33m[your_program] [0m*2
+[33m[your_program] [0m$3
+[33m[your_program] [0m0-1
+[33m[your_program] [0m*2
+[33m[your_program] [0m$5
+[33m[your_program] [0mmango
+[33m[your_program] [0m$9
+[33m[your_program] [0mraspberry
+[33m[your_program] [0m
+[33m[your_program] [0m*2
+[33m[your_program] [0m$3
+[33m[your_program] [0m0-2
+[33m[your_program] [0m*2
+[33m[your_program] [0m$5
+[33m[your_program] [0mmango
+[33m[your_program] [0m$9
+[33m[your_program] [0mblueberry
+[33m[your_program] [0m
+[33m[your_program] [0m*2
+[33m[your_program] [0m$3
+[33m[your_program] [0m0-3
+[33m[your_program] [0m*2
+[33m[your_program] [0m$9
+[33m[your_program] [0mblueberry
+[33m[your_program] [0m$5
+[33m[your_program] [0mmango
+[33m[your_program] [0m
+[33m[tester::#YP1] [client] [0m[36mReceived bytes: "*3\r\n*2\r\n$3\r\n0-1\r\n*2\r\n$5\r\nmango\r\n$9\r\nraspberry\r\n*2\r\n$3\r\n0-2\r\n*2\r\n$5\r\nmango\r\n$9\r\nblueberry\r\n*2\r\n$3\r\n0-3\r\n*2\r\n$9\r\nblueberry\r\n$5\r\nmango\r\n"[0m
+[33m[tester::#YP1] [client] [0m[36mReceived RESP array: [[0m
+[33m[tester::#YP1] [client] [0m[36m  [[0m
+[33m[tester::#YP1] [client] [0m[36m    "0-1",[0m
+[33m[tester::#YP1] [client] [0m[36m    ["mango", "raspberry"][0m
+[33m[tester::#YP1] [client] [0m[36m  ],[0m
+[33m[tester::#YP1] [client] [0m[36m  [[0m
+[33m[tester::#YP1] [client] [0m[36m    "0-2",[0m
+[33m[tester::#YP1] [client] [0m[36m    ["mango", "blueberry"][0m
+[33m[tester::#YP1] [client] [0m[36m  ],[0m
+[33m[tester::#YP1] [client] [0m[36m  [[0m
+[33m[tester::#YP1] [client] [0m[36m    "0-3",[0m
+[33m[tester::#YP1] [client] [0m[36m    ["blueberry", "mango"][0m
+[33m[tester::#YP1] [client] [0m[36m  ][0m
+[33m[tester::#YP1] [client] [0m[36m][0m
+[33m[tester::#YP1] [client] [0m[92m✔︎ Received [[0m
+[33m[tester::#YP1] [client] [0m[92m  [[0m
+[33m[tester::#YP1] [client] [0m[92m    "0-1",[0m
+[33m[tester::#YP1] [client] [0m[92m    ["mango", "raspberry"][0m
+[33m[tester::#YP1] [client] [0m[92m  ],[0m
+[33m[tester::#YP1] [client] [0m[92m  [[0m
+[33m[tester::#YP1] [client] [0m[92m    "0-2",[0m
+[33m[tester::#YP1] [client] [0m[92m    ["mango", "blueberry"][0m
+[33m[tester::#YP1] [client] [0m[92m  ],[0m
+[33m[tester::#YP1] [client] [0m[92m  [[0m
+[33m[tester::#YP1] [client] [0m[92m    "0-3",[0m
+[33m[tester::#YP1] [client] [0m[92m    ["blueberry", "mango"][0m
+[33m[tester::#YP1] [client] [0m[92m  ][0m
+[33m[tester::#YP1] [client] [0m[92m][0m
+[33m[tester::#YP1] [0m[92mTest passed.[0m
+[33m[tester::#YP1] [0m[36mTerminating program[0m
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mjava.lang.RuntimeException: Unexpected end of stream.
+[33m[your_program] [0m	at utils.RedisInputStream.fill(RedisInputStream.java:25)
+[33m[your_program] [0m	at utils.RedisInputStream.readByte(RedisInputStream.java:45)
+[33m[your_program] [0m	at solver.RESPHandler.handle(RESPHandler.java:51)
+[33m[your_program] [0m	at solver.Main.handleClient(Main.java:76)
+[33m[your_program] [0m	at solver.Main.lambda$main$0(Main.java:47)
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0m	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+[33m[your_program] [0m	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+[33m[your_program] [0m	at java.base/java.lang.Thread.run(Thread.java:1447)
+[33m[tester::#YP1] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#FS1] [0m[94mRunning tests for Stage #FS1 (Streams - Query with +)[0m
+[33m[tester::#FS1] [0m[94m$ ./your_program.sh[0m
+[33m[your_program] [0mLoading commands handler
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[tester::#FS1] [client] [0m[94m$ redis-cli XADD grape 0-1 blueberry grape[0m
+[33m[tester::#FS1] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$5\r\ngrape\r\n$3\r\n0-1\r\n$9\r\nblueberry\r\n$5\r\ngrape\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mgrape
+[33m[your_program] [0m0-1
+[33m[your_program] [0mblueberry
+[33m[your_program] [0mgrape
+[33m[your_program] [0m]
+[33m[your_program] [0m0 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream grape
+[33m[your_program] [0m7 [pool-1-thread-1] INFO container.Container  - Adding 0-1 to stream grape
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0mgrape
+[33m[your_program] [0m[0-1]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#FS1] [client] [0m[36mReceived bytes: "$3\r\n0-1\r\n"[0m
+[33m[tester::#FS1] [client] [0m[36mReceived RESP bulk string: "0-1"[0m
+[33m[tester::#FS1] [client] [0m[92m✔︎ Received "0-1"[0m
+[33m[tester::#FS1] [client] [0m[94m> XADD grape 0-2 apple pear[0m
+[33m[tester::#FS1] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$5\r\ngrape\r\n$3\r\n0-2\r\n$5\r\napple\r\n$4\r\npear\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mgrape
+[33m[your_program] [0m0-2
+[33m[your_program] [0mapple
+[33m[your_program] [0mpear
+[33m[your_program] [0m]
+[33m[your_program] [0m20 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream grape
+[33m[tester::#FS1] [client] [0m[36mReceived bytes: "$3\r\n0-2\r\n"[0m
+[33m[tester::#FS1] [client] [0m[36mReceived RESP bulk string: "0-2"[0m
+[33m[your_program] [0m20 [pool-1-thread-1] INFO container.Container  - Adding 0-2 to stream grape
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0mgrape
+[33m[your_program] [0m[0-1, 0-2]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#FS1] [client] [0m[92m✔︎ Received "0-2"[0m
+[33m[tester::#FS1] [client] [0m[94m> XADD grape 0-3 banana raspberry[0m
+[33m[tester::#FS1] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$5\r\ngrape\r\n$3\r\n0-3\r\n$6\r\nbanana\r\n$9\r\nraspberry\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mgrape
+[33m[your_program] [0m0-3
+[33m[your_program] [0mbanana
+[33m[your_program] [0mraspberry
+[33m[your_program] [0m]
+[33m[your_program] [0m22 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream grape
+[33m[tester::#FS1] [client] [0m[36mReceived bytes: "$3\r\n0-3\r\n"[0m
+[33m[tester::#FS1] [client] [0m[36mReceived RESP bulk string: "0-3"[0m
+[33m[your_program] [0m22 [pool-1-thread-1] INFO container.Container  - Adding 0-3 to stream grape
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0mgrape
+[33m[your_program] [0m[0-1, 0-2, 0-3]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#FS1] [client] [0m[92m✔︎ Received "0-3"[0m
+[33m[tester::#FS1] [client] [0m[94m> XADD grape 0-4 raspberry pineapple[0m
+[33m[tester::#FS1] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$5\r\ngrape\r\n$3\r\n0-4\r\n$9\r\nraspberry\r\n$9\r\npineapple\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mgrape
+[33m[your_program] [0m0-4
+[33m[your_program] [0mraspberry
+[33m[your_program] [0mpineapple
+[33m[your_program] [0m]
+[33m[your_program] [0m24 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream grape
+[33m[tester::#FS1] [client] [0m[36mReceived bytes: "$3\r\n0-4\r\n"[0m
+[33m[tester::#FS1] [client] [0m[36mReceived RESP bulk string: "0-4"[0m
+[33m[your_program] [0m24 [pool-1-thread-1] INFO container.Container  - Adding 0-4 to stream grape
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0mgrape
+[33m[your_program] [0m[0-1, 0-2, 0-3, 0-4]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#FS1] [client] [0m[92m✔︎ Received "0-4"[0m
+[33m[tester::#FS1] [client] [0m[94m> XRANGE grape 0-2 +[0m
+[33m[tester::#FS1] [client] [0m[36mSent bytes: "*4\r\n$6\r\nXRANGE\r\n$5\r\ngrape\r\n$3\r\n0-2\r\n$1\r\n+\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXRANGE
+[33m[your_program] [0mgrape
+[33m[your_program] [0m0-2
+[33m[your_program] [0m+
+[33m[your_program] [0m]
+[33m[your_program] [0m29 [pool-1-thread-1] INFO solver.impl.XRange  - Checking ID 0-3 in range 0-2 to 1761120675781-0
+[33m[your_program] [0mbanana
+[33m[your_program] [0mraspberry
+[33m[your_program] [0m29 [pool-1-thread-1] INFO solver.impl.XRange  - Checking ID 0-4 in range 0-2 to 1761120675781-0
+[33m[your_program] [0mraspberry
+[33m[your_program] [0mpineapple
+[33m[your_program] [0m29 [pool-1-thread-1] INFO solver.impl.XRange  - Checking ID 0-2 in range 0-2 to 1761120675781-0
+[33m[your_program] [0mapple
+[33m[your_program] [0mpear
+[33m[your_program] [0m*2
+[33m[your_program] [0m$3
+[33m[your_program] [0m0-2
+[33m[your_program] [0m*2
+[33m[your_program] [0m$5
+[33m[your_program] [0mapple
+[33m[your_program] [0m$4
+[33m[your_program] [0mpear
+[33m[your_program] [0m
+[33m[your_program] [0m*2
+[33m[your_program] [0m$3
+[33m[your_program] [0m0-3
+[33m[your_program] [0m*2
+[33m[your_program] [0m$6
+[33m[your_program] [0mbanana
+[33m[your_program] [0m$9
+[33m[your_program] [0mraspberry
+[33m[your_program] [0m
+[33m[your_program] [0m*2
+[33m[your_program] [0m$3
+[33m[your_program] [0m0-4
+[33m[your_program] [0m*2
+[33m[your_program] [0m$9
+[33m[your_program] [0mraspberry
+[33m[your_program] [0m$9
+[33m[your_program] [0mpineapple
+[33m[your_program] [0m
+[33m[tester::#FS1] [client] [0m[36mReceived bytes: "*3\r\n*2\r\n$3\r\n0-2\r\n*2\r\n$5\r\napple\r\n$4\r\npear\r\n*2\r\n$3\r\n0-3\r\n*2\r\n$6\r\nbanana\r\n$9\r\nraspberry\r\n*2\r\n$3\r\n0-4\r\n*2\r\n$9\r\nraspberry\r\n$9\r\npineapple\r\n"[0m
+[33m[tester::#FS1] [client] [0m[36mReceived RESP array: [[0m
+[33m[tester::#FS1] [client] [0m[36m  ["0-2", ["apple", "pear"]],[0m
+[33m[tester::#FS1] [client] [0m[36m  [[0m
+[33m[tester::#FS1] [client] [0m[36m    "0-3",[0m
+[33m[tester::#FS1] [client] [0m[36m    ["banana", "raspberry"][0m
+[33m[tester::#FS1] [client] [0m[36m  ],[0m
+[33m[tester::#FS1] [client] [0m[36m  [[0m
+[33m[tester::#FS1] [client] [0m[36m    "0-4",[0m
+[33m[tester::#FS1] [client] [0m[36m    ["raspberry", "pineapple"][0m
+[33m[tester::#FS1] [client] [0m[36m  ][0m
+[33m[tester::#FS1] [client] [0m[36m][0m
+[33m[tester::#FS1] [client] [0m[92m✔︎ Received [[0m
+[33m[tester::#FS1] [client] [0m[92m  ["0-2", ["apple", "pear"]],[0m
+[33m[tester::#FS1] [client] [0m[92m  [[0m
+[33m[tester::#FS1] [client] [0m[92m    "0-3",[0m
+[33m[tester::#FS1] [client] [0m[92m    ["banana", "raspberry"][0m
+[33m[tester::#FS1] [client] [0m[92m  ],[0m
+[33m[tester::#FS1] [client] [0m[92m  [[0m
+[33m[tester::#FS1] [client] [0m[92m    "0-4",[0m
+[33m[tester::#FS1] [client] [0m[92m    ["raspberry", "pineapple"][0m
+[33m[tester::#FS1] [client] [0m[92m  ][0m
+[33m[tester::#FS1] [client] [0m[92m][0m
+[33m[tester::#FS1] [0m[92mTest passed.[0m
+[33m[tester::#FS1] [0m[36mTerminating program[0m
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mjava.lang.RuntimeException: Unexpected end of stream.
+[33m[your_program] [0m	at utils.RedisInputStream.fill(RedisInputStream.java:25)
+[33m[your_program] [0m	at utils.RedisInputStream.readByte(RedisInputStream.java:45)
+[33m[your_program] [0m	at solver.RESPHandler.handle(RESPHandler.java:51)
+[33m[your_program] [0m	at solver.Main.handleClient(Main.java:76)
+[33m[your_program] [0m	at solver.Main.lambda$main$0(Main.java:47)
+[33m[your_program] [0m	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+[33m[your_program] [0m	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+[33m[your_program] [0m	at java.base/java.lang.Thread.run(Thread.java:1447)
+[33m[your_program] [0mUnexpected end of stream.
+[33m[tester::#FS1] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#UM0] [0m[94mRunning tests for Stage #UM0 (Streams - Query single stream using XREAD)[0m
+[33m[tester::#UM0] [0m[94m$ ./your_program.sh[0m
+[33m[your_program] [0mLoading commands handler
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[tester::#UM0] [client] [0m[94m$ redis-cli XADD grape 0-1 temperature 83[0m
+[33m[tester::#UM0] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$5\r\ngrape\r\n$3\r\n0-1\r\n$11\r\ntemperature\r\n$2\r\n83\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mgrape
+[33m[your_program] [0m0-1
+[33m[your_program] [0mtemperature
+[33m[your_program] [0m83
+[33m[your_program] [0m]
+[33m[your_program] [0m0 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream grape
+[33m[your_program] [0m8 [pool-1-thread-1] INFO container.Container  - Adding 0-1 to stream grape
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0mgrape
+[33m[your_program] [0m[0-1]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#UM0] [client] [0m[36mReceived bytes: "$3\r\n0-1\r\n"[0m
+[33m[tester::#UM0] [client] [0m[36mReceived RESP bulk string: "0-1"[0m
+[33m[tester::#UM0] [client] [0m[92m✔︎ Received "0-1"[0m
+[33m[tester::#UM0] [client] [0m[94m> XREAD streams grape 0-0[0m
+[33m[tester::#UM0] [client] [0m[36mSent bytes: "*4\r\n$5\r\nXREAD\r\n$7\r\nstreams\r\n$5\r\ngrape\r\n$3\r\n0-0\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXREAD
+[33m[your_program] [0mstreams
+[33m[your_program] [0mgrape
+[33m[your_program] [0m0-0
+[33m[your_program] [0m]
+[33m[your_program] [0m21 [pool-1-thread-1] INFO solver.impl.XRead  - 
+[33m[your_program] [0mXREAD receiving following args: 
+[33m[your_program] [0m
+[33m[your_program] [0m22 [pool-1-thread-1] INFO solver.impl.XRead  - streams 
+[33m[your_program] [0m22 [pool-1-thread-1] INFO solver.impl.XRead  - grape 
+[33m[your_program] [0m22 [pool-1-thread-1] INFO solver.impl.XRead  - 0-0 
+[33m[your_program] [0m23 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD adding stream *2 to response.
+[33m[your_program] [0m26 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD cur: *1
+[33m[your_program] [0m
+[33m[your_program] [0m26 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD response: 
+[33m[your_program] [0m*1
+[33m[your_program] [0m*2
+[33m[your_program] [0m$5
+[33m[your_program] [0mgrape
+[33m[your_program] [0m*1
+[33m[your_program] [0m*2
+[33m[your_program] [0m$3
+[33m[your_program] [0m0-1
+[33m[your_program] [0m*2
+[33m[your_program] [0m$11
+[33m[your_program] [0mtemperature
+[33m[your_program] [0m$2
+[33m[your_program] [0m83
+[33m[your_program] [0m
+[33m[tester::#UM0] [client] [0m[36mReceived bytes: "*1\r\n*2\r\n$5\r\ngrape\r\n*1\r\n*2\r\n$3\r\n0-1\r\n*2\r\n$11\r\ntemperature\r\n$2\r\n83\r\n"[0m
+[33m[tester::#UM0] [client] [0m[36mReceived RESP array: [[0m
+[33m[tester::#UM0] [client] [0m[36m  [[0m
+[33m[tester::#UM0] [client] [0m[36m    "grape",[0m
+[33m[tester::#UM0] [client] [0m[36m    [[0m
+[33m[tester::#UM0] [client] [0m[36m      [[0m
+[33m[tester::#UM0] [client] [0m[36m        "0-1",[0m
+[33m[tester::#UM0] [client] [0m[36m        ["temperature", "83"][0m
+[33m[tester::#UM0] [client] [0m[36m      ][0m
+[33m[tester::#UM0] [client] [0m[36m    ][0m
+[33m[tester::#UM0] [client] [0m[36m  ][0m
+[33m[tester::#UM0] [client] [0m[36m][0m
+[33m[tester::#UM0] [client] [0m[92m✔︎ Received [[0m
+[33m[tester::#UM0] [client] [0m[92m  [[0m
+[33m[tester::#UM0] [client] [0m[92m    "grape",[0m
+[33m[tester::#UM0] [client] [0m[92m    [[0m
+[33m[tester::#UM0] [client] [0m[92m      [[0m
+[33m[tester::#UM0] [client] [0m[92m        "0-1",[0m
+[33m[tester::#UM0] [client] [0m[92m        ["temperature", "83"][0m
+[33m[tester::#UM0] [client] [0m[92m      ][0m
+[33m[tester::#UM0] [client] [0m[92m    ][0m
+[33m[tester::#UM0] [client] [0m[92m  ][0m
+[33m[tester::#UM0] [client] [0m[92m][0m
+[33m[tester::#UM0] [0m[92mTest passed.[0m
+[33m[tester::#UM0] [0m[36mTerminating program[0m
+[33m[tester::#UM0] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#RU9] [0m[94mRunning tests for Stage #RU9 (Streams - Query multiple streams using XREAD)[0m
+[33m[tester::#RU9] [0m[94m$ ./your_program.sh[0m
+[33m[your_program] [0mLoading commands handler
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[tester::#RU9] [client] [0m[94m$ redis-cli XADD blueberry 0-1 temperature 0[0m
+[33m[tester::#RU9] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$9\r\nblueberry\r\n$3\r\n0-1\r\n$11\r\ntemperature\r\n$1\r\n0\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mblueberry
+[33m[your_program] [0m0-1
+[33m[your_program] [0mtemperature
+[33m[your_program] [0m0
+[33m[your_program] [0m]
+[33m[your_program] [0m0 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream blueberry
+[33m[your_program] [0m11 [pool-1-thread-1] INFO container.Container  - Adding 0-1 to stream blueberry
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0mblueberry
+[33m[your_program] [0m[0-1]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#RU9] [client] [0m[36mReceived bytes: "$3\r\n0-1\r\n"[0m
+[33m[tester::#RU9] [client] [0m[36mReceived RESP bulk string: "0-1"[0m
+[33m[tester::#RU9] [client] [0m[92m✔︎ Received "0-1"[0m
+[33m[tester::#RU9] [client] [0m[94m> XADD banana 0-2 humidity 1[0m
+[33m[tester::#RU9] [client] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$6\r\nbanana\r\n$3\r\n0-2\r\n$8\r\nhumidity\r\n$1\r\n1\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mbanana
+[33m[your_program] [0m0-2
+[33m[tester::#RU9] [client] [0m[36mReceived bytes: "$3\r\n0-2\r\n"[0m
+[33m[tester::#RU9] [client] [0m[36mReceived RESP bulk string: "0-2"[0m
+[33m[your_program] [0mhumidity
+[33m[your_program] [0m1
+[33m[your_program] [0m]
+[33m[your_program] [0m17 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream banana
+[33m[your_program] [0m17 [pool-1-thread-1] INFO container.Container  - Adding 0-2 to stream banana
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0mbanana
+[33m[your_program] [0m[0-2]
+[33m[your_program] [0m--
+[33m[your_program] [0mblueberry
+[33m[your_program] [0m[0-1]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#RU9] [client] [0m[92m✔︎ Received "0-2"[0m
+[33m[tester::#RU9] [client] [0m[94m> XREAD streams blueberry banana 0-0 0-1[0m
+[33m[tester::#RU9] [client] [0m[36mSent bytes: "*6\r\n$5\r\nXREAD\r\n$7\r\nstreams\r\n$9\r\nblueberry\r\n$6\r\nbanana\r\n$3\r\n0-0\r\n$3\r\n0-1\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXREAD
+[33m[your_program] [0mstreams
+[33m[your_program] [0mblueberry
+[33m[your_program] [0mbanana
+[33m[your_program] [0m0-0
+[33m[your_program] [0m0-1
+[33m[your_program] [0m]
+[33m[your_program] [0m19 [pool-1-thread-1] INFO solver.impl.XRead  - 
+[33m[your_program] [0mXREAD receiving following args: 
+[33m[your_program] [0m
+[33m[your_program] [0m20 [pool-1-thread-1] INFO solver.impl.XRead  - streams 
+[33m[your_program] [0m20 [pool-1-thread-1] INFO solver.impl.XRead  - blueberry 
+[33m[your_program] [0m20 [pool-1-thread-1] INFO solver.impl.XRead  - banana 
+[33m[your_program] [0m20 [pool-1-thread-1] INFO solver.impl.XRead  - 0-0 
+[33m[your_program] [0m20 [pool-1-thread-1] INFO solver.impl.XRead  - 0-1 
+[33m[your_program] [0m21 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD adding stream *2 to response.
+[33m[your_program] [0m21 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD adding stream *2 to response.
+[33m[your_program] [0m21 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD cur: *2
+[33m[your_program] [0m
+[33m[your_program] [0m22 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD response: 
+[33m[your_program] [0m*2
+[33m[your_program] [0m*2
+[33m[your_program] [0m$9
+[33m[your_program] [0mblueberry
+[33m[your_program] [0m*1
+[33m[your_program] [0m*2
+[33m[your_program] [0m$3
+[33m[your_program] [0m0-1
+[33m[your_program] [0m*2
+[33m[your_program] [0m$11
+[33m[your_program] [0mtemperature
+[33m[your_program] [0m$1
+[33m[your_program] [0m0
+[33m[your_program] [0m*2
+[33m[your_program] [0m$6
+[33m[your_program] [0mbanana
+[33m[your_program] [0m*1
+[33m[your_program] [0m*2
+[33m[your_program] [0m$3
+[33m[your_program] [0m0-2
+[33m[your_program] [0m*2
+[33m[your_program] [0m$8
+[33m[your_program] [0mhumidity
+[33m[your_program] [0m$1
+[33m[your_program] [0m1
+[33m[your_program] [0m
+[33m[tester::#RU9] [client] [0m[36mReceived bytes: "*2\r\n*2\r\n$9\r\nblueberry\r\n*1\r\n*2\r\n$3\r\n0-1\r\n*2\r\n$11\r\ntemperature\r\n$1\r\n0\r\n*2\r\n$6\r\nbanana\r\n*1\r\n*2\r\n$3\r\n0-2\r\n*2\r\n$8\r\nhumidity\r\n$1\r\n1\r\n"[0m
+[33m[tester::#RU9] [client] [0m[36mReceived RESP array: [[0m
+[33m[tester::#RU9] [client] [0m[36m  [[0m
+[33m[tester::#RU9] [client] [0m[36m    "blueberry",[0m
+[33m[tester::#RU9] [client] [0m[36m    [[0m
+[33m[tester::#RU9] [client] [0m[36m      [[0m
+[33m[tester::#RU9] [client] [0m[36m        "0-1",[0m
+[33m[tester::#RU9] [client] [0m[36m        ["temperature", "0"][0m
+[33m[tester::#RU9] [client] [0m[36m      ][0m
+[33m[tester::#RU9] [client] [0m[36m    ][0m
+[33m[tester::#RU9] [client] [0m[36m  ],[0m
+[33m[tester::#RU9] [client] [0m[36m  [[0m
+[33m[tester::#RU9] [client] [0m[36m    "banana",[0m
+[33m[tester::#RU9] [client] [0m[36m    [["0-2", ["humidity", "1"]]][0m
+[33m[tester::#RU9] [client] [0m[36m  ][0m
+[33m[tester::#RU9] [client] [0m[36m][0m
+[33m[tester::#RU9] [client] [0m[92m✔︎ Received [[0m
+[33m[tester::#RU9] [client] [0m[92m  [[0m
+[33m[tester::#RU9] [client] [0m[92m    "blueberry",[0m
+[33m[tester::#RU9] [client] [0m[92m    [[0m
+[33m[tester::#RU9] [client] [0m[92m      [[0m
+[33m[tester::#RU9] [client] [0m[92m        "0-1",[0m
+[33m[tester::#RU9] [client] [0m[92m        ["temperature", "0"][0m
+[33m[tester::#RU9] [client] [0m[92m      ][0m
+[33m[tester::#RU9] [client] [0m[92m    ][0m
+[33m[tester::#RU9] [client] [0m[92m  ],[0m
+[33m[tester::#RU9] [client] [0m[92m  [[0m
+[33m[tester::#RU9] [client] [0m[92m    "banana",[0m
+[33m[tester::#RU9] [client] [0m[92m    [["0-2", ["humidity", "1"]]][0m
+[33m[tester::#RU9] [client] [0m[92m  ][0m
+[33m[tester::#RU9] [client] [0m[92m][0m
+[33m[tester::#RU9] [0m[92mTest passed.[0m
+[33m[tester::#RU9] [0m[36mTerminating program[0m
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mjava.lang.RuntimeException: Unexpected end of stream.
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0m	at utils.RedisInputStream.fill(RedisInputStream.java:25)
+[33m[your_program] [0m	at utils.RedisInputStream.readByte(RedisInputStream.java:45)
+[33m[your_program] [0m	at solver.RESPHandler.handle(RESPHandler.java:51)
+[33m[your_program] [0m	at solver.Main.handleClient(Main.java:76)
+[33m[your_program] [0m	at solver.Main.lambda$main$0(Main.java:47)
+[33m[your_program] [0m	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+[33m[your_program] [0m	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+[33m[your_program] [0m	at java.base/java.lang.Thread.run(Thread.java:1447)
+[33m[tester::#RU9] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#BS1] [0m[94mRunning tests for Stage #BS1 (Streams - Blocking reads)[0m
+[33m[tester::#BS1] [0m[94m$ ./your_program.sh[0m
+[33m[your_program] [0mLoading commands handler
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[tester::#BS1] [client-1] [0m[94m$ redis-cli XADD grape 0-1 temperature 94[0m
+[33m[tester::#BS1] [client-1] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$5\r\ngrape\r\n$3\r\n0-1\r\n$11\r\ntemperature\r\n$2\r\n94\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mgrape
+[33m[your_program] [0m0-1
+[33m[your_program] [0mtemperature
+[33m[your_program] [0m94
+[33m[your_program] [0m]
+[33m[your_program] [0m0 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream grape
+[33m[your_program] [0m14 [pool-1-thread-1] INFO container.Container  - Adding 0-1 to stream grape
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0mgrape
+[33m[your_program] [0m[0-1]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#BS1] [client-1] [0m[36mReceived bytes: "$3\r\n0-1\r\n"[0m
+[33m[tester::#BS1] [client-1] [0m[36mReceived RESP bulk string: "0-1"[0m
+[33m[tester::#BS1] [client-1] [0m[92m✔︎ Received "0-1"[0m
+[33m[tester::#BS1] [client-1] [0m[94m> XREAD block 1000 streams grape 0-1[0m
+[33m[tester::#BS1] [client-1] [0m[36mSent bytes: "*6\r\n$5\r\nXREAD\r\n$5\r\nblock\r\n$4\r\n1000\r\n$7\r\nstreams\r\n$5\r\ngrape\r\n$3\r\n0-1\r\n"[0m
+[33m[tester::#BS1] [client-1] [0m[94mWaiting for 500 ms[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXREAD
+[33m[your_program] [0mblock
+[33m[your_program] [0m1000
+[33m[your_program] [0mstreams
+[33m[your_program] [0mgrape
+[33m[your_program] [0m0-1
+[33m[your_program] [0m]
+[33m[your_program] [0m18 [pool-1-thread-1] INFO solver.impl.XRead  - 
+[33m[your_program] [0mXREAD receiving following args: 
+[33m[your_program] [0m
+[33m[your_program] [0m19 [pool-1-thread-1] INFO solver.impl.XRead  - block 
+[33m[your_program] [0m19 [pool-1-thread-1] INFO solver.impl.XRead  - 1000 
+[33m[your_program] [0m19 [pool-1-thread-1] INFO solver.impl.XRead  - streams 
+[33m[your_program] [0m19 [pool-1-thread-1] INFO solver.impl.XRead  - grape 
+[33m[your_program] [0m19 [pool-1-thread-1] INFO solver.impl.XRead  - 0-1 
+[33m[your_program] [0m19 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD BLOCK arg: 1000 
+[33m[your_program] [0m19 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD BLOCK arg: streams 
+[33m[your_program] [0m22 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD BLOCK arg: grape 
+[33m[your_program] [0m23 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD BLOCK arg: 0-1 
+[33m[your_program] [0m24 [pool-1-thread-1] INFO solver.impl.XRead  - Start waiting at 1761120677144
+[33m[tester::#BS1] [client-2] [0m[94m$ redis-cli XADD grape 0-2 temperature 62[0m
+[33m[tester::#BS1] [client-2] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$5\r\ngrape\r\n$3\r\n0-2\r\n$11\r\ntemperature\r\n$2\r\n62\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mgrape
+[33m[your_program] [0m0-2
+[33m[your_program] [0mtemperature
+[33m[your_program] [0m62
+[33m[your_program] [0m]
+[33m[your_program] [0m522 [pool-1-thread-2] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream grape
+[33m[your_program] [0m522 [pool-1-thread-2] INFO container.Container  - Adding 0-2 to stream grape
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0mgrape
+[33m[your_program] [0m[0-1, 0-2]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#BS1] [client-2] [0m[36mReceived bytes: "$3\r\n0-2\r\n"[0m
+[33m[tester::#BS1] [client-2] [0m[36mReceived RESP bulk string: "0-2"[0m
+[33m[tester::#BS1] [client-2] [0m[92m✔︎ Received "0-2"[0m
+[33m[tester::#BS1] [0m[94mExpecting 1 client to receive response of XREAD command[0m
+[33m[your_program] [0m1025 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD BLOCK woke up from sleep. Current time: 1761120678145
+[33m[your_program] [0m1028 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD BLOCK cur: *1
+[33m[your_program] [0m
+[33m[your_program] [0m1029 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD BLOCK response: 
+[33m[your_program] [0m*1
+[33m[your_program] [0m*2
+[33m[your_program] [0m$5
+[33m[your_program] [0mgrape
+[33m[your_program] [0m*1
+[33m[your_program] [0m*2
+[33m[your_program] [0m$3
+[33m[your_program] [0m0-2
+[33m[your_program] [0m*2
+[33m[your_program] [0m$11
+[33m[your_program] [0mtemperature
+[33m[your_program] [0m$2
+[33m[your_program] [0m62
+[33m[your_program] [0m
+[33m[tester::#BS1] [client-1] [0m[36mReceived bytes: "*1\r\n*2\r\n$5\r\ngrape\r\n*1\r\n*2\r\n$3\r\n0-2\r\n*2\r\n$11\r\ntemperature\r\n$2\r\n62\r\n"[0m
+[33m[tester::#BS1] [client-1] [0m[36mReceived RESP array: [[0m
+[33m[tester::#BS1] [client-1] [0m[36m  [[0m
+[33m[tester::#BS1] [client-1] [0m[36m    "grape",[0m
+[33m[tester::#BS1] [client-1] [0m[36m    [[0m
+[33m[tester::#BS1] [client-1] [0m[36m      [[0m
+[33m[tester::#BS1] [client-1] [0m[36m        "0-2",[0m
+[33m[tester::#BS1] [client-1] [0m[36m        ["temperature", "62"][0m
+[33m[tester::#BS1] [client-1] [0m[36m      ][0m
+[33m[tester::#BS1] [client-1] [0m[36m    ][0m
+[33m[tester::#BS1] [client-1] [0m[36m  ][0m
+[33m[tester::#BS1] [client-1] [0m[36m][0m
+[33m[tester::#BS1] [client-1] [0m[92m✔︎ Received [[0m
+[33m[tester::#BS1] [client-1] [0m[92m  [[0m
+[33m[tester::#BS1] [client-1] [0m[92m    "grape",[0m
+[33m[tester::#BS1] [client-1] [0m[92m    [[0m
+[33m[tester::#BS1] [client-1] [0m[92m      [[0m
+[33m[tester::#BS1] [client-1] [0m[92m        "0-2",[0m
+[33m[tester::#BS1] [client-1] [0m[92m        ["temperature", "62"][0m
+[33m[tester::#BS1] [client-1] [0m[92m      ][0m
+[33m[tester::#BS1] [client-1] [0m[92m    ][0m
+[33m[tester::#BS1] [client-1] [0m[92m  ][0m
+[33m[tester::#BS1] [client-1] [0m[92m][0m
+[33m[tester::#BS1] [client-1] [0m[94m> XREAD block 1000 streams grape 0-2[0m
+[33m[tester::#BS1] [client-1] [0m[36mSent bytes: "*6\r\n$5\r\nXREAD\r\n$5\r\nblock\r\n$4\r\n1000\r\n$7\r\nstreams\r\n$5\r\ngrape\r\n$3\r\n0-2\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXREAD
+[33m[your_program] [0mblock
+[33m[your_program] [0m1000
+[33m[your_program] [0mstreams
+[33m[your_program] [0mgrape
+[33m[your_program] [0m0-2
+[33m[your_program] [0m]
+[33m[your_program] [0m1036 [pool-1-thread-1] INFO solver.impl.XRead  - 
+[33m[your_program] [0mXREAD receiving following args: 
+[33m[your_program] [0m
+[33m[your_program] [0m1036 [pool-1-thread-1] INFO solver.impl.XRead  - block 
+[33m[your_program] [0m1036 [pool-1-thread-1] INFO solver.impl.XRead  - 1000 
+[33m[your_program] [0m1036 [pool-1-thread-1] INFO solver.impl.XRead  - streams 
+[33m[your_program] [0m1036 [pool-1-thread-1] INFO solver.impl.XRead  - grape 
+[33m[your_program] [0m1036 [pool-1-thread-1] INFO solver.impl.XRead  - 0-2 
+[33m[your_program] [0m1036 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD BLOCK arg: 1000 
+[33m[your_program] [0m1036 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD BLOCK arg: streams 
+[33m[your_program] [0m1036 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD BLOCK arg: grape 
+[33m[your_program] [0m1036 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD BLOCK arg: 0-2 
+[33m[your_program] [0m1036 [pool-1-thread-1] INFO solver.impl.XRead  - Start waiting at 1761120678157
+[33m[your_program] [0m2036 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD BLOCK woke up from sleep. Current time: 1761120679157
+[33m[tester::#BS1] [client-1] [0m[36mReceived bytes: "*-1\r\n"[0m
+[33m[tester::#BS1] [client-1] [0m[36mReceived RESP null array: "*-1\r\n"[0m
+[33m[tester::#BS1] [client-1] [0m[92m✔︎ Received "*-1\r\n"[0m
+[33m[tester::#BS1] [0m[92mTest passed.[0m
+[33m[tester::#BS1] [0m[36mTerminating program[0m
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mjava.lang.RuntimeException: Unexpected end of stream.
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0m	at utils.RedisInputStream.fill(RedisInputStream.java:25)
+[33m[your_program] [0m	at utils.RedisInputStream.readByte(RedisInputStream.java:45)
+[33m[your_program] [0m	at solver.RESPHandler.handle(RESPHandler.java:51)
+[33m[your_program] [0m	at solver.Main.handleClient(Main.java:76)
+[33m[your_program] [0m	at solver.Main.lambda$main$0(Main.java:47)
+[33m[your_program] [0m	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+[33m[your_program] [0m	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+[33m[your_program] [0m	at java.base/java.lang.Thread.run(Thread.java:1447)
+[33m[your_program] [0mjava.lang.RuntimeException: Unexpected end of stream.
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0m	at utils.RedisInputStream.fill(RedisInputStream.java:25)
+[33m[your_program] [0m	at utils.RedisInputStream.readByte(RedisInputStream.java:45)
+[33m[your_program] [0m	at solver.RESPHandler.handle(RESPHandler.java:51)
+[33m[your_program] [0m	at solver.Main.handleClient(Main.java:76)
+[33m[your_program] [0m	at solver.Main.lambda$main$0(Main.java:47)
+[33m[your_program] [0m	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+[33m[your_program] [0m	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+[33m[your_program] [0m	at java.base/java.lang.Thread.run(Thread.java:1447)
+[33m[tester::#BS1] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#HW1] [0m[94mRunning tests for Stage #HW1 (Streams - Blocking reads without timeout)[0m
+[33m[tester::#HW1] [0m[94m$ ./your_program.sh[0m
+[33m[your_program] [0mLoading commands handler
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[tester::#HW1] [client-1] [0m[94m$ redis-cli XADD raspberry 0-1 temperature 19[0m
+[33m[tester::#HW1] [client-1] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$9\r\nraspberry\r\n$3\r\n0-1\r\n$11\r\ntemperature\r\n$2\r\n19\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mraspberry
+[33m[your_program] [0m0-1
+[33m[your_program] [0mtemperature
+[33m[your_program] [0m19
+[33m[your_program] [0m]
+[33m[your_program] [0m0 [pool-1-thread-1] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream raspberry
+[33m[your_program] [0m20 [pool-1-thread-1] INFO container.Container  - Adding 0-1 to stream raspberry
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[tester::#HW1] [client-1] [0m[36mReceived bytes: "$3\r\n0-1\r\n"[0m
+[33m[tester::#HW1] [client-1] [0m[36mReceived RESP bulk string: "0-1"[0m
+[33m[tester::#HW1] [client-1] [0m[92m✔︎ Received "0-1"[0m
+[33m[tester::#HW1] [client-1] [0m[94m> XREAD block 0 streams raspberry 0-1[0m
+[33m[tester::#HW1] [client-1] [0m[36mSent bytes: "*6\r\n$5\r\nXREAD\r\n$5\r\nblock\r\n$1\r\n0\r\n$7\r\nstreams\r\n$9\r\nraspberry\r\n$3\r\n0-1\r\n"[0m
+[33m[your_program] [0mraspberry
+[33m[your_program] [0m[0-1]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXREAD
+[33m[your_program] [0mblock
+[33m[your_program] [0m0
+[33m[your_program] [0mstreams
+[33m[your_program] [0mraspberry
+[33m[your_program] [0m0-1
+[33m[your_program] [0m]
+[33m[your_program] [0m30 [pool-1-thread-1] INFO solver.impl.XRead  - 
+[33m[your_program] [0mXREAD receiving following args: 
+[33m[your_program] [0m
+[33m[your_program] [0m31 [pool-1-thread-1] INFO solver.impl.XRead  - block 
+[33m[your_program] [0m31 [pool-1-thread-1] INFO solver.impl.XRead  - 0 
+[33m[your_program] [0m31 [pool-1-thread-1] INFO solver.impl.XRead  - streams 
+[33m[your_program] [0m31 [pool-1-thread-1] INFO solver.impl.XRead  - raspberry 
+[33m[your_program] [0m31 [pool-1-thread-1] INFO solver.impl.XRead  - 0-1 
+[33m[tester::#HW1] [client-2] [0m[94m$ redis-cli XADD raspberry 0-2 temperature 65[0m
+[33m[tester::#HW1] [client-2] [0m[36mSent bytes: "*5\r\n$4\r\nXADD\r\n$9\r\nraspberry\r\n$3\r\n0-2\r\n$11\r\ntemperature\r\n$2\r\n65\r\n"[0m
+[33m[your_program] [0mThis is the elems in the array [
+[33m[your_program] [0mXADD
+[33m[your_program] [0mraspberry
+[33m[your_program] [0m0-2
+[33m[your_program] [0mtemperature
+[33m[your_program] [0m65
+[33m[your_program] [0m]
+[33m[your_program] [0m36 [pool-1-thread-2] INFO solver.impl.XAdd  - 
+[33m[your_program] [0mAdding to stream raspberry
+[33m[your_program] [0m36 [pool-1-thread-2] INFO container.Container  - Adding 0-2 to stream raspberry
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0mraspberry
+[33m[your_program] [0m[0-1, 0-2]
+[33m[your_program] [0m--
+[33m[your_program] [0m****************
+[33m[your_program] [0m
+[33m[your_program] [0m39 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD BLOCK arg: 0 
+[33m[your_program] [0mjava.lang.NullPointerException: Cannot read field "second" because "result" is null
+[33m[your_program] [0m41 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD BLOCK arg: streams 
+[33m[your_program] [0m41 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD BLOCK arg: raspberry 
+[33m[your_program] [0m41 [pool-1-thread-1] INFO solver.impl.XRead  - XREAD BLOCK arg: 0-1 
+[33m[your_program] [0m41 [pool-1-thread-1] WARN solver.impl.XRead  - XREAD BLOCK 0 is not supported yet.
+[33m[your_program] [0mCannot read field "second" because "result" is null
+[33m[your_program] [0m	at solver.RESPHandler.sendCommand(RESPHandler.java:22)
+[33m[your_program] [0m	at solver.Main.handleClient(Main.java:77)
+[33m[your_program] [0m	at solver.Main.lambda$main$0(Main.java:47)
+[33m[your_program] [0m	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+[33m[your_program] [0m	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+[33m[your_program] [0m	at java.base/java.lang.Thread.run(Thread.java:1447)
+[33m[tester::#HW1] [client-2] [0m[36mReceived bytes: "$3\r\n0-2\r\n"[0m
+[33m[tester::#HW1] [client-2] [0m[36mReceived RESP bulk string: "0-2"[0m
+[33m[your_program] [0mCannot read field "second" because "result" is null
+[33m[tester::#HW1] [client-2] [0m[92m✔︎ Received "0-2"[0m
+[33m[tester::#HW1] [0m[94mExpecting 1 client to receive response of XREAD command[0m
+[33m[tester::#HW1] [0m[91mNo response received in clients after a timeout of 2 seconds[0m
+[33m[tester::#HW1] [0m[91mTest failed[0m
+[33m[tester::#HW1] [0m[36mTerminating program[0m
+[33m[your_program] [0mjava.lang.RuntimeException: Unexpected end of stream.
+[33m[your_program] [0m	at utils.RedisInputStream.fill(RedisInputStream.java:25)
+[33m[your_program] [0m	at utils.RedisInputStream.readByte(RedisInputStream.java:45)
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0mUnexpected end of stream.
+[33m[your_program] [0m	at solver.RESPHandler.handle(RESPHandler.java:51)
+[33m[your_program] [0m	at solver.Main.handleClient(Main.java:76)
+[33m[your_program] [0m	at solver.Main.lambda$main$0(Main.java:47)
+[33m[your_program] [0m	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+[33m[your_program] [0m	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+[33m[your_program] [0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+[33m[your_program] [0m	at java.base/java.lang.Thread.run(Thread.java:1447)
+[33m[tester::#HW1] [0m[36mProgram terminated successfully[0m
+
+View our article on debugging test failures: https://codecrafters.io/debug
