@@ -58,3 +58,11 @@ RESP is the protocol you should implement in your Redis client.
 
 - [A simple RESP protocol implementation (Gist)](https://gist.github.com/ghoulr/15480ca71277e6681f5d)
 - [Redis Protocol Specification (Official Docs)](https://redis.io/docs/latest/develop/reference/protocol-spec/)
+
+
+## ICommandHandler
+
+#### References
+https://www.industriallogic.com/refactoring-to-patterns/catalog/conditionDispatcherWithCommand.html
+
+![Replace conditional dispatcher with command](https://www.industriallogic.com/xp/refactoring/images/conditionDispatcherWithCommand.jpg)

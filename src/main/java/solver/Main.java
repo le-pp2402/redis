@@ -1,20 +1,31 @@
+package solver;
+
+import constants.Command;
+import solver.impl.*;
 import utils.RedisInputStream;
-import solver.RESPHandler;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.log4j.BasicConfigurator;
+
 public class Main {
     public static void main(String[] args) {
-        // You can use print statements as follows for debugging, they'll be visible when running tests.
+        // Loading logger configurator;
+        BasicConfigurator.configure();
+
+        System.out.println("Loading commands handler");
+        loadCommandHandlers();
+
         System.out.println("Logs from your program will appear here!");
 
-        //  Uncomment this block to pass the first stage
+        // Uncomment this block to pass the first stage
         ServerSocket serverSocket;
         int port = 6379;
         try {
@@ -25,13 +36,11 @@ public class Main {
             // Wait for connection from client.
 
             ExecutorService threadPool = new ThreadPoolExecutor(
-                    4,                // corePoolSize
-                    50,               // maximumPoolSize
-                    60L,              // keepAliveTime
+                    4, // corePoolSize
+                    50, // maximumPoolSize
+                    60L, // keepAliveTime
                     TimeUnit.SECONDS,
-                    new SynchronousQueue<>()
-            );
-
+                    new SynchronousQueue<>());
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
@@ -43,7 +52,22 @@ public class Main {
         }
     }
 
-    private static void handleClient(Socket clientSocket)  {
+    public static HashMap<Command, ICommandHandler> commandHandlers = new HashMap<>();
+
+    private static void loadCommandHandlers() {
+        commandHandlers.put(Command.PING, new Ping());
+        commandHandlers.put(Command.ECHO, new Echo());
+        commandHandlers.put(Command.GET, new Get());
+        commandHandlers.put(Command.SET, new Set());
+        commandHandlers.put(Command.TYPE, new Type());
+        commandHandlers.put(Command.XADD, new XAdd());
+        commandHandlers.put(Command.XRANGE, new XRange());
+        commandHandlers.put(Command.XREAD, new XRead());
+        commandHandlers.put(Command.INCR, new Incr());
+        commandHandlers.put(Command.MULTI, new Multi());
+    }
+
+    private static void handleClient(Socket clientSocket) {
         try (Socket socket = clientSocket) {
             var inputStream = socket.getInputStream();
             var outputStream = socket.getOutputStream();
@@ -54,6 +78,9 @@ public class Main {
                     var result = RESPHandler.handle(redisInputStream);
                     RESPHandler.sendCommand(outputStream, result);
                 } catch (RuntimeException e) {
+                    System.out.println(e.getMessage());
+                    e.printStackTrace();
+                    System.out.println(e.getMessage());
                     break;
                 }
             }
