@@ -15,12 +15,13 @@ public class Incr implements ICommandHandler {
     @Override
     public Pair<String, DataType> handle(List<String> args) {
         var key = args.get(0);
-        var value = Container.get(key);
 
-        if (value == null) {
+        if (Container.container.get(key) == null) {
             Container.container.put(key, "1");
             return new Pair<>("1", DataType.INTEGER);
         }
+
+        var value = Container.get(key);
 
         logger.info("INCR called on key: " + key + " with current value: " + value.first);
 
