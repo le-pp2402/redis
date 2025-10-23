@@ -67,6 +67,18 @@ public class Main {
                                             .getBytes());
                             outputStream.flush();
 
+                            // if receive PONG, then send REPLCONF commands
+
+                            BufferedReader in = new BufferedReader(
+                                    new InputStreamReader(clientSocket.getInputStream()));
+                            String serverResponse;
+                            while ((serverResponse = in.readLine()) != null) {
+                                if (serverResponse.contains("PONG")) {
+                                    logger.info("Connected to master " + masterAddress + ":" + masterPort);
+                                    break;
+                                }
+                            }
+
                             outputStream
                                     .write(RESPBuilder.buildArray(List.of(
                                             RESPBuilder.buildBulkString("REPLCONF"),
@@ -82,12 +94,6 @@ public class Main {
                                     .getBytes());
                             outputStream.flush();
 
-                            BufferedReader in = new BufferedReader(
-                                    new InputStreamReader(clientSocket.getInputStream()));
-                            String serverResponse;
-                            while ((serverResponse = in.readLine()) != null) {
-                                logger.info("Response from master: " + serverResponse);
-                            }
                         } catch (Exception e) {
                             logger.error("Cannot connect to master " + masterAddress + ":" + masterPort);
                         }
