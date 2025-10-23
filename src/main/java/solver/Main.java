@@ -2,6 +2,7 @@ package solver;
 
 import constants.Command;
 import constants.replication.Roles;
+import container.ReplicationInfo;
 import solver.impl.*;
 import utils.RedisInputStream;
 
@@ -21,6 +22,7 @@ public class Main {
     private final static Logger logger = Logger.getLogger(Main.class);
 
     public static Roles ROLE = Roles.MASTER;
+    public static ReplicationInfo replicationInfo = new ReplicationInfo();
 
     public static void main(String[] args) {
         // Loading logger configurator;
