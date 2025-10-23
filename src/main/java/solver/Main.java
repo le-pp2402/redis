@@ -5,11 +5,13 @@ import constants.replication.Roles;
 import container.ReplicationInfo;
 import solver.impl.*;
 import utils.RedisInputStream;
+import utils.builds.RESPBuilder;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -53,6 +55,17 @@ public class Main {
                     if (i + 1 < args.length) {
                         masterHost = args[i + 1];
                         ROLE = Roles.SLAVE;
+
+                        String infos[] = masterHost.split("[ ]");
+                        String masterAddress = infos[0], masterPort = infos[1];
+                        try (Socket clientSocket = new Socket(masterAddress, Integer.parseInt(masterPort))) {
+                            clientSocket.setSoTimeout(2000);
+                            clientSocket.getOutputStream()
+                                    .write(RESPBuilder.buildArray(List.of(new StringBuffer("PING"))).toString()
+                                            .getBytes());
+                        } catch (Exception e) {
+                            logger.error("Cannot connect to master " + masterAddress + ":" + masterPort);
+                        }
                     } else {
                         logger.error("Master host not specified after --replicaof=");
                     }
