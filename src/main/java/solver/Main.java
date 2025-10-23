@@ -79,6 +79,8 @@ public class Main {
                                 }
                             }
 
+                            in.close();
+
                             outputStream
                                     .write(RESPBuilder.buildArray(List.of(
                                             RESPBuilder.buildBulkString("REPLCONF"),
