@@ -61,6 +61,8 @@ public class Main {
                         try (Socket clientSocket = new Socket(masterAddress, Integer.parseInt(masterPort))) {
                             clientSocket.setSoTimeout(2000);
                             var outputStream = clientSocket.getOutputStream();
+
+                            // STEP 1: send PING
                             outputStream
                                     .write(RESPBuilder.buildArray(List.of(
                                             RESPBuilder.buildBulkString("PING"))).toString()
@@ -68,6 +70,7 @@ public class Main {
 
                             // if receive PONG, then send REPLCONF commands
 
+                            // STEP 2: send REPLCONF listening-port <port> and REPLCONF capa psync2
                             BufferedReader in = new BufferedReader(
                                     new InputStreamReader(clientSocket.getInputStream()));
                             String serverResponse;
@@ -91,13 +94,20 @@ public class Main {
                                     RESPBuilder.buildBulkString("psync2"))).toString()
                                     .getBytes());
 
+                            int cnt = 0;
                             while ((serverResponse = in.readLine()) != null) {
                                 logger.info("Master response: " + serverResponse);
                                 if (!serverResponse.contains("OK")) {
                                     throw new IOException("Master did not accept REPLCONF");
+                                } else {
+                                    cnt++;
+                                    if (cnt == 2) {
+                                        break;
+                                    }
                                 }
                             }
 
+                            // STEP 3: send PSYNC ? 0
                             outputStream.write(
                                     RESPBuilder.buildArray(
                                             List.of(
