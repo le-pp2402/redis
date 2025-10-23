@@ -67,7 +67,7 @@ public class RESPHandler {
                 res.append((char) DOLLAR_BYTE);
                 res.append(rdbBytes.length);
                 res.append("\r\n");
-                res.append(rdbBytes);
+                res.append(rdbBytes.toString());
                 os.write(res.toString().getBytes());
             }
         } catch (IOException e) {
