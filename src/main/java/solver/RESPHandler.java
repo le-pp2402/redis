@@ -6,9 +6,13 @@ import utils.RedisInputStream;
 import constants.Command;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Queue;
+
+import org.apache.log4j.Logger;
 
 public class RESPHandler {
     public static final byte DOLLAR_BYTE = '$';
@@ -19,6 +23,7 @@ public class RESPHandler {
     public static final byte[] CRLF = "\r\n".getBytes();
 
     private TransactionManager transactionManager = new TransactionManager();
+    private static final Logger log = org.apache.log4j.Logger.getLogger(RESPHandler.class);
 
     public void sendCommand(final OutputStream os, Pair<String, DataType> result) {
         try {
@@ -88,11 +93,13 @@ public class RESPHandler {
             in.ensureCrLf();
         }
 
-        System.out.println("This is the elems in the array [");
+        log.info("Handling command with args: [");
         for (var elem : args) {
-            System.out.println(elem);
+            log.info(elem);
         }
-        System.out.println("]");
+        log.info("]");
+
+        Queue<Pair<Command, List<String>>> transactionQueue = new ArrayDeque<>();
 
         if (!args.isEmpty()) {
             var cmd = Command.getCommand(args.get(0));
@@ -104,6 +111,11 @@ public class RESPHandler {
             } else if (cmd.equals(Command.EXEC) && transactionManager.isCalledMulti()) {
                 transactionManager.setCalledMulti(false);
                 return new Pair<>("*0\r\n", DataType.ARRAYS);
+            } else {
+                if (transactionManager.isCalledMulti()) {
+                    transactionQueue.add(new Pair<>(cmd, args.subList(1, args.size())));
+                    return new Pair<>("QUEUED", DataType.SIMPLE_STRING);
+                }
             }
 
             if (Main.commandHandlers.containsKey(cmd)) {
