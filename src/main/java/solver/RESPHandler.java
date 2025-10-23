@@ -97,8 +97,13 @@ public class RESPHandler {
         if (!args.isEmpty()) {
             var cmd = Command.getCommand(args.get(0));
 
-            if (cmd.equals(Command.EXEC) && !transactionManager.isCalledMulti()) {
+            if (cmd.equals(Command.MULTI)) {
+                transactionManager.setCalledMulti(true);
+            } else if (cmd.equals(Command.EXEC) && !transactionManager.isCalledMulti()) {
                 return new Pair<>("ERR EXEC without MULTI", DataType.ERROR);
+            } else if (cmd.equals(Command.EXEC) && transactionManager.isCalledMulti()) {
+                transactionManager.setCalledMulti(false);
+                return new Pair<>("*0\r\n", DataType.ARRAYS);
             }
 
             if (Main.commandHandlers.containsKey(cmd)) {
