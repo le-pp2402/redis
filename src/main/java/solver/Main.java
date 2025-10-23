@@ -61,7 +61,8 @@ public class Main {
                         try (Socket clientSocket = new Socket(masterAddress, Integer.parseInt(masterPort))) {
                             clientSocket.setSoTimeout(2000);
                             clientSocket.getOutputStream()
-                                    .write(RESPBuilder.buildArray(List.of(new StringBuffer("PING"))).toString()
+                                    .write(RESPBuilder.buildArray(List.of(new StringBuffer(
+                                            RESPBuilder.buildBulkString("PING")))).toString()
                                             .getBytes());
                         } catch (Exception e) {
                             logger.error("Cannot connect to master " + masterAddress + ":" + masterPort);
