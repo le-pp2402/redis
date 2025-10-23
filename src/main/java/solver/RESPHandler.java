@@ -57,6 +57,17 @@ public class RESPHandler {
 
                 os.write(sb.toString().getBytes());
             }
+
+            if (result.first != null && result.first.contains("FULLRESYNC")) {
+                String emptyRDBFile = "UkVESVMwMDEx+glyZWRpcy12ZXIFNy4yLjD6CnJlZGlzLWJpdHPAQPoFY3RpbWXCbQi8ZfoIdXNlZC1tZW3CsMQQAPoIYW9mLWJhc2XAAP/wbjv+wP9aog==";
+                byte[] rdbBytes = java.util.Base64.getDecoder().decode(emptyRDBFile);
+                StringBuffer res = new StringBuffer();
+                res.append((char) DOLLAR_BYTE);
+                res.append(rdbBytes.length);
+                res.append("\r\n");
+                res.append(rdbBytes);
+                os.write(res.toString().getBytes());
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
