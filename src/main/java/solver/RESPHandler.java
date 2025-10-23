@@ -2,6 +2,7 @@ package solver;
 
 import constants.DataType;
 import container.TransactionManager;
+import utils.BinaryConverter;
 import utils.RedisInputStream;
 import constants.Command;
 import java.io.IOException;
@@ -68,7 +69,7 @@ public class RESPHandler {
                 StringBuffer binRDBFile = new StringBuffer();
 
                 for (int i = 0; i < rdbBytes.length; i++) {
-                    binRDBFile.append(Integer.toString((int) rdbBytes[i]));
+                    binRDBFile.append(BinaryConverter.toBinary(rdbBytes.toString()));
                 }
 
                 StringBuffer res = new StringBuffer();
