@@ -6,9 +6,12 @@ import utils.RedisInputStream;
 import constants.Command;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Queue;
+import org.apache.log4j.Logger;
 
 public class RESPHandler {
     public static final byte DOLLAR_BYTE = '$';
@@ -18,7 +21,11 @@ public class RESPHandler {
     public static final byte COLON_BYTE = ':';
     public static final byte[] CRLF = "\r\n".getBytes();
 
-    public static void sendCommand(final OutputStream os, Pair<String, DataType> result) {
+    private TransactionManager transactionManager = new TransactionManager();
+    private Queue<Pair<Command, List<String>>> transactionQueue = new ArrayDeque<>();
+    private static final Logger log = org.apache.log4j.Logger.getLogger(RESPHandler.class);
+
+    public void sendCommand(final OutputStream os, Pair<String, DataType> result) {
         try {
             if (result.second == DataType.INTEGER) {
                 var sb = new StringBuilder();
@@ -55,7 +62,7 @@ public class RESPHandler {
         }
     }
 
-    public static Pair<String, DataType> handle(RedisInputStream in) {
+    public Pair<String, DataType> handle(RedisInputStream in) {
         byte fb = in.readByte();
 
         return switch (fb) {
@@ -68,15 +75,15 @@ public class RESPHandler {
         };
     }
 
-    private static Pair<String, DataType> handleError(RedisInputStream in) {
+    private Pair<String, DataType> handleError(RedisInputStream in) {
         throw new UnsupportedOperationException("This operation is not yet implemented.");
     }
 
-    private static Pair<String, DataType> handleInteger(RedisInputStream in) {
+    private Pair<String, DataType> handleInteger(RedisInputStream in) {
         throw new UnsupportedOperationException("This operation is not yet implemented.");
     }
 
-    private static Pair<String, DataType> handleArray(RedisInputStream in) {
+    private Pair<String, DataType> handleArray(RedisInputStream in) {
         int len = Integer.parseInt(in.readLine());
         List<String> args = new ArrayList<>(len);
         for (int i = 0; i < len; i++) {
@@ -86,14 +93,72 @@ public class RESPHandler {
             in.ensureCrLf();
         }
 
-        System.out.println("This is the elems in the array [");
+        log.info("Handling command with args: [");
         for (var elem : args) {
-            System.out.println(elem);
+            log.info(elem);
         }
-        System.out.println("]");
+        log.info("]");
 
         if (!args.isEmpty()) {
             var cmd = Command.getCommand(args.get(0));
+
+            if (cmd.equals(Command.MULTI)) {
+                transactionManager.setCalledMulti(true);
+            } else if (cmd.equals(Command.EXEC) && !transactionManager.isCalledMulti()) {
+                return new Pair<>("ERR EXEC without MULTI", DataType.ERROR);
+            } else if (cmd.equals(Command.EXEC) && transactionManager.isCalledMulti()) {
+                transactionManager.setCalledMulti(false);
+                if (transactionQueue.isEmpty()) {
+                    return new Pair<>("*0\r\n", DataType.ARRAYS);
+                } else {
+                    List<Pair<String, DataType>> results = new ArrayList<>();
+                    while (transactionQueue.peek() != null) {
+                        var pair = transactionQueue.poll();
+                        var command = pair.first;
+                        var arguments = pair.second;
+                        if (Main.commandHandlers.containsKey(command)) {
+                            var result = Main.commandHandlers.get(command).handle(arguments);
+                            results.add(result);
+                            log.info("Executed command in transaction: " + command + " with result: " + result.first
+                                    + " result type: " + result.second);
+                        } else {
+                            log.info("Unsupported command in transaction: " + command);
+                        }
+                    }
+
+                    StringBuffer sb = new StringBuffer();
+                    sb.append("*").append(results.size()).append("\r\n");
+                    for (Pair<String, DataType> res : results) {
+                        if (res.second.equals(DataType.ERROR)) {
+                            sb.append((char) MINUS_BYTE).append(res.first).append("\r\n");
+                        } else if (res.second.equals(DataType.INTEGER)) {
+                            sb.append((char) COLON_BYTE).append(res.first).append("\r\n");
+                        } else if (res.second.equals(DataType.BULK_STRING)) {
+                            sb.append((char) DOLLAR_BYTE).append(res.first.length()).append("\r\n");
+                            sb.append(res.first).append("\r\n");
+                        } else if (res.second.equals(DataType.SIMPLE_STRING)) {
+                            sb.append((char) PLUS_BYTE).append(res.first).append("\r\n");
+                        } else {
+                            log.info("Unsupported data type in transaction result: " + res.second);
+                        }
+                    }
+                    return new Pair<>(sb.toString(), DataType.ARRAYS);
+                }
+            } else if (cmd.equals(Command.DISCARD) && transactionManager.isCalledMulti()) {
+                transactionManager.setCalledMulti(false);
+                transactionQueue.clear();
+                return new Pair<>("OK", DataType.SIMPLE_STRING);
+            } else if (cmd.equals(Command.DISCARD) && !transactionManager.isCalledMulti()) {
+                return new Pair<>("ERR DISCARD without MULTI", DataType.ERROR);
+            } else {
+                if (transactionManager.isCalledMulti()) {
+                    transactionQueue.add(new Pair<>(cmd, args.subList(1, args.size())));
+                    for (Pair<Command, List<String>> pair : transactionQueue) {
+                        log.info("Queued command in transaction: " + pair.first);
+                    }
+                    return new Pair<>("QUEUED", DataType.SIMPLE_STRING);
+                }
+            }
 
             if (Main.commandHandlers.containsKey(cmd)) {
                 return Main.commandHandlers.get(cmd).handle(args.subList(1, args.size()));
@@ -102,9 +167,10 @@ public class RESPHandler {
         }
 
         throw new UnsupportedOperationException("This operation is not yet implemented.");
+
     }
 
-    public static Pair<String, DataType> handle(RedisInputStream in, byte fb) {
+    public Pair<String, DataType> handle(RedisInputStream in, byte fb) {
         String req = (char) fb + in.readLine();
 
         Command cmd = Command.getCommand(req.substring(0, req.indexOf(' ')));
@@ -117,11 +183,11 @@ public class RESPHandler {
         throw new UnsupportedOperationException("This operation is not yet implemented.");
     }
 
-    private static Pair<String, DataType> handleBulkString(RedisInputStream in) {
+    private Pair<String, DataType> handleBulkString(RedisInputStream in) {
         throw new UnsupportedOperationException("This operation is not yet implemented.");
     }
 
-    public static Pair<String, DataType> handleSimpleString(RedisInputStream in) {
+    public Pair<String, DataType> handleSimpleString(RedisInputStream in) {
         throw new UnsupportedOperationException("This operation is not yet implemented.");
     }
 }

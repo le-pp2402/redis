@@ -26,7 +26,7 @@ public class BaseTest {
         System.out.println("Reading server response (up to 2s timeout)...");
         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         String serverResponse;
-        List<String> responses = new ArrayList();
+        List<String> responses = new ArrayList<String>();
         while ((serverResponse = in.readLine()) != null) {
             System.out.println("Server says: " + serverResponse);
             responses.add(serverResponse);
