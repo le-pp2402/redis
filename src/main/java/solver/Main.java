@@ -1,6 +1,7 @@
 package solver;
 
 import constants.Command;
+import constants.replication.Roles;
 import solver.impl.*;
 import utils.RedisInputStream;
 
@@ -19,6 +20,8 @@ import org.apache.log4j.Logger;
 public class Main {
     private final static Logger logger = Logger.getLogger(Main.class);
 
+    public static Roles ROLE = Roles.MASTER;
+
     public static void main(String[] args) {
         // Loading logger configurator;
         BasicConfigurator.configure();
@@ -32,6 +35,8 @@ public class Main {
 
         int port = 6379;
 
+        String masterHost = null;
+
         if (args.length > 0) {
             for (int i = 0; i < args.length; i++) {
                 if (args[i].startsWith("--port")) {
@@ -39,6 +44,15 @@ public class Main {
                         port = Integer.parseInt(args[i + 1]);
                     } else {
                         logger.error("Port number not specified after --port=");
+                    }
+                }
+
+                if (args[i].startsWith("--replicaof")) {
+                    if (i + 1 < args.length) {
+                        masterHost = args[i + 1];
+                        ROLE = Roles.SLAVE;
+                    } else {
+                        logger.error("Master host not specified after --replicaof=");
                     }
                 }
             }
