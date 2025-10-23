@@ -113,7 +113,7 @@ public class Main {
                                             List.of(
                                                     RESPBuilder.buildBulkString("PSYNC"),
                                                     RESPBuilder.buildBulkString("?"),
-                                                    RESPBuilder.buildBulkString("0")))
+                                                    RESPBuilder.buildBulkString("-1")))
                                             .toString().getBytes());
                         } catch (Exception e) {
                             logger.error("Cannot connect to master " + masterAddress + ":" + masterPort);
