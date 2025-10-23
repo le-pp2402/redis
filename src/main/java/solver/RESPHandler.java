@@ -110,7 +110,41 @@ public class RESPHandler {
                 return new Pair<>("ERR EXEC without MULTI", DataType.ERROR);
             } else if (cmd.equals(Command.EXEC) && transactionManager.isCalledMulti()) {
                 transactionManager.setCalledMulti(false);
-                return new Pair<>("*0\r\n", DataType.ARRAYS);
+                if (transactionQueue.isEmpty()) {
+                    return new Pair<>("*0\r\n", DataType.ARRAYS);
+                } else {
+                    List<Pair<String, DataType>> results = new ArrayList<>();
+                    while (transactionQueue.peek() != null) {
+                        var pair = transactionQueue.poll();
+                        var command = pair.first;
+                        var arguments = pair.second;
+                        if (Main.commandHandlers.containsKey(command)) {
+                            var result = Main.commandHandlers.get(command).handle(arguments);
+                            results.add(result);
+                            log.info("Executed command in transaction: " + command + " with result: " + result.first);
+                        } else {
+                            log.info("Unsupported command in transaction: " + command);
+                        }
+
+                        StringBuffer sb = new StringBuffer();
+                        sb.append("*").append(results.size()).append("\r\n");
+                        for (Pair<String, DataType> res : results) {
+                            sb.append((char) PLUS_BYTE).append(res.first).append("\r\n");
+                            if (res.second == DataType.ERROR) {
+                                sb.append((char) MINUS_BYTE).append(res.first).append("\r\n");
+                            } else if (res.second == DataType.INTEGER) {
+                                sb.append((char) COLON_BYTE).append(res.first).append("\r\n");
+                            } else if (res.second == DataType.BULK_STRING) {
+                                sb.append((char) DOLLAR_BYTE).append(res.first.length()).append("\r\n");
+                                sb.append(res.first).append("\r\n");
+                            } else {
+                                log.info("Unsupported data type in transaction result: " + res.second);
+                            }
+                        }
+
+                        return new Pair<>(sb.toString(), DataType.ARRAYS);
+                    }
+                }
             } else {
                 if (transactionManager.isCalledMulti()) {
                     transactionQueue.add(new Pair<>(cmd, args.subList(1, args.size())));
