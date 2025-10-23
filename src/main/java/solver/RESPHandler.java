@@ -6,6 +6,8 @@ import utils.RedisInputStream;
 import constants.Command;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,7 +62,7 @@ public class RESPHandler {
 
             if (result.first != null && result.first.contains("FULLRESYNC")) {
                 String emptyRDBFile = "UkVESVMwMDEx+glyZWRpcy12ZXIFNy4yLjD6CnJlZGlzLWJpdHPAQPoFY3RpbWXCbQi8ZfoIdXNlZC1tZW3CsMQQAPoIYW9mLWJhc2XAAP/wbjv+wP9aog==";
-                byte[] rdbBytes = emptyRDBFile.getBytes();
+                byte[] rdbBytes = emptyRDBFile.getBytes(StandardCharsets.UTF_8);
                 StringBuffer res = new StringBuffer();
                 res.append((char) DOLLAR_BYTE);
                 res.append(rdbBytes.length);
