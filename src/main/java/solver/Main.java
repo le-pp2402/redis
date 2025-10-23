@@ -168,6 +168,7 @@ public class Main {
         commandHandlers.put(Command.MULTI, new Multi());
         commandHandlers.put(Command.INFO, new Info());
         commandHandlers.put(Command.REPLCONF, new Replconf());
+        commandHandlers.put(Command.PSYNC, new Psync());
     }
 
     private static void handleClient(Socket clientSocket) {
