@@ -18,7 +18,9 @@ public class RESPHandler {
     public static final byte COLON_BYTE = ':';
     public static final byte[] CRLF = "\r\n".getBytes();
 
-    public static void sendCommand(final OutputStream os, Pair<String, DataType> result) {
+    private TransactionManager transactionManager = new TransactionManager();
+
+    public void sendCommand(final OutputStream os, Pair<String, DataType> result) {
         try {
             if (result.second == DataType.INTEGER) {
                 var sb = new StringBuilder();
@@ -55,7 +57,7 @@ public class RESPHandler {
         }
     }
 
-    public static Pair<String, DataType> handle(RedisInputStream in) {
+    public Pair<String, DataType> handle(RedisInputStream in) {
         byte fb = in.readByte();
 
         return switch (fb) {
@@ -68,15 +70,15 @@ public class RESPHandler {
         };
     }
 
-    private static Pair<String, DataType> handleError(RedisInputStream in) {
+    private Pair<String, DataType> handleError(RedisInputStream in) {
         throw new UnsupportedOperationException("This operation is not yet implemented.");
     }
 
-    private static Pair<String, DataType> handleInteger(RedisInputStream in) {
+    private Pair<String, DataType> handleInteger(RedisInputStream in) {
         throw new UnsupportedOperationException("This operation is not yet implemented.");
     }
 
-    private static Pair<String, DataType> handleArray(RedisInputStream in) {
+    private Pair<String, DataType> handleArray(RedisInputStream in) {
         int len = Integer.parseInt(in.readLine());
         List<String> args = new ArrayList<>(len);
         for (int i = 0; i < len; i++) {
@@ -95,6 +97,10 @@ public class RESPHandler {
         if (!args.isEmpty()) {
             var cmd = Command.getCommand(args.get(0));
 
+            if (cmd.equals(Command.EXEC) && !transactionManager.isCalledMulti()) {
+                return new Pair<>("ERR EXEC without MULTI", DataType.ERROR);
+            }
+
             if (Main.commandHandlers.containsKey(cmd)) {
                 return Main.commandHandlers.get(cmd).handle(args.subList(1, args.size()));
             }
@@ -104,7 +110,7 @@ public class RESPHandler {
         throw new UnsupportedOperationException("This operation is not yet implemented.");
     }
 
-    public static Pair<String, DataType> handle(RedisInputStream in, byte fb) {
+    public Pair<String, DataType> handle(RedisInputStream in, byte fb) {
         String req = (char) fb + in.readLine();
 
         Command cmd = Command.getCommand(req.substring(0, req.indexOf(' ')));
@@ -117,11 +123,11 @@ public class RESPHandler {
         throw new UnsupportedOperationException("This operation is not yet implemented.");
     }
 
-    private static Pair<String, DataType> handleBulkString(RedisInputStream in) {
+    private Pair<String, DataType> handleBulkString(RedisInputStream in) {
         throw new UnsupportedOperationException("This operation is not yet implemented.");
     }
 
-    public static Pair<String, DataType> handleSimpleString(RedisInputStream in) {
+    public Pair<String, DataType> handleSimpleString(RedisInputStream in) {
         throw new UnsupportedOperationException("This operation is not yet implemented.");
     }
 }

@@ -14,17 +14,19 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 
 public class Main {
+    private final static Logger logger = Logger.getLogger(Main.class);
+
     public static void main(String[] args) {
         // Loading logger configurator;
         BasicConfigurator.configure();
 
-        System.out.println("Loading commands handler");
+        logger.info("Loading commands handler");
         loadCommandHandlers();
 
-        System.out.println("Logs from your program will appear here!");
-
+        logger.info("Logs from your program will appear here!");
         // Uncomment this block to pass the first stage
         ServerSocket serverSocket;
         int port = 6379;
@@ -35,20 +37,22 @@ public class Main {
             serverSocket.setReuseAddress(true);
             // Wait for connection from client.
 
-            ExecutorService threadPool = new ThreadPoolExecutor(
-                    4, // corePoolSize
-                    50, // maximumPoolSize
-                    60L, // keepAliveTime
+            try (ExecutorService threadPool = new ThreadPoolExecutor(
+                    4,
+                    50,
+                    60L,
                     TimeUnit.SECONDS,
-                    new SynchronousQueue<>());
-
-            while (true) {
-                Socket clientSocket = serverSocket.accept();
-                threadPool.submit(() -> handleClient(clientSocket));
+                    new SynchronousQueue<>())) {
+                while (true) {
+                    Socket clientSocket = serverSocket.accept();
+                    threadPool.submit(() -> handleClient(clientSocket));
+                }
+            } catch (Exception e) {
+                logger.error(e.getMessage());
             }
 
         } catch (IOException e) {
-            System.out.println("IOException: " + e.getMessage());
+            logger.error(e.getMessage());
         }
     }
 
@@ -72,18 +76,18 @@ public class Main {
             var inputStream = socket.getInputStream();
             var outputStream = socket.getOutputStream();
             RedisInputStream redisInputStream = new RedisInputStream(inputStream);
+            var respHandler = new RESPHandler();
 
             while (true) {
                 try {
-                    var result = RESPHandler.handle(redisInputStream);
-                    RESPHandler.sendCommand(outputStream, result);
+                    var result = respHandler.handle(redisInputStream);
+                    respHandler.sendCommand(outputStream, result);
                 } catch (RuntimeException e) {
-                    System.out.println(e.getMessage());
-                    e.printStackTrace();
-                    System.out.println(e.getMessage());
+                    logger.error(e.getMessage());
                     break;
                 }
             }
+
         } catch (IOException e) {
             System.out.println("IOException: " + e.getMessage());
         }
