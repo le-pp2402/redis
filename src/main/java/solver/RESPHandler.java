@@ -12,6 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
 
+import javax.xml.crypto.Data;
+
 import org.apache.log4j.Logger;
 
 public class RESPHandler {
@@ -23,6 +25,7 @@ public class RESPHandler {
     public static final byte[] CRLF = "\r\n".getBytes();
 
     private TransactionManager transactionManager = new TransactionManager();
+    private Queue<Pair<Command, List<String>>> transactionQueue = new ArrayDeque<>();
     private static final Logger log = org.apache.log4j.Logger.getLogger(RESPHandler.class);
 
     public void sendCommand(final OutputStream os, Pair<String, DataType> result) {
@@ -99,8 +102,6 @@ public class RESPHandler {
         }
         log.info("]");
 
-        Queue<Pair<Command, List<String>>> transactionQueue = new ArrayDeque<>();
-
         if (!args.isEmpty()) {
             var cmd = Command.getCommand(args.get(0));
 
@@ -121,33 +122,37 @@ public class RESPHandler {
                         if (Main.commandHandlers.containsKey(command)) {
                             var result = Main.commandHandlers.get(command).handle(arguments);
                             results.add(result);
-                            log.info("Executed command in transaction: " + command + " with result: " + result.first);
+                            log.info("Executed command in transaction: " + command + " with result: " + result.first
+                                    + " result type: " + result.second);
                         } else {
                             log.info("Unsupported command in transaction: " + command);
                         }
-
-                        StringBuffer sb = new StringBuffer();
-                        sb.append("*").append(results.size()).append("\r\n");
-                        for (Pair<String, DataType> res : results) {
-                            sb.append((char) PLUS_BYTE).append(res.first).append("\r\n");
-                            if (res.second == DataType.ERROR) {
-                                sb.append((char) MINUS_BYTE).append(res.first).append("\r\n");
-                            } else if (res.second == DataType.INTEGER) {
-                                sb.append((char) COLON_BYTE).append(res.first).append("\r\n");
-                            } else if (res.second == DataType.BULK_STRING) {
-                                sb.append((char) DOLLAR_BYTE).append(res.first.length()).append("\r\n");
-                                sb.append(res.first).append("\r\n");
-                            } else {
-                                log.info("Unsupported data type in transaction result: " + res.second);
-                            }
-                        }
-
-                        return new Pair<>(sb.toString(), DataType.ARRAYS);
                     }
+
+                    StringBuffer sb = new StringBuffer();
+                    sb.append("*").append(results.size()).append("\r\n");
+                    for (Pair<String, DataType> res : results) {
+                        if (res.second.equals(DataType.ERROR)) {
+                            sb.append((char) MINUS_BYTE).append(res.first).append("\r\n");
+                        } else if (res.second.equals(DataType.INTEGER)) {
+                            sb.append((char) COLON_BYTE).append(res.first).append("\r\n");
+                        } else if (res.second.equals(DataType.BULK_STRING)) {
+                            sb.append((char) DOLLAR_BYTE).append(res.first.length()).append("\r\n");
+                            sb.append(res.first).append("\r\n");
+                        } else if (res.second.equals(DataType.SIMPLE_STRING)) {
+                            sb.append((char) PLUS_BYTE).append(res.first).append("\r\n");
+                        } else {
+                            log.info("Unsupported data type in transaction result: " + res.second);
+                        }
+                    }
+                    return new Pair<>(sb.toString(), DataType.ARRAYS);
                 }
             } else {
                 if (transactionManager.isCalledMulti()) {
                     transactionQueue.add(new Pair<>(cmd, args.subList(1, args.size())));
+                    for (Pair<Command, List<String>> pair : transactionQueue) {
+                        log.info("Queued command in transaction: " + pair.first);
+                    }
                     return new Pair<>("QUEUED", DataType.SIMPLE_STRING);
                 }
             }
@@ -159,6 +164,7 @@ public class RESPHandler {
         }
 
         throw new UnsupportedOperationException("This operation is not yet implemented.");
+
     }
 
     public Pair<String, DataType> handle(RedisInputStream in, byte fb) {
