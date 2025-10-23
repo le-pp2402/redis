@@ -65,7 +65,6 @@ public class Main {
                                     .write(RESPBuilder.buildArray(List.of(
                                             RESPBuilder.buildBulkString("PING"))).toString()
                                             .getBytes());
-                            outputStream.flush();
 
                             // if receive PONG, then send REPLCONF commands
 
@@ -79,22 +78,22 @@ public class Main {
                                 }
                             }
 
-                            in.close();
-
                             outputStream
                                     .write(RESPBuilder.buildArray(List.of(
                                             RESPBuilder.buildBulkString("REPLCONF"),
                                             RESPBuilder.buildBulkString("listening-port"),
                                             RESPBuilder.buildBulkString(String.valueOf(port)))).toString()
                                             .getBytes());
-                            outputStream.flush();
 
                             outputStream.write(RESPBuilder.buildArray(List.of(
                                     RESPBuilder.buildBulkString("REPLCONF"),
                                     RESPBuilder.buildBulkString("capa"),
                                     RESPBuilder.buildBulkString("psync2"))).toString()
                                     .getBytes());
-                            outputStream.flush();
+
+                            while ((serverResponse = in.readLine()) != null) {
+                                logger.info("Master response: " + serverResponse);
+                            }
 
                         } catch (Exception e) {
                             logger.error("Cannot connect to master " + masterAddress + ":" + masterPort);
