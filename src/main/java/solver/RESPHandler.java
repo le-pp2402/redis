@@ -60,7 +60,7 @@ public class RESPHandler {
 
             if (result.first != null && result.first.contains("FULLRESYNC")) {
                 String emptyRDBFile = "UkVESVMwMDEx+glyZWRpcy12ZXIFNy4yLjD6CnJlZGlzLWJpdHPAQPoFY3RpbWXCbQi8ZfoIdXNlZC1tZW3CsMQQAPoIYW9mLWJhc2XAAP/wbjv+wP9aog==";
-                byte[] rdbBytes = java.util.Base64.getDecoder().decode(emptyRDBFile);
+                byte[] rdbBytes = emptyRDBFile.getBytes();
                 StringBuffer res = new StringBuffer();
                 res.append((char) DOLLAR_BYTE);
                 res.append(rdbBytes.length);
