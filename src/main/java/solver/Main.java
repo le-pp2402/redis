@@ -93,8 +93,18 @@ public class Main {
 
                             while ((serverResponse = in.readLine()) != null) {
                                 logger.info("Master response: " + serverResponse);
+                                if (!serverResponse.contains("OK")) {
+                                    throw new IOException("Master did not accept REPLCONF");
+                                }
                             }
 
+                            outputStream.write(
+                                    RESPBuilder.buildArray(
+                                            List.of(
+                                                    RESPBuilder.buildBulkString("PSYNC"),
+                                                    RESPBuilder.buildBulkString("?"),
+                                                    RESPBuilder.buildBulkString("0")))
+                                            .toString().getBytes());
                         } catch (Exception e) {
                             logger.error("Cannot connect to master " + masterAddress + ":" + masterPort);
                         }
