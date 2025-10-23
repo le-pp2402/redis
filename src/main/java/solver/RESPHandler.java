@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.Queue;
 import org.apache.log4j.Logger;
@@ -62,7 +63,7 @@ public class RESPHandler {
 
             if (result.first != null && result.first.contains("FULLRESYNC")) {
                 String emptyRDBFile = "UkVESVMwMDEx+glyZWRpcy12ZXIFNy4yLjD6CnJlZGlzLWJpdHPAQPoFY3RpbWXCbQi8ZfoIdXNlZC1tZW3CsMQQAPoIYW9mLWJhc2XAAP/wbjv+wP9aog==";
-                byte[] rdbBytes = emptyRDBFile.getBytes(StandardCharsets.UTF_8);
+                byte[] rdbBytes = Base64.getDecoder().decode(emptyRDBFile.getBytes(StandardCharsets.UTF_8));
                 StringBuffer res = new StringBuffer();
                 res.append((char) DOLLAR_BYTE);
                 res.append(rdbBytes.length);
