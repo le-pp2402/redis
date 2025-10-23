@@ -74,7 +74,7 @@ public class RESPHandler {
 
                 StringBuffer res = new StringBuffer();
                 res.append((char) DOLLAR_BYTE);
-                res.append(binRDBFile.length());
+                res.append(rdbBytes.length);
                 res.append("\r\n");
                 res.append(binRDBFile);
                 os.write(res.toString().getBytes());
