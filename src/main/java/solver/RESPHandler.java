@@ -2,12 +2,10 @@ package solver;
 
 import constants.DataType;
 import container.TransactionManager;
-import utils.BinaryConverter;
 import utils.RedisInputStream;
 import constants.Command;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -176,6 +174,9 @@ public class RESPHandler {
             }
 
             if (Main.commandHandlers.containsKey(cmd)) {
+                if (cmd.compareTo(Command.SET) == 0) {
+                    
+                }
                 return Main.commandHandlers.get(cmd).handle(args.subList(1, args.size()));
             }
             throw new UnsupportedOperationException("This operation is not yet implemented.");

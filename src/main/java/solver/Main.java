@@ -10,6 +10,7 @@ import utils.builds.RESPBuilder;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -25,6 +26,7 @@ public class Main {
 
     public static Roles ROLE = Roles.MASTER;
     public static ReplicationInfo replicationInfo = new ReplicationInfo();
+    public static List<Integer> slavePorts = new ArrayList<>();
 
     public static void main(String[] args) {
         // Loading logger configurator;
