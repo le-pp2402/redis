@@ -11,9 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
-
-import javax.xml.crypto.Data;
-
 import org.apache.log4j.Logger;
 
 public class RESPHandler {
@@ -147,6 +144,12 @@ public class RESPHandler {
                     }
                     return new Pair<>(sb.toString(), DataType.ARRAYS);
                 }
+            } else if (cmd.equals(Command.DISCARD) && transactionManager.isCalledMulti()) {
+                transactionManager.setCalledMulti(false);
+                transactionQueue.clear();
+                return new Pair<>("OK", DataType.SIMPLE_STRING);
+            } else if (cmd.equals(Command.DISCARD) && !transactionManager.isCalledMulti()) {
+                return new Pair<>("ERR DISCARD without MULTI", DataType.ERROR);
             } else {
                 if (transactionManager.isCalledMulti()) {
                     transactionQueue.add(new Pair<>(cmd, args.subList(1, args.size())));
