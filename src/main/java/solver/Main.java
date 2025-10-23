@@ -29,7 +29,23 @@ public class Main {
         logger.info("Logs from your program will appear here!");
         // Uncomment this block to pass the first stage
         ServerSocket serverSocket;
+
         int port = 6379;
+
+        if (args.length > 0) {
+            for (int i = 0; i < args.length; i++) {
+                if (args[i].startsWith("--port")) {
+                    if (i + 1 < args.length) {
+                        port = Integer.parseInt(args[i + 1]);
+                    } else {
+                        logger.error("Port number not specified after --port=");
+                    }
+                }
+            }
+        }
+
+        logger.info("Starting server on port " + port);
+
         try {
             serverSocket = new ServerSocket(port);
             // Since the tester restarts your program quite often, setting SO_REUSEADDR
