@@ -60,10 +60,34 @@ public class Main {
                         String masterAddress = infos[0], masterPort = infos[1];
                         try (Socket clientSocket = new Socket(masterAddress, Integer.parseInt(masterPort))) {
                             clientSocket.setSoTimeout(2000);
-                            clientSocket.getOutputStream()
-                                    .write(RESPBuilder.buildArray(List.of(new StringBuffer(
-                                            RESPBuilder.buildBulkString("PING")))).toString()
+                            var outputStream = clientSocket.getOutputStream();
+                            outputStream
+                                    .write(RESPBuilder.buildArray(List.of(
+                                            RESPBuilder.buildBulkString("PING"))).toString()
                                             .getBytes());
+                            outputStream.flush();
+
+                            outputStream
+                                    .write(RESPBuilder.buildArray(List.of(
+                                            RESPBuilder.buildBulkString("REPLCONF"),
+                                            RESPBuilder.buildBulkString("listening-port"),
+                                            RESPBuilder.buildBulkString(String.valueOf(port)))).toString()
+                                            .getBytes());
+                            outputStream.flush();
+
+                            outputStream.write(RESPBuilder.buildArray(List.of(
+                                    RESPBuilder.buildBulkString("REPLCONF"),
+                                    RESPBuilder.buildBulkString("capa"),
+                                    RESPBuilder.buildBulkString("psync2"))).toString()
+                                    .getBytes());
+                            outputStream.flush();
+
+                            BufferedReader in = new BufferedReader(
+                                    new InputStreamReader(clientSocket.getInputStream()));
+                            String serverResponse;
+                            while ((serverResponse = in.readLine()) != null) {
+                                logger.info("Response from master: " + serverResponse);
+                            }
                         } catch (Exception e) {
                             logger.error("Cannot connect to master " + masterAddress + ":" + masterPort);
                         }
@@ -116,6 +140,7 @@ public class Main {
         commandHandlers.put(Command.INCR, new Incr());
         commandHandlers.put(Command.MULTI, new Multi());
         commandHandlers.put(Command.INFO, new Info());
+        commandHandlers.put(Command.REPLCONF, new Replconf());
     }
 
     private static void handleClient(Socket clientSocket) {
