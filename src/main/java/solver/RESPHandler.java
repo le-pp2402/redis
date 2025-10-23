@@ -64,11 +64,18 @@ public class RESPHandler {
             if (result.first != null && result.first.contains("FULLRESYNC")) {
                 String emptyRDBFile = "UkVESVMwMDEx+glyZWRpcy12ZXIFNy4yLjD6CnJlZGlzLWJpdHPAQPoFY3RpbWXCbQi8ZfoIdXNlZC1tZW3CsMQQAPoIYW9mLWJhc2XAAP/wbjv+wP9aog==";
                 byte[] rdbBytes = Base64.getDecoder().decode(emptyRDBFile.getBytes(StandardCharsets.UTF_8));
+
+                StringBuffer binRDBFile = new StringBuffer();
+
+                for (int i = 0; i < rdbBytes.length; i++) {
+                    binRDBFile.append(Integer.toString((int) rdbBytes[i]));
+                }
+
                 StringBuffer res = new StringBuffer();
                 res.append((char) DOLLAR_BYTE);
-                res.append(rdbBytes.length);
+                res.append(binRDBFile.length());
                 res.append("\r\n");
-                res.append(rdbBytes.toString());
+                res.append(binRDBFile);
                 os.write(res.toString().getBytes());
             }
         } catch (IOException e) {
