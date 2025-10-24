@@ -29,12 +29,11 @@ public class Main {
     public static ReplicationInfo replicationInfo = new ReplicationInfo();
     public static List<OutputStream> slaves = new ArrayList<>();
     public static int port = 6379;
-    public static boolean isHandshaked = false;
+    private static ReplicationConnection replConn = null;
 
     public static void handShake(String masterAddress, String masterPort) {
         try {
-
-            ReplicationConnection replConn = new ReplicationConnection(masterAddress, Integer.parseInt(masterPort),
+            replConn = new ReplicationConnection(masterAddress, Integer.parseInt(masterPort),
                     port);
 
             var clientSocket = replConn.getSocket();
@@ -93,6 +92,8 @@ public class Main {
                                     RESPBuilder.buildBulkString("?"),
                                     RESPBuilder.buildBulkString("-1")))
                             .toString().getBytes());
+
+            replConn.setHandshaked(true);
         } catch (Exception e) {
             logger.error("Replication handshake failed: " + e.getMessage());
         }
@@ -199,9 +200,11 @@ public class Main {
             while (true) {
                 try {
                     var result = respHandler.handle(redisInputStream, outputStream);
-                    if (Main.ROLE.equals(Roles.MASTER) || (Main.ROLE.equals(Roles.SLAVE) && !Main.isHandshaked)) {
-                        respHandler.sendCommand(outputStream, result);
+                    if (replConn == null && ROLE.equals(Roles.SLAVE) && replConn.isHandshaked()
+                            && socket.equals(replConn.getSocket())) {
+                        continue;
                     }
+                    respHandler.sendCommand(outputStream, result);
                 } catch (RuntimeException e) {
                     logger.error(e.getMessage());
                     break;

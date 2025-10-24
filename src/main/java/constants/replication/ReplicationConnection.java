@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 public class ReplicationConnection {
     private static final Logger log = Logger.getLogger(ReplicationConnection.class);
+    private static boolean isHandshaked = false;
 
     private Socket socket;
 
@@ -36,5 +37,13 @@ public class ReplicationConnection {
         } catch (IOException e) {
             log.error(e.getMessage());
         }
+    }
+
+    public boolean isHandshaked() {
+        return isHandshaked;
+    }
+
+    public void setHandshaked(boolean handshaked) {
+        isHandshaked = handshaked;
     }
 }
