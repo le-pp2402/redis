@@ -191,7 +191,7 @@ public class RESPHandler {
                             }
                             log.info("Propagating command to slave: " + sb.toString());
                             outSlave.write(sb.toString().getBytes());
-                            break;
+                            outSlave.flush();
                         } catch (IOException e) {
                             log.error("Failed to propagate command to slave: " + e.getMessage());
                         }
@@ -200,7 +200,7 @@ public class RESPHandler {
 
                 var res = Main.commandHandlers.get(cmd).handle(args.subList(1, args.size()));
 
-                if (cmd.equals(Command.REPLCONF) && Main.ROLE.equals(Roles.MASTER)) {
+                if (cmd.equals(Command.REPLCONF) && Main.ROLE.equals(Roles.MASTER) && !Main.slaves.contains(out)) {
                     Main.slaves.add(out);
                 }
 
