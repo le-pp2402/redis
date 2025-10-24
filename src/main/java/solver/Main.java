@@ -29,6 +29,7 @@ public class Main {
     public static ReplicationInfo replicationInfo = new ReplicationInfo();
     public static List<OutputStream> slaves = new ArrayList<>();
     public static int port = 6379;
+    public static boolean isHandshaked = false;
 
     public static void handShake(String masterAddress, String masterPort) {
         try {
@@ -198,7 +199,9 @@ public class Main {
             while (true) {
                 try {
                     var result = respHandler.handle(redisInputStream, outputStream);
-                    respHandler.sendCommand(outputStream, result);
+                    if (Main.ROLE.equals(Roles.MASTER) || (Main.ROLE.equals(Roles.SLAVE) && !Main.isHandshaked)) {
+                        respHandler.sendCommand(outputStream, result);
+                    }
                 } catch (RuntimeException e) {
                     logger.error(e.getMessage());
                     break;
