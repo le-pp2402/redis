@@ -225,25 +225,7 @@ public class RESPHandler {
     }
 
     private Pair<String, DataType> handleBulkString(RedisInputStream in) {
-        String inp = in.readLine();
-        int len = Integer.parseInt(inp);
-        List<String> args = new ArrayList<>(len);
-        for (int i = 0; i < len; i++) {
-            byte _ = in.readByte();
-            int elemLen = Integer.parseInt(in.readLine());
-            args.add(in.readBytes(elemLen));
-            in.ensureCrLf();
-        }
-
-        for (var elem : args) {
-            log.info(elem);
-            if (elem.contains("master_replid")) {
-                log.info("Received master_replid: " + elem);
-                Main.isHandshaked = true;
-            }
-        }
-
-        return null;
+        throw new UnsupportedOperationException("This operation is not yet implemented.");
     }
 
     public Pair<String, DataType> handleSimpleString(RedisInputStream in) {
