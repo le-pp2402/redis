@@ -200,7 +200,7 @@ public class Main {
             while (true) {
                 try {
                     var result = respHandler.handle(redisInputStream, outputStream);
-                    if (replConn == null && ROLE.equals(Roles.SLAVE) && replConn.isHandshaked()
+                    if (replConn != null && ROLE.equals(Roles.SLAVE) && replConn.isHandshaked()
                             && socket.equals(replConn.getSocket())) {
                         continue;
                     }
