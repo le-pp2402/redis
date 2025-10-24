@@ -1,6 +1,7 @@
 package solver;
 
 import constants.DataType;
+import constants.replication.Roles;
 import container.TransactionManager;
 import utils.RedisInputStream;
 import constants.Command;
@@ -25,7 +26,7 @@ public class RESPHandler {
 
     private TransactionManager transactionManager = new TransactionManager();
     private Queue<Pair<Command, List<String>>> transactionQueue = new ArrayDeque<>();
-    private static final Logger log = org.apache.log4j.Logger.getLogger(RESPHandler.class);
+    private static final Logger log = Logger.getLogger(RESPHandler.class);
 
     public void sendCommand(final OutputStream os, Pair<String, DataType> result) {
         try {
@@ -75,13 +76,12 @@ public class RESPHandler {
         }
     }
 
-    public Pair<String, DataType> handle(RedisInputStream in) {
+    public Pair<String, DataType> handle(RedisInputStream in, OutputStream out) {
         byte fb = in.readByte();
-
         return switch (fb) {
             case PLUS_BYTE -> handleSimpleString(in);
             case DOLLAR_BYTE -> handleBulkString(in);
-            case ASTERISK_BYTE -> handleArray(in);
+            case ASTERISK_BYTE -> handleArray(in, out);
             case COLON_BYTE -> handleInteger(in);
             case MINUS_BYTE -> handleError(in);
             default -> handle(in, fb);
@@ -96,8 +96,9 @@ public class RESPHandler {
         throw new UnsupportedOperationException("This operation is not yet implemented.");
     }
 
-    private Pair<String, DataType> handleArray(RedisInputStream in) {
-        int len = Integer.parseInt(in.readLine());
+    private Pair<String, DataType> handleArray(RedisInputStream in, OutputStream out) {
+        String inp = in.readLine();
+        int len = Integer.parseInt(inp);
         List<String> args = new ArrayList<>(len);
         for (int i = 0; i < len; i++) {
             byte _ = in.readByte();
@@ -174,16 +175,40 @@ public class RESPHandler {
             }
 
             if (Main.commandHandlers.containsKey(cmd)) {
-                if (cmd.compareTo(Command.SET) == 0) {
-                    
+                if (cmd.equals(Command.SET) && Main.ROLE.equals(Roles.MASTER)) {
+                    for (var outSlave : Main.slaves) {
+                        try {
+                            StringBuilder sb = new StringBuilder();
+                            sb.append((char) ASTERISK_BYTE);
+                            sb.append(args.size());
+                            sb.append("\r\n");
+                            for (String arg : args) {
+                                sb.append((char) DOLLAR_BYTE);
+                                sb.append(arg.length());
+                                sb.append("\r\n");
+                                sb.append(arg);
+                                sb.append("\r\n");
+                            }
+                            log.info("Propagating command to slave: " + sb.toString());
+                            outSlave.write(sb.toString().getBytes());
+                            break;
+                        } catch (IOException e) {
+                            log.error("Failed to propagate command to slave: " + e.getMessage());
+                        }
+                    }
                 }
-                return Main.commandHandlers.get(cmd).handle(args.subList(1, args.size()));
+
+                var res = Main.commandHandlers.get(cmd).handle(args.subList(1, args.size()));
+
+                if (cmd.equals(Command.REPLCONF) && Main.ROLE.equals(Roles.MASTER)) {
+                    Main.slaves.add(out);
+                }
+
+                return res;
             }
             throw new UnsupportedOperationException("This operation is not yet implemented.");
         }
-
         throw new UnsupportedOperationException("This operation is not yet implemented.");
-
     }
 
     public Pair<String, DataType> handle(RedisInputStream in, byte fb) {

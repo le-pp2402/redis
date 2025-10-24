@@ -1,6 +1,7 @@
 package solver;
 
 import constants.Command;
+import constants.replication.ReplicationConnection;
 import constants.replication.Roles;
 import container.ReplicationInfo;
 import solver.impl.*;
@@ -26,7 +27,75 @@ public class Main {
 
     public static Roles ROLE = Roles.MASTER;
     public static ReplicationInfo replicationInfo = new ReplicationInfo();
-    public static List<Integer> slavePorts = new ArrayList<>();
+    public static List<OutputStream> slaves = new ArrayList<>();
+    public static int port = 6379;
+
+    public static void handShake(String masterAddress, String masterPort) {
+        try {
+
+            ReplicationConnection replConn = new ReplicationConnection(masterAddress, Integer.parseInt(masterPort),
+                    port);
+
+            var clientSocket = replConn.getSocket();
+            var outputStream = clientSocket.getOutputStream();
+
+            // STEP 1: send PING
+            outputStream
+                    .write(RESPBuilder.buildArray(List.of(
+                            RESPBuilder.buildBulkString("PING"))).toString()
+                            .getBytes());
+
+            // if receive PONG, then send REPLCONF commands
+
+            // STEP 2: send REPLCONF listening-port <port> and REPLCONF capa psync2
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(clientSocket.getInputStream()));
+            String serverResponse;
+            while ((serverResponse = in.readLine()) != null) {
+                if (serverResponse.contains("PONG")) {
+                    logger.info("Connected to master " + masterAddress + ":" + masterPort);
+                    break;
+                }
+            }
+
+            outputStream
+                    .write(RESPBuilder.buildArray(List.of(
+                            RESPBuilder.buildBulkString("REPLCONF"),
+                            RESPBuilder.buildBulkString("listening-port"),
+                            RESPBuilder.buildBulkString(String.valueOf(port)))).toString()
+                            .getBytes());
+
+            outputStream.write(RESPBuilder.buildArray(List.of(
+                    RESPBuilder.buildBulkString("REPLCONF"),
+                    RESPBuilder.buildBulkString("capa"),
+                    RESPBuilder.buildBulkString("psync2"))).toString()
+                    .getBytes());
+
+            int cnt = 0;
+            while ((serverResponse = in.readLine()) != null) {
+                logger.info("Master response: " + serverResponse);
+                if (!serverResponse.contains("OK")) {
+                    throw new IOException("Master did not accept REPLCONF");
+                } else {
+                    cnt++;
+                    if (cnt == 2) {
+                        break;
+                    }
+                }
+            }
+
+            // STEP 3: send PSYNC ? 0
+            outputStream.write(
+                    RESPBuilder.buildArray(
+                            List.of(
+                                    RESPBuilder.buildBulkString("PSYNC"),
+                                    RESPBuilder.buildBulkString("?"),
+                                    RESPBuilder.buildBulkString("-1")))
+                            .toString().getBytes());
+        } catch (Exception e) {
+            logger.error("Replication handshake failed: " + e.getMessage());
+        }
+    }
 
     public static void main(String[] args) {
         // Loading logger configurator;
@@ -38,10 +107,6 @@ public class Main {
         logger.info("Logs from your program will appear here!");
         // Uncomment this block to pass the first stage
         ServerSocket serverSocket;
-
-        int port = 6379;
-
-        String masterHost = null;
 
         if (args.length > 0) {
             for (int i = 0; i < args.length; i++) {
@@ -55,73 +120,23 @@ public class Main {
 
                 if (args[i].startsWith("--replicaof")) {
                     if (i + 1 < args.length) {
-                        masterHost = args[i + 1];
+                        var masterHost = args[i + 1];
                         ROLE = Roles.SLAVE;
 
-                        String infos[] = masterHost.split("[ ]");
-                        String masterAddress = infos[0], masterPort = infos[1];
-                        try (Socket clientSocket = new Socket(masterAddress, Integer.parseInt(masterPort))) {
-                            clientSocket.setSoTimeout(2000);
-                            var outputStream = clientSocket.getOutputStream();
-
-                            // STEP 1: send PING
-                            outputStream
-                                    .write(RESPBuilder.buildArray(List.of(
-                                            RESPBuilder.buildBulkString("PING"))).toString()
-                                            .getBytes());
-
-                            // if receive PONG, then send REPLCONF commands
-
-                            // STEP 2: send REPLCONF listening-port <port> and REPLCONF capa psync2
-                            BufferedReader in = new BufferedReader(
-                                    new InputStreamReader(clientSocket.getInputStream()));
-                            String serverResponse;
-                            while ((serverResponse = in.readLine()) != null) {
-                                if (serverResponse.contains("PONG")) {
-                                    logger.info("Connected to master " + masterAddress + ":" + masterPort);
-                                    break;
-                                }
+                        new Thread(() -> {
+                            String[] parts = masterHost.split("[ ]");
+                            if (parts.length != 2) {
+                                logger.error("Invalid format for --replicaof. Expected: \"<host> <port>\"");
+                                return;
                             }
-
-                            outputStream
-                                    .write(RESPBuilder.buildArray(List.of(
-                                            RESPBuilder.buildBulkString("REPLCONF"),
-                                            RESPBuilder.buildBulkString("listening-port"),
-                                            RESPBuilder.buildBulkString(String.valueOf(port)))).toString()
-                                            .getBytes());
-
-                            outputStream.write(RESPBuilder.buildArray(List.of(
-                                    RESPBuilder.buildBulkString("REPLCONF"),
-                                    RESPBuilder.buildBulkString("capa"),
-                                    RESPBuilder.buildBulkString("psync2"))).toString()
-                                    .getBytes());
-
-                            int cnt = 0;
-                            while ((serverResponse = in.readLine()) != null) {
-                                logger.info("Master response: " + serverResponse);
-                                if (!serverResponse.contains("OK")) {
-                                    throw new IOException("Master did not accept REPLCONF");
-                                } else {
-                                    cnt++;
-                                    if (cnt == 2) {
-                                        break;
-                                    }
-                                }
+                            String masterAddress = parts[0];
+                            String masterPort = parts[1];
+                            try {
+                                handShake(masterAddress, masterPort);
+                            } catch (Exception e) {
+                                logger.error("Failed to connect to master: " + e.getMessage());
                             }
-
-                            // STEP 3: send PSYNC ? 0
-                            outputStream.write(
-                                    RESPBuilder.buildArray(
-                                            List.of(
-                                                    RESPBuilder.buildBulkString("PSYNC"),
-                                                    RESPBuilder.buildBulkString("?"),
-                                                    RESPBuilder.buildBulkString("-1")))
-                                            .toString().getBytes());
-                        } catch (Exception e) {
-                            logger.error("Cannot connect to master " + masterAddress + ":" + masterPort);
-                        }
-                    } else {
-                        logger.error("Master host not specified after --replicaof=");
+                        }).start();
                     }
                 }
             }
@@ -182,7 +197,7 @@ public class Main {
 
             while (true) {
                 try {
-                    var result = respHandler.handle(redisInputStream);
+                    var result = respHandler.handle(redisInputStream, outputStream);
                     respHandler.sendCommand(outputStream, result);
                 } catch (RuntimeException e) {
                     logger.error(e.getMessage());
