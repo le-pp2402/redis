@@ -3,6 +3,7 @@ package solver;
 import constants.DataType;
 import constants.replication.Roles;
 import container.TransactionManager;
+import protocol.RespBuilder;
 import utils.RedisInputStream;
 import constants.Command;
 import java.io.IOException;
@@ -31,34 +32,21 @@ public class RESPHandler {
     public void sendCommand(final OutputStream os, Pair<String, DataType> result) {
         try {
             if (result.second == DataType.INTEGER) {
-                var sb = new StringBuilder();
-                sb.append((char) COLON_BYTE);
-                sb.append(result.first);
-                sb.append("\r\n");
-                os.write(sb.toString().getBytes());
+                os.write(RespBuilder.integer(Integer.parseInt(result.first)).getBytes());
             } else if (result.second == DataType.ARRAYS) {
                 if (result.first == null) {
-                    os.write(("*-1\r\n").getBytes());
+                    os.write(RespBuilder.array(null).getBytes());
                 } else {
                     os.write(result.first.getBytes());
                 }
             } else {
-                StringBuilder sb = new StringBuilder();
-
-                sb.append((char) result.second.getSymbol());
-
-                if (result.second != DataType.SIMPLE_STRING)
-
-                    if (!(result.second == DataType.BULK_STRING && result.first.equals("-1"))
-                            && result.second != DataType.ERROR) {
-                        sb.append(result.first.length());
-                        sb.append("\r\n");
-                    }
-
-                sb.append(result.first);
-                sb.append("\r\n");
-
-                os.write(sb.toString().getBytes());
+                if (result.second == DataType.BULK_STRING) {
+                    os.write(RespBuilder.bulkString(null).getBytes());
+                } else if (result.second == DataType.SIMPLE_STRING) {
+                    os.write(RespBuilder.simpleString(result.first).getBytes());
+                } else if (result.second == DataType.ERROR) {
+                    os.write(RespBuilder.error(result.first).getBytes());
+                }
             }
 
             if (result.first != null && result.first.contains("FULLRESYNC")) {
@@ -140,23 +128,21 @@ public class RESPHandler {
                         }
                     }
 
-                    StringBuffer sb = new StringBuffer();
-                    sb.append("*").append(results.size()).append("\r\n");
+                    var parsedItems = new ArrayList<String>();
                     for (Pair<String, DataType> res : results) {
                         if (res.second.equals(DataType.ERROR)) {
-                            sb.append((char) MINUS_BYTE).append(res.first).append("\r\n");
+                            parsedItems.add(RespBuilder.error(res.first));
                         } else if (res.second.equals(DataType.INTEGER)) {
-                            sb.append((char) COLON_BYTE).append(res.first).append("\r\n");
+                            parsedItems.add(RespBuilder.integer(Integer.parseInt(res.first)));
                         } else if (res.second.equals(DataType.BULK_STRING)) {
-                            sb.append((char) DOLLAR_BYTE).append(res.first.length()).append("\r\n");
-                            sb.append(res.first).append("\r\n");
+                            parsedItems.add(RespBuilder.bulkString(res.first));
                         } else if (res.second.equals(DataType.SIMPLE_STRING)) {
-                            sb.append((char) PLUS_BYTE).append(res.first).append("\r\n");
+                            parsedItems.add(RespBuilder.simpleString(res.first));
                         } else {
                             log.info("Unsupported data type in transaction result: " + res.second);
                         }
                     }
-                    return new Pair<>(sb.toString(), DataType.ARRAYS);
+                    return new Pair<>(RespBuilder.array(parsedItems), DataType.ARRAYS);
                 }
             } else if (cmd.equals(Command.DISCARD) && transactionManager.isCalledMulti()) {
                 transactionManager.setCalledMulti(false);
